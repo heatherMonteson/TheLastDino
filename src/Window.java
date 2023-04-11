@@ -35,7 +35,10 @@ public class Window extends Canvas {
         gameWindow.setLocationRelativeTo(null);
         //run game controller to the window
         gameWindow.add(game);
+        gameWindow.setBackground(Color. RED);
+
         gameWindow.setVisible(true);
+
         game.start();
     }
 }

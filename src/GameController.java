@@ -1,5 +1,6 @@
 package src;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.Serial;
@@ -34,15 +35,25 @@ public class GameController extends Canvas implements Runnable{
         //testing code
         handler.addObject(new Dino());
         handler.addObject(new Bush());
+        handler.addObject(new Icicle());
     }
+
 
     //entry point from window to start the thread
     public synchronized void start() {
+
+        PopUp signUp=new PlayerSignUp();
+        signUp.pop();
+
+        PopUp instructions = new Instructions();
+        instructions.pop();
+
         thread= new Thread(this);
         //with Runnable call run() method once the thread is started
         thread.start();
         running=true;
     }
+
 
     //stop game thread
     public synchronized void stop() {
@@ -61,7 +72,6 @@ public class GameController extends Canvas implements Runnable{
     //https://www.youtube.com/watch?v=1gir2R7G9ws
     //https://dewitters.com/dewitters-gameloop/
     public void run(){
-
         long lastTime = System.nanoTime();
         double amountOfTicks= 60.0; //frames per second
         double ns = 1000000000/amountOfTicks;

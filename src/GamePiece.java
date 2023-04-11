@@ -58,18 +58,28 @@ class Bush extends GamePiece{
     }
     public void render(Graphics graphics){
         //todo: remove test code after graphics are made
-        graphics.setColor(Color.red);
+        graphics.setColor(Color.green);
         graphics.fillRect(xPos,yPos,32,32);
-
-    }    public void tick(){}
+    }
+    public void tick(){
+        xPos+=xVel;
+        yPos+=yVel;
+    }
 }
 
 class Icicle extends GamePiece{
     public Icicle(){
         super(GameController.width, GameController.height/2,Enums.GamePiece.Icicle);
     }
-    public void render(Graphics graphics){}
-    public void tick(){}
+    public void render(Graphics graphics){
+        //todo: remove test code after graphics are made
+        graphics.setColor(Color.blue);
+        graphics.fillRect(xPos,yPos,32,32);
+    }
+    public void tick(){
+        xPos+=xVel;
+        yPos+=yVel;
+    }
 }
 
 class Snowball extends GamePiece{
@@ -77,7 +87,8 @@ class Snowball extends GamePiece{
         super(GameController.width, GameController.height/2,Enums.GamePiece.Snowball);
     }
     public void render(Graphics graphics){}
-    public void tick(){}
+    public void tick(){
+    }
 }
 
 class Fireball extends GamePiece{
@@ -108,7 +119,6 @@ class Dino extends GamePiece{
 
     }
     public void tick(){
-        //todo: update object with player key input to move, remove test code
         xPos+=xVel;
         yPos+=yVel;
     }
