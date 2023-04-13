@@ -18,6 +18,8 @@ public class GameController extends Canvas implements Runnable{
 
     private Thread thread;
     private boolean running = false;
+    private boolean veryStart = true;
+    private boolean veryEnd=false;
 
     private Level level;
 
@@ -29,7 +31,7 @@ public class GameController extends Canvas implements Runnable{
         this.addKeyListener(new KeyInput());
         this.level=new Level1();
         //create new window for the game to run in
-        new Window(width, height,  this);
+        new GameWindow(width, height,  this);
 
         //todo: remove this to make game pieces in levels through factory
         //testing code
@@ -38,15 +40,13 @@ public class GameController extends Canvas implements Runnable{
         handler.addObject(new Icicle());
     }
 
-
     //entry point from window to start the thread
     public synchronized void start() {
 
-        PopUp signUp=new PlayerSignUp();
-        signUp.pop();
-
-        PopUp instructions = new Instructions();
-        instructions.pop();
+        if(veryStart)
+            startPopup();
+        if(veryEnd)
+            endPopUp();
 
         thread= new Thread(this);
         //with Runnable call run() method once the thread is started
@@ -54,6 +54,17 @@ public class GameController extends Canvas implements Runnable{
         running=true;
     }
 
+    private void startPopup() {
+        PopUp signUp=new PlayerSignUp();
+        signUp.pop();
+
+        PopUp instructions = new Instructions();
+        instructions.pop();
+
+        veryStart=false;
+    }
+
+    private void endPopUp(){}
 
     //stop game thread
     public synchronized void stop() {
@@ -66,6 +77,7 @@ public class GameController extends Canvas implements Runnable{
                 e.printStackTrace();
         }
     }
+
 
     //implementing from Runnable
     //Game loop:
@@ -125,5 +137,6 @@ public class GameController extends Canvas implements Runnable{
         graphics.dispose();
         buffer.show();
     }
+
 
 }

@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 public class KeyInput extends KeyAdapter {
 
     public KeyInput(){
+
     }
     @Override
     public void keyPressed(KeyEvent e) {
@@ -17,11 +18,6 @@ public class KeyInput extends KeyAdapter {
 
             if(piece.type== Enums.GamePiece.Dino) //space==run
             {
-                //key events for dino
-                if(key==KeyEvent.VK_SPACE)
-                {
-                    piece.setXvel(4);
-                }
                 if(key==KeyEvent.VK_UP) //up==jump
                 {
                     //Todo: events for dino jump
@@ -62,11 +58,6 @@ public class KeyInput extends KeyAdapter {
 
             if(piece.type== Enums.GamePiece.Dino) //space==run
             {
-                //key events for dino
-                if(key==KeyEvent.VK_SPACE)
-                {
-                    piece.setXvel(0);
-                }
                 if(key==KeyEvent.VK_UP) //up==jump
                 {
                     //Todo: events for dino jump

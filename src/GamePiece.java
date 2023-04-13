@@ -123,3 +123,39 @@ class Dino extends GamePiece{
         yPos+=yVel;
     }
 }
+
+class Cloud extends GamePiece{
+
+    //TODO: randomize position
+    public Cloud(int xPos, int yPos, Enums.GamePiece type) {
+        super(xPos, yPos, type);
+    }
+
+    @Override
+    public void render(Graphics graphics) {
+
+    }
+
+    @Override
+    public void tick() {
+
+    }
+}
+
+class SmokeCloud extends GamePiece{
+
+    //TODO: randomize position
+    public SmokeCloud(int xPos, int yPos, Enums.GamePiece type) {
+        super(xPos, yPos, type);
+    }
+
+    @Override
+    public void render(Graphics graphics) {
+
+    }
+
+    @Override
+    public void tick() {
+
+    }
+}

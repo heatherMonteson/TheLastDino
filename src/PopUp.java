@@ -3,6 +3,7 @@ package src;
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serial;
+import java.util.Objects;
 
 public abstract class PopUp extends JFrame {
     @Serial
@@ -22,7 +23,7 @@ class Instructions extends PopUp{
     public void pop() {
         JDialog window = new JDialog();
         window.setResizable(false);
-        window.setSize(510, 410);
+        window.setSize(500, 447);
         window.setLocationRelativeTo(null);
         window.add(new JLabel(new ImageIcon("Images/Instructions.png")));
 
@@ -33,46 +34,40 @@ class Instructions extends PopUp{
     }
 }
 
-class PlayerSignUp extends PopUp{
+class PlayerSignUp extends PopUp {
     @Serial
     private static final long serialVersionUID = -3484377113140366613L;
+
+    private String name;
+
     public PlayerSignUp() {
-//        //window is the window window
-//        JFrame  window = new JFrame("Instructions");
-//
-//        JButton button = new JButton("Let's Play!");
-//
-//        //panel is the grid where buttons/text entry etc. goes
-//        JPanel panel = new JPanel();
-//        panel.setBorder(BorderFactory.createEmptyBorder(30,30,10,30));
-//        panel.setLayout(new GridLayout(0,1));
-//
-//        window.add(panel, BorderLayout.CENTER);
-//        window.setResizable(false);
-//        //set sizes and position
-//        window.setSize(510, 410);
-////        window.setLocation(120, 60);
-//        //auto center
-//        window.setLocationRelativeTo(null);
-//        window.add(new JLabel(new ImageIcon("Images/Instructions.png")));
-//        window.setVisible(true);
+        name = "";
     }
 
     @Override
     public void pop() {
+        while (Objects.equals(name, "")) {
+            name = JOptionPane.showInputDialog("Player Name");
+            System.out.println("Player Name:" + name);
+        }
 
+        Player player = Player.getPlayer();
+        player.registerPlayer(name);
     }
+
 }
 
-class EndOfGame extends PopUp{
-    @Serial
-    private static final long serialVersionUID = -4241358101917272246L;
+    class EndOfGame extends PopUp {
+        @Serial
+        private static final long serialVersionUID = -4241358101917272246L;
 
-    public EndOfGame() {
+        public EndOfGame() {
+        }
+
+        @Override
+        public void pop() {
+
+        }
     }
 
-    @Override
-    public void pop() {
 
-    }
-}

@@ -17,11 +17,11 @@ https://docs.oracle.com/javase/tutorial/uiswing/components/frame.html
 
 * */
 
-public class Window extends Canvas {
+public class GameWindow extends Canvas {
     @Serial
     private static final long serialVersionUID = 6560049321439293750L;
 
-    Window(int width, int height,GameController game){
+    GameWindow(int width, int height,GameController game){
         super();
         JFrame  gameWindow = new JFrame("The Last Dino");
         //Window will exit when closed
@@ -35,10 +35,7 @@ public class Window extends Canvas {
         gameWindow.setLocationRelativeTo(null);
         //run game controller to the window
         gameWindow.add(game);
-        gameWindow.setBackground(Color. RED);
-
         gameWindow.setVisible(true);
-
         game.start();
     }
 }
