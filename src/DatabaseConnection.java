@@ -9,9 +9,9 @@ import java.sql.*;
 public class DatabaseConnection implements Observer{
 
     private static final DatabaseConnection dbSingleton = new DatabaseConnection();
-    private static boolean isConnected = false;
+    private static boolean isConnected;
     private final String url="jdbc:mysql://localhost:3306/the_last_dino";
-    private final String password = "<password>";
+    private final String password = "Sillygoos123!";
     private final String username = "root";
     private String playerName;
     private Connection connection;
@@ -21,6 +21,8 @@ public class DatabaseConnection implements Observer{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url,username,password);
             isConnected=true;
+            Broker.getBroker().register(this);
+            System.out.println("Connected to database");
         }
         catch (Exception e){
             System.out.println("error with database connection in adding a new player");
@@ -67,14 +69,15 @@ public class DatabaseConnection implements Observer{
             return null;
     }
 
-
-
-    @Override
+    //TODO: add the update SQL statements to update lives, score etc
     public void update(Enums.Event event) {
 //        if(event==Enums.Event.AteLeaves){
 //
 //        }
 //        else if(event==Enums.Event.LostLife){
+//
+//        }
+//         else if(event==Enums.Event.LevelCompleted){
 //
 //        }
     }

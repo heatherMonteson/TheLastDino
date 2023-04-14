@@ -15,38 +15,36 @@ public class GameController extends Canvas implements Runnable{
     private static final long serialVersionUID = 341232633641429922L;
     //Measurements for game window
     public static final int width = 840, height= width/12*9;
-
+    public static GameWindow window;
     private Thread thread;
-    private boolean running = false;
-    private boolean veryStart = true;
-    private boolean veryEnd=false;
+    private boolean running= false;
+    public static boolean playerDied=false;
+    public static Level level;
 
-    private Level level;
+    //frames/sec
+    public static int frames;
 
-    //todo: make game piece handler singleton update throughout
     private GamePieceHandler handler;
 
     public GameController(){
-        this.handler= new GamePieceHandler();
+        this.handler=GamePieceHandler.getHandler();
         this.addKeyListener(new KeyInput());
         this.level=new Level1();
         //create new window for the game to run in
-        new GameWindow(width, height,  this);
+        window =new GameWindow(width, height,  this);
 
-        //todo: remove this to make game pieces in levels through factory
-        //testing code
-        handler.addObject(new Dino());
-        handler.addObject(new Bush());
-        handler.addObject(new Icicle());
     }
 
     //entry point from window to start the thread
     public synchronized void start() {
 
-        if(veryStart)
+        if(level.getLevel()==Enums.Level.L1)//start of game need to have the instructions and player register run
             startPopup();
-        if(veryEnd)
-            endPopUp();
+
+        //will create all the game pieces
+        level.activate();
+        Dino dino = Dino.getDino();
+        dino.resetDinoPosition();
 
         thread= new Thread(this);
         //with Runnable call run() method once the thread is started
@@ -61,7 +59,6 @@ public class GameController extends Canvas implements Runnable{
         PopUp instructions = new Instructions();
         instructions.pop();
 
-        veryStart=false;
     }
 
     private void endPopUp(){}
@@ -76,8 +73,27 @@ public class GameController extends Canvas implements Runnable{
                 System.out.println("Error stopping thread from Game Controller");
                 e.printStackTrace();
         }
+
+        //switch levels
+        if(level.getLevel()== Enums.Level.L1){
+            Broker.getBroker().event(Enums.Event.LevelCompleted);
+            level=new Level2();
+            start();
+        }
+        else if (level.getLevel()== Enums.Level.L2){
+            level = new Level3();
+            start();
+        }
+        else if(level.getLevel()== Enums.Level.L3)
+            endPopUp();
+        else if(playerDied)
+            endPopUp();
     }
 
+    public static void playerDied(){
+        playerDied=true;
+        //TODO: Handel stopping game if player dies
+    }
 
     //implementing from Runnable
     //Game loop:
@@ -89,7 +105,7 @@ public class GameController extends Canvas implements Runnable{
         double ns = 1000000000/amountOfTicks;
         double delta =0;
         long timer = System.currentTimeMillis();
-        int frames = 0;
+        frames = 0;
         //continue game loop while thread is still running
         while(running){
             long now = System.nanoTime();
@@ -120,6 +136,7 @@ public class GameController extends Canvas implements Runnable{
 
     private void render(){
         //BufferStrategy: organize complex memory on the window/canvas
+        //TODO: change the buffer stuff to the render methods in the different levels
         BufferStrategy buffer= this.getBufferStrategy();
 
         if(buffer==null){
@@ -137,6 +154,5 @@ public class GameController extends Canvas implements Runnable{
         graphics.dispose();
         buffer.show();
     }
-
 
 }

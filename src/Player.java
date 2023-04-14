@@ -25,6 +25,7 @@ public class Player implements Observer{
         this.name=name;
         DatabaseConnection db = DatabaseConnection.getDbSingleton();
         db.addPlayerToDB(name);
+        Broker.getBroker().register(this);
     }
 
     public String getPlayerName(){
@@ -33,6 +34,11 @@ public class Player implements Observer{
 
     @Override
     public void update(Enums.Event event) {
-
+        if(event==Enums.Event.AteLeaves)
+            score+= GameController.level.getPoints();
+        else if(event==Enums.Event.LostLife)
+            lives-=1;
+        if(lives==0)
+            GameController.playerDied();
     }
 }
