@@ -24,9 +24,9 @@ class Level1 extends Level{
     @Override
     public void activate() {
         GamePieceFactory factoryConnection = new CreateGamePiece();
-        factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 10);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Bush, 10);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 10);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 50);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Bush, 15);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 15);
     }
 
     @Override

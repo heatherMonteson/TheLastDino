@@ -18,12 +18,14 @@ public class KeyInput extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         for(GamePiece piece : GamePieceHandler.gamePieces){
-        //TODO: add the level graphics to move with the dino as it runs and ducks
 
             if(piece.type== Enums.GamePiece.Dino) //space==run
             {
                 Dino dino = (Dino) piece;
-                dino.jump();
+                if(key==KeyEvent.VK_UP)
+                    dino.jump();
+                else if(key==KeyEvent.VK_DOWN)
+                    dino.duck();
             }
 
             //pieces move to the left to make it look like the dino is running forward
@@ -33,7 +35,7 @@ public class KeyInput extends KeyAdapter {
                 {
                     piece.setXvel(runningVelocity);
                 }
-                if(key==KeyEvent.VK_DOWN) //down==duck, stop moving
+                else if(key==KeyEvent.VK_DOWN) //down==duck, stop moving
                 {
                     //Todo: events for Dino duck
                     piece.setXvel(0);
@@ -47,20 +49,23 @@ public class KeyInput extends KeyAdapter {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         for(GamePiece piece : GamePieceHandler.gamePieces){
-            //TODO: add the level graphics to move with the dino as it runs and
+
+            if(piece.type== Enums.GamePiece.Dino) //space==run
+            {
+                Dino dino = (Dino) piece;
+                if(key==KeyEvent.VK_DOWN)
+                    dino.stand();
+            }
 
             if(piece.type==Enums.GamePiece.Bush || piece.type==Enums.GamePiece.Icicle)
             {
-                //key events for dino
                 if(key==KeyEvent.VK_SPACE)
-                {
                     piece.setXvel(0);
-                }
+            }
+            if( piece.type==Enums.GamePiece.Cloud ||piece.type==Enums.GamePiece.SmokeCloud)
+            {
                 if(key==KeyEvent.VK_SPACE)
-                {
                     piece.setXvel(0);
-                }
-
             }
         }
     }
