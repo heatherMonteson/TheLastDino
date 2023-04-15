@@ -70,8 +70,8 @@ public class GameController extends Canvas implements Runnable{
             running=false;
         }
         catch (Exception e){
-                System.out.println("Error stopping thread from Game Controller");
-                e.printStackTrace();
+            System.out.println("Error stopping thread from Game Controller");
+            e.printStackTrace();
         }
 
         //switch levels

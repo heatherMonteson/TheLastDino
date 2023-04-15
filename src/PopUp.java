@@ -23,14 +23,19 @@ class Instructions extends PopUp{
     public void pop() {
         JDialog window = new JDialog();
         window.setResizable(false);
-        window.setSize(500, 447);
+        window.setSize(490, 490);
         window.setLocationRelativeTo(null);
         window.add(new JLabel(new ImageIcon("Images/Instructions.png")));
 
+//        Image image =new ImageIcon("Images/Instructions.png").getImage();
+//        Image resizedImage = image.getScaledInstance(488, 410,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+//
+//        window.add(new JLabel(new ImageIcon(resizedImage)));
         //set modal prevents game from proceeding until the modal is closed
         window.setModal(true);
 
         window.setVisible(true);
+
     }
 }
 

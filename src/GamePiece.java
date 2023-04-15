@@ -199,7 +199,7 @@ class Dino extends GamePiece{
             //collision with leaf
             if(piece.getType()== Enums.GamePiece.Leaf && piece.getBounds() == this.bounds)
                 Broker.getBroker().event(Enums.Event.AteLeaves);
-            //collision with obstacle
+                //collision with obstacle
             else if(piece.getType()!= Enums.GamePiece.Cloud && piece.getType()!= Enums.GamePiece.SmokeCloud && piece.getBounds() == this.bounds)
                 Broker.getBroker().event(Enums.Event.LostLife);
         }
@@ -214,5 +214,11 @@ class Dino extends GamePiece{
 
     public void jump(){
 
+    }
+
+    public void duck() {
+    }
+
+    public void stand() {
     }
 }

@@ -2,7 +2,6 @@ package src;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.time.Duration;
 
 //KeyEvent chart: https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html#VK_W
 
