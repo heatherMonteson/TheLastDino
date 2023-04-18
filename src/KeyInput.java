@@ -9,9 +9,10 @@ public class KeyInput extends KeyAdapter {
     private int runningVelocity = -4;
     private final double pxlPerM=10.0;
     private final double gravity = -9.8;
+    private boolean spacePressed;
 
     public KeyInput(){
-
+        spacePressed=false;
     }
     @Override
     public void keyPressed(KeyEvent e) {
@@ -33,6 +34,7 @@ public class KeyInput extends KeyAdapter {
                 if(key==KeyEvent.VK_SPACE) //space==run, start moving
                 {
                     piece.setXvel(runningVelocity);
+                    spacePressed=true;
                 }
                 else if(key==KeyEvent.VK_DOWN) //down==duck, stop moving
                 {
@@ -58,8 +60,10 @@ public class KeyInput extends KeyAdapter {
 
             if(piece.type==Enums.GamePiece.Bush || piece.type==Enums.GamePiece.Icicle)
             {
-                if(key==KeyEvent.VK_SPACE)
+                if(key==KeyEvent.VK_SPACE){
                     piece.setXvel(0);
+                    spacePressed=false;
+                }
             }
             if( piece.type==Enums.GamePiece.Cloud ||piece.type==Enums.GamePiece.SmokeCloud)
             {

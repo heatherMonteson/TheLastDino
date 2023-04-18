@@ -1,8 +1,11 @@
 package src;
 
+import java.awt.*;
+
 public abstract class Level {
     protected Enums.Level level;
     protected int points;
+    Image image;
 
     public Enums.Level getLevel(){return level;}
     public int getPoints(){return points;}
@@ -12,33 +15,34 @@ public abstract class Level {
     abstract public void activate();
 
     //display the background image for the level
-    abstract public void render();
-
+    public void render(Graphics graphics) {
+        graphics.drawImage(image, 0,0,GameController.width, GameController.height, null);
+    }
 }
 
 class Level1 extends Level{
+
     public Level1(){
         level=Enums.Level.L1;
         points=50;
+        image=Toolkit.getDefaultToolkit().getImage("Images/level1.png");
     }
     @Override
     public void activate() {
         GamePieceFactory factoryConnection = new CreateGamePiece();
-        factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 50);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 20);
         factoryConnection.makeGamePiece(Enums.GamePiece.Bush, 15);
         factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 15);
     }
 
-    @Override
-    public void render() {
-
-    }
 }
 
 class Level2 extends Level{
     public Level2(){
         level=Enums.Level.L2;
         points=75;
+        image=Toolkit.getDefaultToolkit().getImage("Images/level2.png");
+
     }
 
     @Override
@@ -54,16 +58,13 @@ class Level2 extends Level{
         factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 10);
     }
 
-    @Override
-    public void render() {
-
-    }
 }
 
 class Level3 extends Level{
     public Level3(){
         level=Enums.Level.L3;
         points=100;
+        image=Toolkit.getDefaultToolkit().getImage("Images/level3.png");
     }
 
     @Override
@@ -79,8 +80,5 @@ class Level3 extends Level{
         factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 10);
     }
 
-    @Override
-    public void render() {
 
-    }
 }

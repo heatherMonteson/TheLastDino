@@ -18,8 +18,11 @@ public abstract class GamePiece {
     }
     //show game piece
     public abstract void render(Graphics graphics);
-    //alter game piece locations, check if pieces collide
-    public abstract void tick();
+
+    public void tick(){
+        xPos+=xVel;
+        yPos+=yVel;
+    }
 
     public Enums.GamePiece getType(){
         return type;
@@ -52,6 +55,7 @@ public abstract class GamePiece {
         return yVel;
     }
 
+
 }
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -65,10 +69,7 @@ class Bush extends GamePiece{
         graphics.setColor(Color.green);
         graphics.fillRect(xPos,yPos,32,32);
     }
-    public void tick(){
-        xPos+=xVel;
-        yPos+=yVel;
-    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -83,10 +84,7 @@ class Icicle extends GamePiece{
         graphics.setColor(Color.blue);
         graphics.fillRect(xPos,yPos,32,32);
     }
-    public void tick(){
-        xPos+=xVel;
-        yPos+=yVel;
-    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -96,10 +94,7 @@ class Snowball extends GamePiece{
         super(GameController.width, GameController.height/2,Enums.GamePiece.Snowball);
     }
     public void render(Graphics graphics){}
-    public void tick(){
-        xPos+=xVel;
-        yPos+=yVel;
-    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -111,10 +106,7 @@ class Fireball extends GamePiece{
     public void render(Graphics graphics){
 
     }
-    public void tick(){
-        xPos+=xVel;
-        yPos+=yVel;
-    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -126,10 +118,7 @@ class Leaf extends GamePiece{
     public void render(Graphics graphics){
 
     }
-    public void tick(){
-        xPos+=xVel;
-        yPos+=yVel;
-    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -145,10 +134,6 @@ class Cloud extends GamePiece{
 
     }
 
-    public void tick(){
-        xPos+=xVel;
-        yPos+=yVel;
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -164,10 +149,6 @@ class SmokeCloud extends GamePiece{
 
     }
 
-    public void tick(){
-        xPos+=xVel;
-        yPos+=yVel;
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -189,6 +170,10 @@ class Dino extends GamePiece{
         //todo: remove test code after graphics are made
         graphics.setColor(Color.white);
         graphics.fillRect(xPos,yPos,32,32);
+
+        
+        //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
+
     }
     public void tick(){
         xPos+=xVel;
@@ -204,8 +189,6 @@ class Dino extends GamePiece{
                 Broker.getBroker().event(Enums.Event.LostLife);
         }
     }
-
-
 
     public void resetDinoPosition(){
         xPos=5;

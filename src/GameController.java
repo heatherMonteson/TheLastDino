@@ -24,12 +24,12 @@ public class GameController extends Canvas implements Runnable{
     //frames/sec
     public static int frames;
 
-    private GamePieceHandler handler;
+    private final GamePieceHandler handler;
 
     public GameController(){
-        this.handler=GamePieceHandler.getHandler();
+        handler=GamePieceHandler.getHandler();
         this.addKeyListener(new KeyInput());
-        this.level=new Level1();
+        level=new Level1();
         //create new window for the game to run in
         window =new GameWindow(width, height,  this);
 
@@ -45,7 +45,6 @@ public class GameController extends Canvas implements Runnable{
         level.activate();
         Dino dino = Dino.getDino();
         dino.resetDinoPosition();
-
         thread= new Thread(this);
         //with Runnable call run() method once the thread is started
         thread.start();
@@ -53,11 +52,11 @@ public class GameController extends Canvas implements Runnable{
     }
 
     private void startPopup() {
-        PopUp signUp=new PlayerSignUp();
-        signUp.pop();
-
-        PopUp instructions = new Instructions();
-        instructions.pop();
+//        PopUp signUp=new PlayerSignUp();
+//        signUp.pop();
+//
+//        PopUp instructions = new Instructions();
+//        instructions.pop();
 
     }
 
@@ -92,6 +91,7 @@ public class GameController extends Canvas implements Runnable{
 
     public static void playerDied(){
         playerDied=true;
+
         //TODO: Handel stopping game if player dies
     }
 
@@ -136,7 +136,7 @@ public class GameController extends Canvas implements Runnable{
 
     private void render(){
         //BufferStrategy: organize complex memory on the window/canvas
-        //TODO: change the buffer stuff to the render methods in the different levels
+        //TODO: change to render the different levels
         BufferStrategy buffer= this.getBufferStrategy();
 
         if(buffer==null){
@@ -145,10 +145,7 @@ public class GameController extends Canvas implements Runnable{
         }
         Graphics graphics = buffer.getDrawGraphics();
 
-        //just sets the background to green, undo as levels are made
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0,0, width, height);
-
+        level.render(graphics);
         handler.render(graphics);
 
         graphics.dispose();
