@@ -30,3 +30,5 @@ public class Main {
         new GameController();
     }
 }
+//javac src/*.java   
+//Java -cp . src.Main

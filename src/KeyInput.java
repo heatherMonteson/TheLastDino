@@ -22,8 +22,10 @@ public class KeyInput extends KeyAdapter {
             if(piece.type== Enums.GamePiece.Dino) //space==run
             {
                 Dino dino = (Dino) piece;
-                if(key==KeyEvent.VK_UP)
+                if(key==KeyEvent.VK_UP){
                     dino.jump();
+                    //dino.resetDinoPosition();
+                }
                 else if(key==KeyEvent.VK_DOWN)
                     dino.duck();
             }

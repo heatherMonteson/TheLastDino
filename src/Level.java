@@ -17,6 +17,7 @@ public abstract class Level {
     //display the background image for the level
     public void render(Graphics graphics) {
         graphics.drawImage(image, 0,0,GameController.width, GameController.height, null);
+
     }
 }
 
