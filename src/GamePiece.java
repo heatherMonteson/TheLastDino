@@ -209,7 +209,7 @@ class Dino extends GamePiece{
         //should i pass graphics into here?
         //graphics.drawImage(gif, -20,175,250, 250, null); //correct dino coordinates to get him on the ground
         //could i call render here and pass in new positions?
-        yPos -= 60;
+        yPos = 190;
         //resetDinoPosition();
        
     }
