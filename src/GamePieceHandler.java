@@ -18,6 +18,9 @@ public class GamePieceHandler {
     }
 
 
+
+    public int getNumPieces(){return gamePieces.size(); }
+
     public void tick(){
         for(GamePiece piece: gamePieces){
              piece.tick();
@@ -44,4 +47,5 @@ public class GamePieceHandler {
                 removeGamePiece(piece);
         }
     }
+
 }

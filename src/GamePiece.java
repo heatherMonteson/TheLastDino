@@ -171,7 +171,7 @@ class Dino extends GamePiece{
         graphics.setColor(Color.white);
         graphics.fillRect(xPos,yPos,32,32);
 
-        
+
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
 
     }

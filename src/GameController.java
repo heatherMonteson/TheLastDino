@@ -64,6 +64,7 @@ public class GameController extends Canvas implements Runnable{
 
     //stop game thread
     public synchronized void stop() {
+
         try{
             thread.join();
             running=false;
@@ -73,6 +74,15 @@ public class GameController extends Canvas implements Runnable{
             e.printStackTrace();
         }
 
+    }
+
+    public static void playerDied(){
+        playerDied=true;
+
+        //TODO: Handel stopping game if player dies
+    }
+
+    public void switchLevels(){
         //switch levels
         if(level.getLevel()== Enums.Level.L1){
             Broker.getBroker().event(Enums.Event.LevelCompleted);
@@ -89,12 +99,6 @@ public class GameController extends Canvas implements Runnable{
             endPopUp();
     }
 
-    public static void playerDied(){
-        playerDied=true;
-
-        //TODO: Handel stopping game if player dies
-    }
-
     //implementing from Runnable
     //Game loop:
     //https://www.youtube.com/watch?v=1gir2R7G9ws
@@ -107,6 +111,8 @@ public class GameController extends Canvas implements Runnable{
         long timer = System.currentTimeMillis();
         frames = 0;
         //continue game loop while thread is still running
+        long startTime = System.currentTimeMillis();
+
         while(running){
             long now = System.nanoTime();
             delta = delta+ (now-lastTime)/ns;
@@ -126,7 +132,6 @@ public class GameController extends Canvas implements Runnable{
                 frames=0;
             }
         }
-        stop();
     }
 
     private void tick(){
