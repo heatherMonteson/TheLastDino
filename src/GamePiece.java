@@ -60,14 +60,20 @@ public abstract class GamePiece {
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Bush extends GamePiece{
+    public Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush.png");
+
     public Bush(){
         //Todo: change starting GameController.width to width, just testing
-        super(GameController.width-50, GameController.height/2, Enums.GamePiece.Bush);
+        super(400, 325, Enums.GamePiece.Bush);
+        // xPos = 400;
+        // yPos = 325;
     }
     public void render(Graphics graphics){
         //todo: remove test code after graphics are made
-        graphics.setColor(Color.green);
-        graphics.fillRect(xPos,yPos,32,32);
+        // graphics.setColor(Color.green);
+        // graphics.fillRect(xPos ,yPos,32,32);
+        graphics.drawImage(bush, xPos,yPos,150, 150, null); //correct dino coordinates to get him on the ground
+
     }
 
 }
@@ -82,7 +88,7 @@ class Icicle extends GamePiece{
     public void render(Graphics graphics){
         //todo: remove test code after graphics are made
         graphics.setColor(Color.blue);
-        graphics.fillRect(xPos,yPos,32,32);
+        graphics.fillRect(xPos ,yPos ,32,32);
     }
 
 }
@@ -157,10 +163,12 @@ class Dino extends GamePiece{
 
     public boolean isJumping;
     private static final Dino singleDino = new Dino();
+    public Image gif = Toolkit.getDefaultToolkit().getImage("Images/output-onlinegiftools.gif");
 
     private Dino(){
-        super(5, GameController.height/2, Enums.GamePiece.Dino);
+        super(0, 250, Enums.GamePiece.Dino);
         isJumping=false;
+
     }
     public static Dino getDino(){
         return singleDino;
@@ -168,15 +176,15 @@ class Dino extends GamePiece{
 
     public void render(Graphics graphics){
         //todo: remove test code after graphics are made
-        graphics.setColor(Color.white);
-        graphics.fillRect(xPos,yPos,32,32);
-
-
+        // graphics.setColor(Color.white);
+        // graphics.fillRect(xPos,yPos,32,32);
+        //i do not know why it had me subtract from coordintes, but its the only way it worked
+        graphics.drawImage(gif, xPos, yPos,250, 250, null); //correct dino coordinates to get him on the ground
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
-
     }
     public void tick(){
-        xPos+=xVel;
+        //all it's doing right now
+        xPos+=xVel; //not adding anything
         yPos+=yVel;
 
         //check collisions with the dino
@@ -190,12 +198,18 @@ class Dino extends GamePiece{
         }
     }
 
+    //to bring dino back down from jump
     public void resetDinoPosition(){
         xPos=5;
-        yPos= GameController.height/2;
+        yPos = 250;
     }
 
     public void jump(){
+        //should i pass graphics into here?
+        //graphics.drawImage(gif, -20,175,250, 250, null); //correct dino coordinates to get him on the ground
+        //could i call render here and pass in new positions?
+        yPos = 190;
+        //resetDinoPosition();
 
     }
 
