@@ -1,6 +1,8 @@
 package src;
 
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class GamePiece {
     protected int xPos, yPos;
@@ -177,13 +179,31 @@ class Dino extends GamePiece{
         //todo: remove test code after graphics are made
         // graphics.setColor(Color.white);
         // graphics.fillRect(xPos,yPos,32,32);
-        //i do not know why it had me subtract from coordintes, but its the only way it worked
         graphics.drawImage(gif, xPos, yPos,250, 250, null); //correct dino coordinates to get him on the ground
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
     }
     public void tick(){
-        //all it's doing right now
-        xPos+=xVel; //not adding anything
+        // if(isJumping == true){
+        //     try {
+        //         Thread.sleep(1200); // wait for 1 second
+        //     } catch (InterruptedException e) {
+        //         // handle the exception if the thread is interrupted
+        //     }
+        //     yPos = 250;
+        //     isJumping = false;
+
+        // }
+        if(isJumping == true){
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    yPos = 250;
+                    isJumping = false;
+                }
+            }, 350); // delay of 1 second
+        }
+        xPos+=xVel; 
         yPos+=yVel;
 
         //check collisions with the dino
@@ -199,18 +219,26 @@ class Dino extends GamePiece{
 
     //to bring dino back down from jump
     public void resetDinoPosition(){
-        xPos=5;
-        yPos = 250;
+        
+        if(isJumping == true){//hes jumping and needs to come back down
+            yPos -= 20; //it takes this and subtracts from yPos every second
+        } 
+        System.out.println(yVel);
+        System.out.println(yPos);
+        
+        isJumping = false; //when he is back on the ground
     }
 
     public void jump(){
         //should i pass graphics into here?
         //graphics.drawImage(gif, -20,175,250, 250, null); //correct dino coordinates to get him on the ground
         //could i call render here and pass in new positions?
+        isJumping = true;
         yPos = 190;
-        //resetDinoPosition();
-
+        //yPos -=60;
     }
+
+    
 
     public void duck() {
     }

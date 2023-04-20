@@ -23,6 +23,7 @@ public class KeyInput extends KeyAdapter {
             {
                 Dino dino = (Dino) piece;
                 if(key==KeyEvent.VK_UP){
+                    //dino.jumpAndReset();
                     dino.jump();
                     //dino.resetDinoPosition();
                 }
