@@ -60,7 +60,7 @@ public abstract class GamePiece {
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Bush extends GamePiece{
-    public Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush.png");
+    public Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush1.png");
 
     public Bush(){
         //Todo: change starting GameController.width to width, just testing
@@ -72,7 +72,7 @@ class Bush extends GamePiece{
         //todo: remove test code after graphics are made
         // graphics.setColor(Color.green);
         // graphics.fillRect(xPos ,yPos,32,32);
-        graphics.drawImage(bush, xPos,yPos,150, 150, null); //correct dino coordinates to get him on the ground
+        graphics.drawImage(bush, xPos,yPos,180, 100, null); //correct dino coordinates to get him on the ground
 
     }
 
@@ -163,12 +163,11 @@ class Dino extends GamePiece{
 
     public boolean isJumping;
     private static final Dino singleDino = new Dino();
-    public Image gif = Toolkit.getDefaultToolkit().getImage("Images/output-onlinegiftools.gif");
+    public Image gif = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
 
     private Dino(){
         super(0, 250, Enums.GamePiece.Dino);
         isJumping=false;
-
     }
     public static Dino getDino(){
         return singleDino;
