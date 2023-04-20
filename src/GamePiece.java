@@ -168,7 +168,7 @@ class Dino extends GamePiece{
     public Image gif = Toolkit.getDefaultToolkit().getImage("Images/output-onlinegiftools.gif");
 
     private Dino(){
-        super(0, 250, Enums.GamePiece.Dino); 
+        super(0, 250, Enums.GamePiece.Dino);
         isJumping=false;
 
     }
