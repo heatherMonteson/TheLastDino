@@ -194,7 +194,7 @@ class Dino extends GamePiece{
         //     isJumping = false;
 
         // }
-        if(isJumping == true){
+        if(isJumping == true){ //if dino is jumping, we wait a moment and then readjust his position back down
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
