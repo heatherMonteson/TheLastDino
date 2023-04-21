@@ -20,11 +20,12 @@ public abstract class GamePieceFactory {
 }
 
 class CreateGamePiece extends GamePieceFactory{
-    static int temp2; //this is so first bush is no closer than 400
+    //static int temp2; //this is so first bush is no closer than 400
     //reset temp at some point , could reset in makeGamePiece
     protected GamePiece createPiece(Enums.GamePiece type) {
         GamePiece piece= null;
         int offset = 0;
+        int temp2 = 400;
         Random rand = new Random();
         if(type==Enums.GamePiece.Icicle)
             piece=new Icicle();
