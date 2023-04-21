@@ -49,7 +49,9 @@ public class GameController extends Canvas implements Runnable{
         popup(Enums.Popup.Signup);
         popup(Enums.Popup.Instructions);
 
-        //activates level 1 game piece creation
+        //will create all the game pieces
+        // Bush bush = new Bush();
+        // bush.createBushes(5);
         level.activate();
 
         thread= new Thread(this);
