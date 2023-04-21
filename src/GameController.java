@@ -21,11 +21,13 @@ public class GameController extends Canvas implements Runnable{
     public static Level level;
     private int levelSwitch;//counter used to track time between levels
 
-    private final GamePieceHandler handler;
+    private final GamePieceHandler handler=GamePieceHandler.getHandler();
+    private final Player player = Player.getPlayer();
     public static boolean playerDied;//Accessed by the Player class if player dies
+    public static int levelLength = 500;
+
 
     public GameController(){
-        handler=GamePieceHandler.getHandler();
         this.addKeyListener(new KeyInput());
         level=new Level1();
         new GameWindow(width, height,  this);
@@ -101,7 +103,7 @@ public class GameController extends Canvas implements Runnable{
         levelSwitch+=1;
         //TODO: change to desired value when ready to run, just set at a -1 so that we can work on other stuff and not switch levels
         // Post testing use if(levelSwitch%6000==0 ) for ~2 minute levels
-        if(levelSwitch==-1){
+        if(levelSwitch==levelLength){
             levelSwitch=0;
             if(level.getLevel()== Enums.Level.L1){
                 Broker.getBroker().event(Enums.Event.LevelCompleted);
@@ -135,10 +137,11 @@ public class GameController extends Canvas implements Runnable{
             this.createBufferStrategy(3); //create 3 buffers
             return;
         }
-        Graphics graphics = buffer.getDrawGraphics();
+        Graphics2D graphics = (Graphics2D) buffer.getDrawGraphics();
 
         level.render(graphics);
         handler.render(graphics);
+        player.render(graphics, levelSwitch);
 
         graphics.dispose();
         buffer.show();
