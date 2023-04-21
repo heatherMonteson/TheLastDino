@@ -1,6 +1,5 @@
 package src;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.Serial;
@@ -13,60 +12,56 @@ used videos to help with setting up the window, threading and game loop (backend
 public class GameController extends Canvas implements Runnable{
     @Serial
     private static final long serialVersionUID = 341232633641429922L;
-    //Measurements for game window
-    public static final int width = 840, height= width/12*9;
-    public static GameWindow window;
+
+    //game window dimension
+    public static final int width = 840, height= width/12*9; //game window size
+
     private Thread thread;
     private boolean running= false;
-    public static boolean playerDied=false;
+
     public static Level level;
+    private int levelSwitch;//counter used to track time between levels
 
-    //frames/sec
-    public static int frames;
+    //handles all game pieces that move
+    private final GamePieceHandler handler=GamePieceHandler.getHandler();
 
-    private final GamePieceHandler handler;
+    //tracks player score, lives, level and time. Using to render from render method
+    private final Player player = Player.getPlayer();
+
+    //Accessed by the Player class if player dies
+    public static boolean playerDied;
+
+    public static int levelLength = 500;//level timer
+    private int levelDisplaySet = -100;//use for timer to display start of level graphics before beginning
+
 
     public GameController(){
-        handler=GamePieceHandler.getHandler();
         this.addKeyListener(new KeyInput());
         level=new Level1();
-        //create new window for the game to run in
-        window =new GameWindow(width, height,  this);
-
+        new GameWindow(width, height,  this);
+        levelSwitch=levelDisplaySet;
+        playerDied = false;
     }
 
-    //entry point from window to start the thread
+    //entry point from window to the thread
     public synchronized void start() {
 
-        if(level.getLevel()==Enums.Level.L1)//start of game need to have the instructions and player register run
-            startPopup();
+        popup(Enums.Popup.Signup);
+        popup(Enums.Popup.Instructions);
 
         //will create all the game pieces
         // Bush bush = new Bush();
         // bush.createBushes(5);
         level.activate();
-        Dino dino = Dino.getDino();
-        dino.resetDinoPosition();
+
         thread= new Thread(this);
-        //with Runnable call run() method once the thread is started
+        //with Runnable calls run() method once
         thread.start();
         running=true;
     }
 
-    private void startPopup() {
-//        PopUp signUp=new PlayerSignUp();
-//        signUp.pop();
-//
-//        PopUp instructions = new Instructions();
-//        instructions.pop();
-
-    }
-
-    private void endPopUp(){}
-
-    //stop game thread
+    //stops game thread
     public synchronized void stop() {
-
         try{
             thread.join();
             running=false;
@@ -75,34 +70,10 @@ public class GameController extends Canvas implements Runnable{
             System.out.println("Error stopping thread from Game Controller");
             e.printStackTrace();
         }
-
-    }
-
-    public static void playerDied(){
-        playerDied=true;
-
-        //TODO: Handel stopping game if player dies
-    }
-
-    public void switchLevels(){
-        //switch levels
-        if(level.getLevel()== Enums.Level.L1){
-            Broker.getBroker().event(Enums.Event.LevelCompleted);
-            level=new Level2();
-            start();
-        }
-        else if (level.getLevel()== Enums.Level.L2){
-            level = new Level3();
-            start();
-        }
-        else if(level.getLevel()== Enums.Level.L3)
-            endPopUp();
-        else if(playerDied)
-            endPopUp();
     }
 
     //implementing from Runnable
-    //Game loop:
+    //Game loop citation:
     //https://www.youtube.com/watch?v=1gir2R7G9ws
     //https://dewitters.com/dewitters-gameloop/
     public void run(){
@@ -111,9 +82,7 @@ public class GameController extends Canvas implements Runnable{
         double ns = 1000000000/amountOfTicks;
         double delta =0;
         long timer = System.currentTimeMillis();
-        frames = 0;
-        //continue game loop while thread is still running
-        long startTime = System.currentTimeMillis();
+        int frames = 0;
 
         while(running){
             long now = System.nanoTime();
@@ -137,26 +106,83 @@ public class GameController extends Canvas implements Runnable{
     }
 
     private void tick(){
-        //updates objects
-        handler.tick();
+        levelSwitch+=1;
+
+        if(levelSwitch==levelLength){
+            if(level.getLevel()== Enums.Level.L1){//go from level 1 to 2
+                Broker.getBroker().event(Enums.Event.LevelCompleted);
+                level=new Level2();
+                level.activate();
+                levelSwitch=levelDisplaySet;
+            }
+            else if (level.getLevel()== Enums.Level.L2){//go from level 2 to 3
+                Broker.getBroker().event(Enums.Event.LevelCompleted);
+                level = new Level3();
+                level.activate();
+                levelSwitch=levelDisplaySet;
+            }
+            else if(level.getLevel()== Enums.Level.L3 && !playerDied){ //go from level 3 to end game
+                Broker.getBroker().event(Enums.Event.LevelCompleted);
+                popup(Enums.Popup.GameOver);
+                stop();
+            }
+            else if(playerDied){ //abrupt end game if player dies
+                Broker.getBroker().event(Enums.Event.PlayerDied);
+                popup(Enums.Popup.GameOver);
+                stop();
+            }
+        }
+        //updates objects positions
+        //triggers when not in the opening level window
+        if(levelSwitch>0)
+            handler.tick();
     }
 
     private void render(){
+
         //BufferStrategy: organize complex memory on the window/canvas
-        //TODO: change to render the different levels
         BufferStrategy buffer= this.getBufferStrategy();
 
         if(buffer==null){
             this.createBufferStrategy(3); //create 3 buffers
             return;
         }
-        Graphics graphics = buffer.getDrawGraphics();
+        Graphics2D graphics = (Graphics2D) buffer.getDrawGraphics();
 
-        level.render(graphics);
-        handler.render(graphics);  
+        if(levelSwitch<=0){ //openening level graphics
+            level.startRender(graphics);
+        }
+        //updates game piece, level and player stats displays with changes from all internal class tick methods
+        //triggers when not in the opening level window
+        else{
+            level.render(graphics);
+            handler.render(graphics);
+            player.render(graphics, levelSwitch);
+        }
 
         graphics.dispose();
         buffer.show();
+    }
+
+    public static void playerDied(){
+        playerDied=true;
+    }
+
+    //trigger all game popup windows
+    private void popup(Enums.Popup type) {
+        PopUp pop=null;
+        if(type==Enums.Popup.Signup)
+            pop =new PlayerSignUp();
+        else if(type==Enums.Popup.Instructions)
+            pop=new Instructions();
+        else if(type==Enums.Popup.GameOver)
+            pop=new EndOfGame();
+        try{
+            assert pop != null;
+            pop.pop();
+        }catch (Exception e){
+            System.out.println("popup error check type " + type);
+        }
     }
 
 }

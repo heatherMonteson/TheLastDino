@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.Serial;
 import java.util.Objects;
-
+//All popup windows to display in game
 public abstract class PopUp extends JFrame {
     @Serial
     private static final long serialVersionUID = 6285365765445429917L;
@@ -26,16 +26,8 @@ class Instructions extends PopUp{
         window.setSize(490, 490);
         window.setLocationRelativeTo(null);
         window.add(new JLabel(new ImageIcon("Images/Instructions.png")));
-
-//        Image image =new ImageIcon("Images/Instructions.png").getImage();
-//        Image resizedImage = image.getScaledInstance(488, 410,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-//
-//        window.add(new JLabel(new ImageIcon(resizedImage)));
-        //set modal prevents game from proceeding until the modal is closed
         window.setModal(true);
-
         window.setVisible(true);
-
     }
 }
 
@@ -44,7 +36,6 @@ class PlayerSignUp extends PopUp {
     private static final long serialVersionUID = -3484377113140366613L;
 
     private String name;
-
     public PlayerSignUp() {
         name = "";
     }

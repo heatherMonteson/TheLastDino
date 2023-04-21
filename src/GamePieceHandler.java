@@ -2,25 +2,18 @@ package src;
 
 import java.awt.*;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GamePieceHandler {
     static LinkedList<GamePiece> gamePieces = new LinkedList<GamePiece>();
-    static private GamePieceHandler handler=new GamePieceHandler();
+    static private final GamePieceHandler handler=new GamePieceHandler();
 
     private GamePieceHandler(){
-        //auto add dino
         GamePiece dino = Dino.getDino();
         addObject(dino);
     }
 
     public static GamePieceHandler getHandler() {
         return handler;
-    }
-
-    public int getNumPieces(){
-        return gamePieces.size(); 
     }
 
     public void tick(){
@@ -40,15 +33,11 @@ public class GamePieceHandler {
         gamePieces.add(piece);
     }
 
-    public void removeGamePiece(GamePiece gamePiece){
-        gamePieces.remove(gamePiece);
-    }
-
+    //resets at each level to hold new game pieces
     public void removeAllButDino(){
-        for(GamePiece piece : gamePieces){
-            if(piece.type!= Enums.GamePiece.Dino)
-                removeGamePiece(piece);
-        }
+        gamePieces = new LinkedList<GamePiece>();
+        GamePiece dino = Dino.getDino();
+        addObject(dino);
     }
 
 }
