@@ -1,6 +1,7 @@
 package src;
 
 import java.awt.*;
+import java.util.logging.Handler;
 
 public abstract class Level {
     protected Enums.Level level;
@@ -30,6 +31,7 @@ class Level1 extends Level{
     }
     @Override
     public void activate() {
+
         GamePieceFactory factoryConnection = new CreateGamePiece();
         factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 20);
         factoryConnection.makeGamePiece(Enums.GamePiece.Bush, 15);

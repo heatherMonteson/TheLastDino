@@ -8,7 +8,7 @@ public class GamePieceHandler {
     static private GamePieceHandler handler=new GamePieceHandler();
 
     private GamePieceHandler(){
-        //auto add dino
+        //auto add dino, always needs to be in the handler
         GamePiece dino = Dino.getDino();
         addObject(dino);
     }
@@ -16,10 +16,6 @@ public class GamePieceHandler {
     public static GamePieceHandler getHandler() {
         return handler;
     }
-
-
-
-    public int getNumPieces(){return gamePieces.size(); }
 
     public void tick(){
         for(GamePiece piece: gamePieces){
@@ -37,15 +33,10 @@ public class GamePieceHandler {
         gamePieces.add(piece);
     }
 
-    public void removeGamePiece(GamePiece gamePiece){
-        gamePieces.remove(gamePiece);
-    }
-
     public void removeAllButDino(){
-        for(GamePiece piece : gamePieces){
-            if(piece.type!= Enums.GamePiece.Dino)
-                removeGamePiece(piece);
-        }
+        gamePieces = new LinkedList<GamePiece>();
+        GamePiece dino = Dino.getDino();
+        addObject(dino);
     }
 
 }

@@ -20,10 +20,10 @@ https://docs.oracle.com/javase/tutorial/uiswing/components/frame.html
 public class GameWindow extends Canvas {
     @Serial
     private static final long serialVersionUID = 6560049321439293750L;
-    public static JFrame  gameWindow;
 
     GameWindow(int width, int height,GameController game){
         super();
+        JFrame  gameWindow;
         gameWindow = new JFrame("The Last Dino");
         //Window will exit when closed
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,5 +40,4 @@ public class GameWindow extends Canvas {
         game.start();
     }
 
-    public static JFrame getGameWindow(){return gameWindow;}
 }

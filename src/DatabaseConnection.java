@@ -13,7 +13,6 @@ public class DatabaseConnection implements Observer{
     private final String url="jdbc:mysql://localhost:3306/the_last_dino";
     private final String password = "Sillygoos123!";
     private final String username = "root";
-    private String playerName;
     private Connection connection;
 
     private DatabaseConnection(){
@@ -41,7 +40,6 @@ public class DatabaseConnection implements Observer{
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO `player_info`(name) VALUES (?)");
                 insert.setString(1, name);
                 insert.executeUpdate();
-                playerName=name;
             }
             catch (Exception e){
                 System.out.println("error with database connection in adding a new player");
