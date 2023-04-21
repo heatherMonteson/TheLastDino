@@ -3,12 +3,16 @@ package src;
 import java.awt.*;
 import java.util.LinkedList;
 
+//Holds all game pieces that have movement: Dino, clouds, fire/snowball, leaves, bush, icicle
+//handles calling the rendering and ticking methods to update all game pieces
+//Always need dino in handler
+
+//OO pattern: Eager singleton
 public class GamePieceHandler {
     static LinkedList<GamePiece> gamePieces = new LinkedList<GamePiece>();
-    static private GamePieceHandler handler=new GamePieceHandler();
+    static private final GamePieceHandler handler=new GamePieceHandler();
 
     private GamePieceHandler(){
-        //auto add dino, always needs to be in the handler
         GamePiece dino = Dino.getDino();
         addObject(dino);
     }
@@ -33,6 +37,7 @@ public class GamePieceHandler {
         gamePieces.add(piece);
     }
 
+    //resets at each level to hold new game pieces
     public void removeAllButDino(){
         gamePieces = new LinkedList<GamePiece>();
         GamePiece dino = Dino.getDino();

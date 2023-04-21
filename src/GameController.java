@@ -13,6 +13,7 @@ public class GameController extends Canvas implements Runnable{
     @Serial
     private static final long serialVersionUID = 341232633641429922L;
 
+    //game window dimension
     public static final int width = 840, height= width/12*9; //game window size
 
     private Thread thread;
@@ -21,39 +22,44 @@ public class GameController extends Canvas implements Runnable{
     public static Level level;
     private int levelSwitch;//counter used to track time between levels
 
+    //handles all game pieces that move
     private final GamePieceHandler handler=GamePieceHandler.getHandler();
+
+    //tracks player score, lives, level and time. Using to render from render method
     private final Player player = Player.getPlayer();
-    public static boolean playerDied;//Accessed by the Player class if player dies
-    public static int levelLength = 500;
+
+    //Accessed by the Player class if player dies
+    public static boolean playerDied;
+
+    public static int levelLength = 500;//level timer
+    private int levelDisplaySet = -100;//use for timer to display start of level graphics before beginning
 
 
     public GameController(){
         this.addKeyListener(new KeyInput());
         level=new Level1();
         new GameWindow(width, height,  this);
-        levelSwitch=0;
+        levelSwitch=levelDisplaySet;
         playerDied = false;
     }
 
-    //entry point from window to start the thread
+    //entry point from window to the thread
     public synchronized void start() {
 
-        //starting popup windows
         popup(Enums.Popup.Signup);
         popup(Enums.Popup.Instructions);
 
-        //activates level 1 graphics and game pieces
+        //activates level 1 game piece creation
         level.activate();
 
         thread= new Thread(this);
-        //with Runnable call run() method once the thread is started
+        //with Runnable calls run() method once
         thread.start();
         running=true;
     }
 
-    //stop game thread
+    //stops game thread
     public synchronized void stop() {
-
         try{
             thread.join();
             running=false;
@@ -62,11 +68,10 @@ public class GameController extends Canvas implements Runnable{
             System.out.println("Error stopping thread from Game Controller");
             e.printStackTrace();
         }
-
     }
 
     //implementing from Runnable
-    //Game loop:
+    //Game loop citation:
     //https://www.youtube.com/watch?v=1gir2R7G9ws
     //https://dewitters.com/dewitters-gameloop/
     public void run(){
@@ -99,37 +104,40 @@ public class GameController extends Canvas implements Runnable{
     }
 
     private void tick(){
-
         levelSwitch+=1;
-        //TODO: change to desired value when ready to run, just set at a -1 so that we can work on other stuff and not switch levels
-        // Post testing use if(levelSwitch%6000==0 ) for ~2 minute levels
+
         if(levelSwitch==levelLength){
-            levelSwitch=0;
-            if(level.getLevel()== Enums.Level.L1){
+            if(level.getLevel()== Enums.Level.L1){//go from level 1 to 2
                 Broker.getBroker().event(Enums.Event.LevelCompleted);
                 level=new Level2();
                 level.activate();
+                levelSwitch=levelDisplaySet;
             }
-            else if (level.getLevel()== Enums.Level.L2){
+            else if (level.getLevel()== Enums.Level.L2){//go from level 2 to 3
                 Broker.getBroker().event(Enums.Event.LevelCompleted);
                 level = new Level3();
                 level.activate();
+                levelSwitch=levelDisplaySet;
             }
-            else if(level.getLevel()== Enums.Level.L3 && !playerDied){
+            else if(level.getLevel()== Enums.Level.L3 && !playerDied){ //go from level 3 to end game
                 Broker.getBroker().event(Enums.Event.LevelCompleted);
                 popup(Enums.Popup.GameOver);
                 stop();
             }
-            else if(playerDied){
+            else if(playerDied){ //abrupt end game if player dies
+                Broker.getBroker().event(Enums.Event.PlayerDied);
                 popup(Enums.Popup.GameOver);
                 stop();
             }
         }
         //updates objects positions
-        handler.tick();
+        //triggers when not in the opening level window
+        if(levelSwitch>0)
+            handler.tick();
     }
 
     private void render(){
+
         //BufferStrategy: organize complex memory on the window/canvas
         BufferStrategy buffer= this.getBufferStrategy();
 
@@ -139,9 +147,16 @@ public class GameController extends Canvas implements Runnable{
         }
         Graphics2D graphics = (Graphics2D) buffer.getDrawGraphics();
 
-        level.render(graphics);
-        handler.render(graphics);
-        player.render(graphics, levelSwitch);
+        if(levelSwitch<=0){ //openening level graphics
+            level.startRender(graphics);
+        }
+        //updates game piece, level and player stats displays with changes from all internal class tick methods
+        //triggers when not in the opening level window
+        else{
+            level.render(graphics);
+            handler.render(graphics);
+            player.render(graphics, levelSwitch);
+        }
 
         graphics.dispose();
         buffer.show();
@@ -151,21 +166,21 @@ public class GameController extends Canvas implements Runnable{
         playerDied=true;
     }
 
-    //TODO: turn on popups, turned off for testing
+    //trigger all game popup windows
     private void popup(Enums.Popup type) {
-//        PopUp pop=null;
-//        if(type==Enums.Popup.Signup)
-//            pop =new PlayerSignUp();
-//        else if(type==Enums.Popup.Instructions)
-//            pop=new Instructions();
-//        else if(type==Enums.Popup.GameOver)
-//            pop=new EndOfGame();
-//        try{
-//            assert pop != null;
-//            pop.pop();
-//        }catch (Exception e){
-//            System.out.println("popup error check type " + type);
-//        }
+        PopUp pop=null;
+        if(type==Enums.Popup.Signup)
+            pop =new PlayerSignUp();
+        else if(type==Enums.Popup.Instructions)
+            pop=new Instructions();
+        else if(type==Enums.Popup.GameOver)
+            pop=new EndOfGame();
+        try{
+            assert pop != null;
+            pop.pop();
+        }catch (Exception e){
+            System.out.println("popup error check type " + type);
+        }
     }
 
 }

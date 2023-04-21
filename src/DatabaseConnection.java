@@ -5,7 +5,8 @@ import javax.swing.plaf.nimbus.State;
 
 import java.sql.*;
 
-//Citation for creating the BD connection: https://www.youtube.com/watch?v=e8g9eNnFpHQ
+//Connecting to MySQL database, update login info to your username and password to connect to personal
+//DB, table create statement can be found in the read me
 public class DatabaseConnection implements Observer{
 
     private static final DatabaseConnection dbSingleton = new DatabaseConnection();
@@ -15,7 +16,11 @@ public class DatabaseConnection implements Observer{
     private final String username = "root";
     private Connection connection;
 
+    //creates connection in constructor
     private DatabaseConnection(){
+
+        //Citation for creating the DB connection:
+        //https://www.youtube.com/watch?v=e8g9eNnFpHQ
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url,username,password);
@@ -54,15 +59,14 @@ public class DatabaseConnection implements Observer{
             try{
                 Statement stmt = connection.createStatement();
                 ResultSet res = stmt.executeQuery("SELECT * FROM `player_info` ORDER BY `score` DESC LIMIT 3");
-                //test code to check results from query
+                //just test code to check results from query
 //                while (res.next()){
 //                    System.out.println(res.getString(1) + " "+res.getString(2));
 //                }
                 return res;
             }
             catch (Exception e){
-                System.out.println("error with database connection in retrieving top 3 players");
-                System.out.println(e);
+                System.out.println("error with database connection in retrieving top 3 players"+ e);
             }
             return null;
     }
