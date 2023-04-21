@@ -2,6 +2,8 @@ package src;
 
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GamePieceHandler {
     static LinkedList<GamePiece> gamePieces = new LinkedList<GamePiece>();
@@ -17,9 +19,9 @@ public class GamePieceHandler {
         return handler;
     }
 
-
-
-    public int getNumPieces(){return gamePieces.size(); }
+    public int getNumPieces(){
+        return gamePieces.size(); 
+    }
 
     public void tick(){
         for(GamePiece piece: gamePieces){
@@ -30,10 +32,11 @@ public class GamePieceHandler {
     public void render(Graphics graphics){
         for(GamePiece piece: gamePieces){
             piece.render(graphics);
+           
         }
     }
 
-    public void addObject(GamePiece piece){
+    public static void addObject(GamePiece piece){
         gamePieces.add(piece);
     }
 

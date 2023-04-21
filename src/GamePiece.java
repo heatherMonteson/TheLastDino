@@ -3,6 +3,8 @@ package src;
 import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class GamePiece {
     protected int xPos, yPos;
@@ -22,6 +24,7 @@ public abstract class GamePiece {
     public abstract void render(Graphics graphics);
 
     public void tick(){
+        //tick changes xPos
         xPos+=xVel;
         yPos+=yVel;
     }
@@ -63,19 +66,27 @@ public abstract class GamePiece {
 //////////////////////////////////////////////////////////////////////////////
 class Bush extends GamePiece{
     public Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush1.png");
+    private ArrayList<Bush> bushes = new ArrayList<Bush>();
+    private Random rand = new Random();
 
-    public Bush(){
-        //Todo: change starting GameController.width to width, just testing
-        super(400, 325, Enums.GamePiece.Bush);
+    public Bush(int xPos, int yPos){ 
+        super(xPos, yPos, Enums.GamePiece.Bush);
+        this.xPos= xPos; 
+        this.yPos=yPos;
         // xPos = 400;
         // yPos = 325;
     }
     public void render(Graphics graphics){
-        //todo: remove test code after graphics are made
-        // graphics.setColor(Color.green);
-        // graphics.fillRect(xPos ,yPos,32,32);
-        graphics.drawImage(bush, xPos,yPos,180, 100, null); //correct dino coordinates to get him on the ground
-
+        //can we add two position arguments for this render which allow us to change the xPos and yPos
+        //make list bushes and then this renders them 
+        //System.out.println( xPos);
+        
+        // System.out.println("xPos " + xPos);
+        // System.out.println("xVel " + xVel);
+        // int oops = xPos + xVel;
+        // System.out.println("tick " + oops);
+        graphics.drawImage(bush, xPos,yPos,110, 70, null); 
+       
     }
 
 }
@@ -88,9 +99,7 @@ class Icicle extends GamePiece{
     }
 
     public void render(Graphics graphics){
-        //todo: remove test code after graphics are made
-        graphics.setColor(Color.blue);
-        graphics.fillRect(xPos ,yPos ,32,32);
+       
     }
 
 }
@@ -168,7 +177,7 @@ class Dino extends GamePiece{
     public Image gif = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
 
     private Dino(){
-        super(0, 250, Enums.GamePiece.Dino);
+        super(0, 235, Enums.GamePiece.Dino);
         isJumping=false;
     }
     public static Dino getDino(){
@@ -176,29 +185,18 @@ class Dino extends GamePiece{
     }
 
     public void render(Graphics graphics){
-        //todo: remove test code after graphics are made
-        // graphics.setColor(Color.white);
-        // graphics.fillRect(xPos,yPos,32,32);
-        graphics.drawImage(gif, xPos, yPos,250, 250, null); //correct dino coordinates to get him on the ground
+
+        graphics.drawImage(gif, xPos, yPos,200, 200, null); //correct dino coordinates to get him on the ground
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
     }
     public void tick(){
-        // if(isJumping == true){
-        //     try {
-        //         Thread.sleep(1200); // wait for 1 second
-        //     } catch (InterruptedException e) {
-        //         // handle the exception if the thread is interrupted
-        //     }
-        //     yPos = 250;
-        //     isJumping = false;
 
-        // }
         if(isJumping == true){ //if dino is jumping, we wait a moment and then readjust his position back down
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    yPos = 250;
+                    yPos = 235;
                     isJumping = false;
                 }
             }, 350); // delay of 1 second
@@ -230,12 +228,9 @@ class Dino extends GamePiece{
     }
 
     public void jump(){
-        //should i pass graphics into here?
-        //graphics.drawImage(gif, -20,175,250, 250, null); //correct dino coordinates to get him on the ground
-        //could i call render here and pass in new positions?
         isJumping = true;
-        yPos = 190;
-        //yPos -=60;
+        yPos = 160;
+       
     }
 
     

@@ -42,6 +42,8 @@ public class GameController extends Canvas implements Runnable{
             startPopup();
 
         //will create all the game pieces
+        // Bush bush = new Bush();
+        // bush.createBushes(5);
         level.activate();
         Dino dino = Dino.getDino();
         dino.resetDinoPosition();
@@ -151,7 +153,7 @@ public class GameController extends Canvas implements Runnable{
         Graphics graphics = buffer.getDrawGraphics();
 
         level.render(graphics);
-        handler.render(graphics);
+        handler.render(graphics);  
 
         graphics.dispose();
         buffer.show();
