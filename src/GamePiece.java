@@ -203,29 +203,29 @@ class Dino extends GamePiece{
                 }
             }, 350); // delay of 1 second
         }
-        xPos+=xVel; 
+        xPos+=xVel;
         yPos+=yVel;
 
         //check collisions with the dino
-        for(GamePiece piece: GamePieceHandler.gamePieces){
-            //collision with leaf
-            if(piece.getType()== Enums.GamePiece.Leaf && piece.getBounds() == this.bounds)
-                Broker.getBroker().event(Enums.Event.AteLeaves);
-                //collision with obstacle
-            else if(piece.getType()!= Enums.GamePiece.Cloud && piece.getType()!= Enums.GamePiece.SmokeCloud && piece.getBounds() == this.bounds)
-                Broker.getBroker().event(Enums.Event.LostLife);
-        }
+//        for(GamePiece piece: GamePieceHandler.gamePieces){
+//            //collision with leaf
+//            if(piece.getType()== Enums.GamePiece.Leaf && piece.getBounds() == this.bounds)
+//                Broker.getBroker().event(Enums.Event.AteLeaves);
+//                //collision with obstacle
+//            else if(piece.getType()!= Enums.GamePiece.Cloud && piece.getType()!= Enums.GamePiece.SmokeCloud && piece.getBounds() == this.bounds)
+//                Broker.getBroker().event(Enums.Event.LostLife);
+//        }
     }
 
     //to bring dino back down from jump
     public void resetDinoPosition(){
-        
-        if(isJumping == true){//hes jumping and needs to come back down
+
+        if(isJumping){//hes jumping and needs to come back down
             yPos -= 20; //it takes this and subtracts from yPos every second
-        } 
+        }
         System.out.println(yVel);
         System.out.println(yPos);
-        
+
         isJumping = false; //when he is back on the ground
     }
 
@@ -238,7 +238,7 @@ class Dino extends GamePiece{
         //yPos -=60;
     }
 
-    
+
 
     public void duck() {
     }

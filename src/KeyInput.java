@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 //KeyEvent chart: https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html#VK_W
 
 public class KeyInput extends KeyAdapter {
-    private int runningVelocity = -4;
+    private int runningVelocity = -5;
     private final double pxlPerM=10.0;
     private final double gravity = -9.8;
     private boolean spacePressed;
