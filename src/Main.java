@@ -19,6 +19,7 @@ TODO general checklist:
         -Get player info from player to display
         -Get top 3 players info from database to display (query set and working)
         -Make is so that the window will still display player stats even if there is not a database connection (there is a bool value in the DB connection to check this)
+  -Add comments
  */
 public class Main {
     public static void main(String args[]){

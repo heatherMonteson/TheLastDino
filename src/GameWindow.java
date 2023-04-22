@@ -5,17 +5,13 @@ import java.awt.*;
 import java.io.Serial;
 
 /*
-From Canvas documentation:
-A Canvas component represents a blank rectangular area of the screen onto which the application
-can draw or from which the application can trap input events from the user.
-An application must subclass the Canvas class in order to get useful functionality such as creating a
-custom component. The paint method must be overridden in order to perform custom graphics on the canvas.
-https://docs.oracle.com/javase/7/docs/api/java/awt/Canvas.html
-
-From JFrame documentation:
-https://docs.oracle.com/javase/tutorial/uiswing/components/frame.html
-
-* */
+ * GameWindow: creates the main game window that will contain the main game pieces and graphics
+ *
+ * Citation
+ * https://docs.oracle.com/javase/tutorial/uiswing/components/frame.html
+ * https://docs.oracle.com/javase/7/docs/api/java/awt/Canvas.html
+ * just used for documentation
+ */
 
 public class GameWindow extends Canvas {
     @Serial

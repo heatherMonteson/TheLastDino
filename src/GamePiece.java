@@ -3,8 +3,13 @@ package src;
 import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.ArrayList;
 import java.util.Random;
+
+/*
+ *GamePiece: all moving game pieces
+ *
+ *
+ */
 
 public abstract class GamePiece {
     protected int xPos, yPos;
@@ -34,39 +39,15 @@ public abstract class GamePiece {
     }
     public Rectangle getBounds(){return bounds;}
     //piece location/velocity getters (just setting now to play with input)
-    public void setXpos(int x){
-        this.xPos=x;
-    }
-    public void setYpos(int y){
-        this.yPos=y;
-    }
+
     public void setXvel(int x){
         this.xVel=x;
     }
-    public void setYvel(int y){
-        this.yVel=y;
-    }
-    //piece location/vel getters
-    public int getXpos(){
-        return xPos;
-    }
-    public int getYpos(){
-        return yPos;
-    }
-    public int getXvel(){
-        return xVel;
-    }
-    public int getYvel(){
-        return yVel;
-    }
-
-
 }
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Bush extends GamePiece{
     public Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush1.png");
-    private ArrayList<Bush> bushes = new ArrayList<Bush>();
     private Random rand = new Random();
 
     public Bush(int xPos, int yPos){ 
@@ -177,7 +158,7 @@ class Dino extends GamePiece{
     public Image gif = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
 
     private Dino(){
-        super(0, 235, Enums.GamePiece.Dino);
+        super(0, 335, Enums.GamePiece.Dino);
         isJumping=false;
     }
     public static Dino getDino(){
@@ -186,7 +167,7 @@ class Dino extends GamePiece{
 
     public void render(Graphics graphics){
 
-        graphics.drawImage(gif, xPos, yPos,200, 200, null); //correct dino coordinates to get him on the ground
+        graphics.drawImage(gif, xPos, yPos,100, 100, null); //correct dino coordinates to get him on the ground
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
     }
     public void tick(){
@@ -196,7 +177,7 @@ class Dino extends GamePiece{
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    yPos = 235;
+                    yPos =335;
                     isJumping = false;
                 }
             }, 350); // delay of 1 second

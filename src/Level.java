@@ -1,29 +1,46 @@
 package src;
 
 import java.awt.*;
-
-//Handles rendering the opening level image, level background, creation of the level specific game pieces, holds leaf points by level
+/*
+ * Level and Level1, Level2, Level3: handles calling for the correct game pieces for the level to be made and sets/renders
+ * the level background graphics. Also holds point value at a set level
+ *
+ */
 public abstract class Level {
     protected Enums.Level level;
-    protected int points; //what leaves are worth at every level
+    protected int points; //point value at every level
 
     Image image;//general image display through level play
-    Image levelStartImg; //opening image
+    Image levelStartImg; //opening level image
 
     GamePieceFactory factoryConnection = new CreateGamePiece();
 
     public Enums.Level getLevel(){return level;}
     public int getPoints(){return points;}
 
-    //must clear game piece handler list at level 2 and 3 to toss all remaining pieces
-    //send required game pieces to the factory to be added to the game piece handler
+    /*
+     * activate: handle calling for appropriate game piece creation for that level
+     *
+     * @param noting
+     * @return nothing
+     */
     abstract public void activate();
 
-    //background image for the level
+    /*
+     * render: renders the background image for the level
+     *
+     * @param Graphics
+     * @return nothing
+     */
     public void render(Graphics graphics) {
         graphics.drawImage(image, -40,0,GameController.width+100, GameController.height, null);
     }
-    //opening level image
+    /*
+     * render: renders image for the start of the level
+     *
+     * @param Graphics
+     * @return nothing
+     */
     public void startRender(Graphics graphics) {
         graphics.drawImage(levelStartImg, -40,0,GameController.width+100, GameController.height, null);
     }
@@ -41,7 +58,7 @@ class Level1 extends Level{
     public void activate() {
         factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 20);
         factoryConnection.makeGamePiece(Enums.GamePiece.Bush, 15);
-        //factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 15);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 15);
     }
 
 }

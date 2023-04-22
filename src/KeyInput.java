@@ -3,17 +3,29 @@ package src;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-//KeyEvent chart: https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html#VK_W
 
+/*
+ *KeyInput: handles and processes all user key input sent as they play the game
+ *
+ * Citation:
+ * https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html#VK_W
+ * used for documentation
+ *
+ * Framework: KeyAdapter
+ *
+ */
 public class KeyInput extends KeyAdapter {
     private int runningVelocity = -5;
-    private final double pxlPerM=10.0;
-    private final double gravity = -9.8;
-    private boolean spacePressed;
 
     public KeyInput(){
-        spacePressed=false;
     }
+
+    /*
+     * keyPressed: required implementation of abstract method from KeyAdapter, determines if a key is pressed through set event listeners
+     *
+     * @param KeyEvent
+     * @return nothing
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -37,7 +49,6 @@ public class KeyInput extends KeyAdapter {
                 if(key==KeyEvent.VK_SPACE) //space==run, start moving
                 {
                     piece.setXvel(runningVelocity);
-                    spacePressed=true;
                 }
                 else if(key==KeyEvent.VK_DOWN) //down==duck, stop moving
                 {
@@ -49,6 +60,12 @@ public class KeyInput extends KeyAdapter {
         }
     }
 
+    /*
+     * keyReleased: required implementation of abstract method from KeyAdapter, determines if a key is released through set event listeners
+     *
+     * @param KeyEvent
+     * @return nothing
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
@@ -65,7 +82,6 @@ public class KeyInput extends KeyAdapter {
             {
                 if(key==KeyEvent.VK_SPACE){
                     piece.setXvel(0);
-                    spacePressed=false;
                 }
             }
             if( piece.type==Enums.GamePiece.Cloud ||piece.type==Enums.GamePiece.SmokeCloud)
