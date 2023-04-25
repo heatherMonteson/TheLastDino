@@ -157,9 +157,9 @@ public class GameController extends Canvas implements Runnable{
     private void tick(){
         levelSwitch+=1;
 
-        if(levelSwitch==levelLength){//level over
-            switching();
-        }
+        // if(levelSwitch==levelLength){//level over
+        //     switching();
+        // }
         //updates objects positions
         //levelSwitch>0 as opening level graphics will display for negative value
         if(levelSwitch>0)

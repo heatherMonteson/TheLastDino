@@ -28,7 +28,9 @@ public abstract class GamePieceFactory {
 class CreateGamePiece extends GamePieceFactory{
     //static int temp2; //this is so first bush is no closer than 400
     //reset temp at some point , could reset in makeGamePiece
-    private static int temp2 = 0; // a static variable so that it is shared across all CreateGamePiece objects.
+    private static int tempBush = 0; // a static variable so that it is shared across all CreateGamePiece objects.
+    private static int tempCloud = 0; // a static variable so that it is shared across all CreateGamePiece objects.
+    
     protected GamePiece createPiece(Enums.GamePiece type) {
         GamePiece piece= null;
         int offset = 0;
@@ -44,21 +46,22 @@ class CreateGamePiece extends GamePieceFactory{
             piece= new Snowball();
         }
         else if(type==Enums.GamePiece.Cloud){
-            piece = new Cloud();
+            offset = rand.nextInt(500) + 300; //gives us range of values from [400,800]
+            tempCloud += offset; //increasing our temp to make sure bushes are always forward
+            piece = new Cloud(tempCloud, 110);
         }
         else if(type==Enums.GamePiece.Fireball){
             piece = new Fireball();
         }
         else if(type==Enums.GamePiece.Bush){
-            System.out.println("what temp is initialized to" + temp2);{
-            offset = rand.nextInt(4501) + 800; //bigger this is, the more spread out bush is
-            temp2 += offset; //basically just adding offset to 400 every time 
-            System.out.println("temp2 incremented: " + temp2);
-            piece = new Bush(temp2,365); //why is there bush before dino, have something to do with adding xpos to xvel
+            offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
+            tempBush += offset; //increasing our temp to make sure bushes are always forward
+            piece = new Bush(tempBush,365);
         }
         else if(type==Enums.GamePiece.Leaf){
             piece =  new Leaf();
         }
         return piece;
     }
+    
 }

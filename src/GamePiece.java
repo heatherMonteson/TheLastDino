@@ -48,24 +48,13 @@ public abstract class GamePiece {
 //////////////////////////////////////////////////////////////////////////////
 class Bush extends GamePiece{
     public Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush1.png");
-    private Random rand = new Random();
 
     public Bush(int xPos, int yPos){ 
         super(xPos, yPos, Enums.GamePiece.Bush);
         this.xPos= xPos; 
         this.yPos=yPos;
-        // xPos = 400;
-        // yPos = 325;
     }
     public void render(Graphics graphics){
-        //can we add two position arguments for this render which allow us to change the xPos and yPos
-        //make list bushes and then this renders them 
-        //System.out.println( xPos);
-        
-        // System.out.println("xPos " + xPos);
-        // System.out.println("xVel " + xVel);
-        // int oops = xPos + xVel;
-        // System.out.println("tick " + oops);
         graphics.drawImage(bush, xPos,yPos,110, 70, null); 
        
     }
@@ -122,14 +111,21 @@ class Leaf extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Cloud extends GamePiece{
-
+    public Image cloud1 = Toolkit.getDefaultToolkit().getImage("Images/cloud1.png");
+    public Image cloud2 = Toolkit.getDefaultToolkit().getImage("Images/cloud2.png");
     //TODO: randomize positions
-    public Cloud() {
-        super(GameController.width-50, GameController.height/2, Enums.GamePiece.Cloud);
+    public Cloud(int xPos, int yPos) {
+        super(xPos, yPos, Enums.GamePiece.Cloud);
+        this.xPos= xPos; 
+        this.yPos=yPos;
+        // super(GameController.width-50, GameController.height/2, Enums.GamePiece.Cloud);
     }
 
     public void render(Graphics graphics) {
-
+        int xtemp = xPos + 120;
+        int ytemp = yPos - 70;
+        graphics.drawImage(cloud1, xPos,yPos,110, 70, null); 
+        graphics.drawImage(cloud2, xtemp ,ytemp ,110, 70, null); 
     }
 
 }
