@@ -22,10 +22,11 @@ public abstract class GamePieceFactory {
 class CreateGamePiece extends GamePieceFactory{
     //static int temp2; //this is so first bush is no closer than 400
     //reset temp at some point , could reset in makeGamePiece
+    private static int temp2 = 0; // a static variable so that it is shared across all CreateGamePiece objects.
     protected GamePiece createPiece(Enums.GamePiece type) {
         GamePiece piece= null;
         int offset = 0;
-        int temp2 = 400;
+        //int temp2 = 400; //resets to 400 every time, we don't really need to reset this
         Random rand = new Random();
         if(type==Enums.GamePiece.Icicle)
             piece=new Icicle();
@@ -37,10 +38,13 @@ class CreateGamePiece extends GamePieceFactory{
             piece = new Cloud();
         if(type==Enums.GamePiece.Fireball)
             piece = new Fireball();
-        if(type==Enums.GamePiece.Bush)
+        if(type==Enums.GamePiece.Bush){
+            System.out.println("what temp is initialized to" + temp2);
             offset = rand.nextInt(4501) + 800; //bigger this is, the more spread out bush is
-            temp2 += offset;
+            temp2 += offset; //basically just adding offset to 400 every time 
+            System.out.println("temp2 incremented: " + temp2);
             piece = new Bush(temp2,365); //why is there bush before dino, have something to do with adding xpos to xvel
+        }
             
         if(type==Enums.GamePiece.Leaf)
             piece =  new Leaf();

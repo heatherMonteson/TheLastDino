@@ -107,31 +107,31 @@ public class GameController extends Canvas implements Runnable{
 
     private void tick(){
         levelSwitch+=1;
-
-        if(levelSwitch==levelLength){
-            if(level.getLevel()== Enums.Level.L1){//go from level 1 to 2
-                Broker.getBroker().event(Enums.Event.LevelCompleted);
-                level=new Level2();
-                level.activate();
-                levelSwitch=levelDisplaySet;
-            }
-            else if (level.getLevel()== Enums.Level.L2){//go from level 2 to 3
-                Broker.getBroker().event(Enums.Event.LevelCompleted);
-                level = new Level3();
-                level.activate();
-                levelSwitch=levelDisplaySet;
-            }
-            else if(level.getLevel()== Enums.Level.L3 && !playerDied){ //go from level 3 to end game
-                Broker.getBroker().event(Enums.Event.LevelCompleted);
-                popup(Enums.Popup.GameOver);
-                stop();
-            }
-            else if(playerDied){ //abrupt end game if player dies
-                Broker.getBroker().event(Enums.Event.PlayerDied);
-                popup(Enums.Popup.GameOver);
-                stop();
-            }
-        }
+        //COMMENTED THIS OUT TO STOP LEVEL SWITCH
+        // if(levelSwitch==levelLength){
+        //     if(level.getLevel()== Enums.Level.L1){//go from level 1 to 2
+        //         Broker.getBroker().event(Enums.Event.LevelCompleted);
+        //         level=new Level2();
+        //         level.activate();
+        //         levelSwitch=levelDisplaySet;
+        //     }
+        //     else if (level.getLevel()== Enums.Level.L2){//go from level 2 to 3
+        //         Broker.getBroker().event(Enums.Event.LevelCompleted);
+        //         level = new Level3();
+        //         level.activate();
+        //         levelSwitch=levelDisplaySet;
+        //     }
+        //     else if(level.getLevel()== Enums.Level.L3 && !playerDied){ //go from level 3 to end game
+        //         Broker.getBroker().event(Enums.Event.LevelCompleted);
+        //         popup(Enums.Popup.GameOver);
+        //         stop();
+        //     }
+        //     else if(playerDied){ //abrupt end game if player dies
+        //         Broker.getBroker().event(Enums.Event.PlayerDied);
+        //         popup(Enums.Popup.GameOver);
+        //         stop();
+        //     }
+        // }
         //updates objects positions
         //triggers when not in the opening level window
         if(levelSwitch>0)
