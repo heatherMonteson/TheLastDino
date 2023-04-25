@@ -1,13 +1,22 @@
 package src;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.Serial;
 import java.util.Objects;
-//All popup windows to display in game
+
+/*
+ * PopUp: all game popup windows (not main window, see GameWindow class)
+ */
 public abstract class PopUp extends JFrame {
     @Serial
     private static final long serialVersionUID = 6285365765445429917L;
+
+    /*
+     * pop: activates the popup window
+     *
+     * @param nothing
+     * @return nothing
+     */
     public abstract void pop();
 
 }
@@ -42,11 +51,13 @@ class PlayerSignUp extends PopUp {
 
     @Override
     public void pop() {
+        //using premade pop up to get user text input
         while (Objects.equals(name, "")) {
             name = JOptionPane.showInputDialog("Player Name");
             System.out.println("Player Name:" + name);
         }
 
+        //send to the player to create a new player
         Player player = Player.getPlayer();
         player.registerPlayer(name);
     }

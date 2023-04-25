@@ -3,10 +3,14 @@ package src;
 import java.util.ArrayList;
 import java.util.List;
 
-//OO pattern: Observer
-//registering player and database
-//send updates to even for collisions (point or life lost) and changing levels
-//events check from enums class: public enum Event {LostLife, AteLeaves, LevelCompleted}
+
+/*
+ * Broker: register through the broker for event updates
+ * send updates for collisions (point or life lost) and changing levels, end of game
+ *
+ * OO pattern: Observer
+ *
+ */
 
 public class Broker {
     
@@ -19,10 +23,22 @@ public class Broker {
         return broker; 
     }
 
+    /*
+     * event: collects notifications of events throughout the system: {LostLife, AteLeaves, LevelCompleted, PlayerDied}
+     *
+     * @param Enums.Event for event type used by observers to sort events/actions
+     * @return nothing
+     */
     public void event(Enums.Event type){
         notify(type);
     }
 
+    /*
+     * notify: notify registered observers of event
+     *
+     * @param Enums.Event for event type used by observers to sort events/actions
+     * @return nothing
+     */
     private void notify(Enums.Event type) {
         if (observers != null) {
             for (Observer observer : observers) {
@@ -31,6 +47,12 @@ public class Broker {
         }
     }
 
+    /*
+     * register: register objects implementing the observer interface into the class list
+     *
+     * @param Observer
+     * @return nothing
+     */
     public void register(Observer o) {
         observers.add(o);
     }

@@ -10,19 +10,12 @@ starts of his life while avoiding dangerous obstacles like bushes, fireballs, ic
 can collect points as you play by eating leaves that increase in value as you move through every level. 
 
 **Version**<br />
-Java 20
-
-**Libraries, Frameworks and Other Tools**
-- Swing
-- Awt
-- JavaFx
-- Thread
-- Serial (requires Java 14+ for serial in build base)
+Java 20 and 19
 
 **Database**<br />
 Game can run with no connection however to run with connection to MySQL 8+ database set up: <br />
 https://www.youtube.com/watch?v=e8g9eNnFpHQ
-1) Create schema in database 
+1) Create schema in local database 
 2) Run create table statement: <br />
    CREATE TABLE `player_info` ( <br />
    `player_id` int NOT NULL AUTO_INCREMENT, <br />
@@ -34,3 +27,24 @@ https://www.youtube.com/watch?v=e8g9eNnFpHQ
    ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci; <br />
 
 3) Change the password and username in the database connection class to your mySQL database password
+
+**Object Oriented Patterns Used**<br />
+- Singleton 
+- Factory 
+- Strategy 
+- Observer 
+
+**Frameworks used** 
+- KeyAdapter 
+- Canvas 
+- JFrame
+
+**Libraries Other Tools Used**
+- Swing
+- Awt
+- JavaFx
+- Thread
+- Serial (requires Java 14+ for serial in build base)
+- Util
+- SQL and using JDBC for database connection
+

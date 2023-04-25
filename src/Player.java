@@ -5,9 +5,16 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.security.PublicKey;
+/*
+ * Player: Handles all the player stats and display: Level, timer, lives, score and activates the database to add a new player
+ *
+ * OO Pattern: Eager installation of singleton and Observer
+ *
+ * Citation:
+ * http://www.java2s.com/Code/Java/2D-Graphics-GUI/Draw2DText.htm
+ * rendering text in graphics:
+ */
 
-//OO Pattern: Eager installation of singleton
-//Handles all the player stats: Level, timer, lives, score and activates the database to add a new player
 public class Player implements Observer{
 
     private static final Player player =new Player();
@@ -26,9 +33,8 @@ public class Player implements Observer{
         name="";
         level=1;
         Image heart = Toolkit.getDefaultToolkit().getImage("Images/heart.png");
-        heart1= heart;
-        heart2= heart;
-        heart3= heart;
+        heart1= heart2= heart3= heart;
+        //register for events
         Broker.getBroker().register(this);
     }
 
@@ -36,8 +42,14 @@ public class Player implements Observer{
         return player;
     }
 
+    /*
+     * render: display all the player elements
+     * score, lives, time, level, score
+     *
+     * @param Graphics, int
+     * @return nothing
+     */
     public void render(Graphics g, int timer){
-
         //set all the background colors behind the score and lives
         Graphics2D graphics = (Graphics2D)g;
         graphics.setColor(Color.black);
@@ -56,6 +68,12 @@ public class Player implements Observer{
         graphics.drawImage(heart3, 500,70,80, 70, null);
     }
 
+    /*
+     * textRender: used to uncouple the text rendering
+     *
+     * @param Graphics2D, Color, String, int, int, int
+     * @return nothing
+     */
     private void textRender(Graphics2D graphics, Color color, String text, int x, int y, int size){
         //rendering text in graphics:
         //http://www.java2s.com/Code/Java/2D-Graphics-GUI/Draw2DText.htm
@@ -66,12 +84,24 @@ public class Player implements Observer{
         textGraphics.draw(graphics, x, y);
     }
 
+    /*
+     * registerPlayer: used to register a new player with the database. Game still runs with no database
+     *
+     * @param String
+     * @return nothing
+     */
     public void registerPlayer(String name) {
         this.name=name;
         DatabaseConnection db = DatabaseConnection.getDbSingleton();
         db.addPlayerToDB(name);
     }
 
+    /*
+     * update:get event notifications from the broker and update the player stats
+     *
+     * @param Enums.Event
+     * @return nothing
+     */
     @Override
     public void update(Enums.Event event) {
         if(event==Enums.Event.AteLeaves)//increase score
