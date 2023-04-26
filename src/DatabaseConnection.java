@@ -27,11 +27,12 @@ public class DatabaseConnection implements Observer{
 
     private static final DatabaseConnection dbSingleton = new DatabaseConnection();
     private static boolean isConnected;
-    private final String url="jdbc:mysql://localhost:3306/the_last_dino";
-    private final String password = "root";
+
+    //TODO: change password and user name to match your local MySQL database if you want to make a connection
+    private final String password = "Sillygoos123!";
     private final String username = "root";
+
     private Connection connection;
-    private String name;
     private String playerId;
 
     //creates connection in constructor
@@ -41,6 +42,7 @@ public class DatabaseConnection implements Observer{
         //https://www.youtube.com/watch?v=e8g9eNnFpHQ
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/the_last_dino";
             connection = DriverManager.getConnection(url,username,password);
             isConnected=true;
             Broker.getBroker().register(this);//register with broker
@@ -65,7 +67,6 @@ public class DatabaseConnection implements Observer{
      */
     public void addPlayerToDB(String name){
 
-        this.name=name;
         if(isConnected){
             try{
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO `player_info`(name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
@@ -109,7 +110,7 @@ public class DatabaseConnection implements Observer{
     }
 
     /*
-     * update: updates the current players stats in the database as events occur
+     * update: updates the current players stats in the database as events occur during game play
      *
      * @param Enums.Event
      * @return noting

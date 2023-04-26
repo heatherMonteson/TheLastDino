@@ -2,9 +2,10 @@ package src;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
 /*
  * Top3Parser: gets the top 3 players from the database connection and parses their values to return
- * individual stats by player (player/score/lives/level)
+ * individual stats by player (player/score/lives/level). Gets data on instantiation
  *
  */
 public class Top3Parser {
@@ -12,6 +13,7 @@ public class Top3Parser {
 
     private ArrayList<String> players,scores,lives,level;
     private boolean ableToParse;
+
     public Top3Parser(){
         players=new ArrayList<>();
         scores=new ArrayList<>();
@@ -32,6 +34,7 @@ public class Top3Parser {
             ableToParse=false;
         }
     }
+
 
     public boolean isAbleToParse(){
         return ableToParse;

@@ -1,12 +1,7 @@
 package src;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
-import java.awt.*;
-import java.awt.image.BufferStrategy;
 import java.io.Serial;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /*

@@ -8,9 +8,6 @@ import java.awt.font.TextLayout;
  *
  * OO Pattern: Eager installation of singleton and Observer
  *
- * Citation:
- * http://www.java2s.com/Code/Java/2D-Graphics-GUI/Draw2DText.htm
- * rendering text in graphics:
  */
 
 public class Player implements Observer{
