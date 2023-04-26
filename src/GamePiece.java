@@ -65,11 +65,16 @@ class Bush extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Icicle extends GamePiece{
-    public Icicle(){
-        super(GameController.width, GameController.height/2,Enums.GamePiece.Icicle);
+    public Image icicle = Toolkit.getDefaultToolkit().getImage("Images/icicle2.png");
+
+    public Icicle(int xPos, int yPos){
+        super(xPos, yPos, Enums.GamePiece.Icicle);
+        this.xPos= xPos; 
+        this.yPos=yPos;
     }
 
     public void render(Graphics graphics){
+        graphics.drawImage(icicle, xPos,yPos,110, 70, null); 
        
     }
 
@@ -78,10 +83,18 @@ class Icicle extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Snowball extends GamePiece{
-    public Snowball(){
-        super(GameController.width, GameController.height/2,Enums.GamePiece.Snowball);
+    public Image snowball = Toolkit.getDefaultToolkit().getImage("Images/snowBall1.png");
+
+    public Snowball(int xPos, int yPos){
+        super(xPos, yPos, Enums.GamePiece.Snowball);
+        this.xPos= xPos; 
+        this.yPos=yPos;
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
-    public void render(Graphics graphics){}
+    public void render(Graphics graphics){
+        graphics.drawImage(snowball, xPos, yPos,120, 60, null);
+
+    }
 
 }
 
@@ -144,14 +157,21 @@ class Cloud extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class SmokeCloud extends GamePiece{
+    public Image SmokeCloud1 = Toolkit.getDefaultToolkit().getImage("Images/SmokeCloud.png");
+    public Image SmokeCloud2 = Toolkit.getDefaultToolkit().getImage("Images/smokeCloud1.png");
 
     //TODO: randomize positions
-    public SmokeCloud() {
-        super(GameController.width-50, GameController.height/2, Enums.GamePiece.SmokeCloud);
+    public SmokeCloud(int xPos, int yPos) {
+        super(xPos, yPos, Enums.GamePiece.SmokeCloud);
+        this.xPos= xPos; 
+        this.yPos=yPos;
     }
 
     public void render(Graphics graphics) {
-
+        int xtemp = xPos + 120;
+        int ytemp = yPos - 70;
+        graphics.drawImage(SmokeCloud1, xPos,yPos,110, 70, null); 
+        graphics.drawImage(SmokeCloud2, xtemp ,ytemp ,110, 70, null); 
     }
 
 }
