@@ -8,7 +8,7 @@ import java.io.Serial;
  * GameController: main control center for the game. Handles the game thread, changing levels, and game loop which works
  * to activate all the rendering and updating of items/pieces in the game
  *
- * Citations: https://www.youtube.com/watch?v=1gir2R7G9ws
+ * Citations: https://www.youtube.com/watch?v=1gir2R7G9ws and https://dewitters.com/dewitters-gameloop/
  * used to help with setting up the window, threading and game loop (backend setup)
  */
 
@@ -84,6 +84,7 @@ public class GameController extends Canvas implements Runnable{
      *
      * Game Loop:
      * https://www.youtube.com/watch?v=1gir2R7G9ws
+     * https://dewitters.com/dewitters-gameloop/
      */
     public void run(){
         long lastTime = System.nanoTime();
