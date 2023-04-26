@@ -1,7 +1,12 @@
 package src;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
+import java.awt.*;
+import java.awt.image.BufferStrategy;
 import java.io.Serial;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /*
@@ -63,18 +68,5 @@ class PlayerSignUp extends PopUp {
     }
 
 }
-
-    class EndOfGame extends PopUp {
-        @Serial
-        private static final long serialVersionUID = -4241358101917272246L;
-
-        public EndOfGame() {
-        }
-
-        @Override
-        public void pop() {
-
-        }
-    }
 
 

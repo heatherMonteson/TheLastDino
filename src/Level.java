@@ -1,8 +1,11 @@
 package src;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+
 /*
- * Level and Level1, Level2, Level3: handles calling for the correct game pieces for the level to be made and sets/renders
+ * Level and Level1, Level2, Level3, EndLevel: handles calling for the correct game pieces for the level to be made and sets/renders
  * the level background graphics. Also holds point value at a set level
  *
  */
@@ -103,6 +106,68 @@ class Level3 extends Level{
         factoryConnection.makeGamePiece(Enums.GamePiece.Icicle, 10);
         factoryConnection.makeGamePiece(Enums.GamePiece.Snowball, 10);
         factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 10);
+    }
+
+}
+
+
+class EndLevel extends Level{
+
+    public EndLevel(){
+        level=Enums.Level.End;
+        points=0;
+        image=Toolkit.getDefaultToolkit().getImage("Images/Game Over.png");
+    }
+
+    @Override
+    public void activate() {
+        GamePieceHandler handler = GamePieceHandler.getHandler();
+        handler.removeAllButDino();
+    }
+
+    @Override
+    public void render(Graphics g) {
+        Graphics2D graphics = (Graphics2D)g;
+        Player player = Player.getPlayer();
+        int height=GameController.height;
+        int size=25;
+        Color color= Color.white;
+        Top3Parser parser = new Top3Parser();
+
+        graphics.drawImage(image, -40,0,GameController.width+100, GameController.height, null);
+
+        // category
+        Utility.textRender(graphics,  color,"Player",250, height/2-100, size);
+        Utility.textRender(graphics,  color,"Score",385, height/2-100, size);
+        Utility.textRender(graphics,  color,"Lives",525, height/2-100, size);
+        Utility.textRender(graphics,  color,"Level",625, height/2-100, size);
+
+        //Current player
+        Utility.textRender(graphics,  color,"Your Play:    "+ player.getName(),75, height/2-50, size);
+        Utility.textRender(graphics,  color,String.valueOf(player.getScore()),400, height/2-50, size);
+        Utility.textRender(graphics,  color,String.valueOf(player.getLives()),550, height/2-50, size);
+        Utility.textRender(graphics,  color,String.valueOf( player.GetLevel()),650, height/2-50, size);
+
+        if(parser.isAbleToParse()){
+            //top player
+            Utility.textRender(graphics,  color,"#1 Player:    "+ parser.getPlayer1Name(),75, height/2, size);
+            Utility.textRender(graphics,  color,parser.getPlayer1Score(),400, height/2, size);
+            Utility.textRender(graphics,  color,parser.getPlayer1Lives(),550, height/2, size);
+            Utility.textRender(graphics,  color,parser.getPlayer1Level(),650, height/2, size);
+
+            //second place player
+            Utility.textRender(graphics,  color,"#2 Player:    "+ parser.getPlayer2Name(),75, height/2+50, size);
+            Utility.textRender(graphics,  color,parser.getPlayer2Score(),400, height/2+50, size);
+            Utility.textRender(graphics,  color,parser.getPlayer2Lives(),550, height/2+50, size);
+            Utility.textRender(graphics,  color,parser.getPlayer2Level(),650, height/2+50, size);
+
+            //third place player
+            Utility.textRender(graphics,  color,"#3 Player:    "+ parser.getPlayer3Name(),75, height/2+100, size);
+            Utility.textRender(graphics,  color,parser.getPlayer3Score(),400, height/2+100, size);
+            Utility.textRender(graphics,  color, parser.getPlayer3Lives(),550, height/2+100, size);
+            Utility.textRender(graphics,  color,parser.getPlayer3Level(),650, height/2+100, size);
+        }
+
     }
 
 }

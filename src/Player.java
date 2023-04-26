@@ -1,10 +1,8 @@
 package src;
 
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
-import java.security.PublicKey;
 /*
  * Player: Handles all the player stats and display: Level, timer, lives, score and activates the database to add a new player
  *
@@ -58,30 +56,14 @@ public class Player implements Observer{
         graphics.fillRect(490,65,300, 80);
 
         //All Text
-        textRender(graphics, Color.pink, String.valueOf(score),500, 55, 40); //score text display
-        textRender(graphics,  Color.white,"Level: "+String.valueOf(level),25, 40, 20); //level text display
-        textRender(graphics, Color.white, "Time: "+String.valueOf(GameController.levelLength-timer),25, 65, 20); //timer text display
+        Utility.textRender(graphics, Color.pink, String.valueOf(score),500, 55, 40); //score text display
+        Utility.textRender(graphics,  Color.white,"Level: "+String.valueOf(level),25, 40, 20); //level text display
+        Utility.textRender(graphics, Color.white, "Time: "+String.valueOf(GameController.levelLength-timer),25, 65, 20); //timer text display
 
         //Lives
         graphics.drawImage(heart1, 700,70,80, 70, null);
         graphics.drawImage(heart2, 600,70,80, 70, null);
         graphics.drawImage(heart3, 500,70,80, 70, null);
-    }
-
-    /*
-     * textRender: used to uncouple the text rendering
-     *
-     * @param Graphics2D, Color, String, int, int, int
-     * @return nothing
-     */
-    private void textRender(Graphics2D graphics, Color color, String text, int x, int y, int size){
-        //rendering text in graphics:
-        //http://www.java2s.com/Code/Java/2D-Graphics-GUI/Draw2DText.htm
-        FontRenderContext frc = graphics.getFontRenderContext();
-        Font fontSelection = new Font("Courier", Font.BOLD, size);
-        TextLayout textGraphics = new TextLayout(text, fontSelection, frc);
-        graphics.setColor(color);
-        textGraphics.draw(graphics, x, y);
     }
 
     /*
@@ -94,6 +76,7 @@ public class Player implements Observer{
         this.name=name;
         DatabaseConnection db = DatabaseConnection.getDbSingleton();
         db.addPlayerToDB(name);
+
     }
 
     /*
@@ -107,7 +90,8 @@ public class Player implements Observer{
         if(event==Enums.Event.AteLeaves)//increase score
             score+= GameController.level.getPoints();
         else if(event==Enums.Event.LostLife){ //when life lost switch out a heart for a dead heart
-            lives-=1;
+            if(lives>0)
+                lives-=1;
             if(lives==2)
                 heart1=deadHeart;
             else if(lives==1)
@@ -117,7 +101,23 @@ public class Player implements Observer{
             if(lives==0) //game ends if all lives were lost
                 GameController.playerDied();
         }
-        else if(event==Enums.Event.LevelCompleted)
+        else if(event==Enums.Event.LevelCompleted && level<3)
             level+=1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public int GetLevel() {
+        return level;
     }
 }

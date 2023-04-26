@@ -16,20 +16,15 @@ public class CallsToPopUps {
      */
     public static void popup(Enums.Popup type) {
         PopUp pop=null;
-        if(type==Enums.Popup.Signup){
-            //pop =new PlayerSignUp();
-        }
-        else if(type==Enums.Popup.Instructions){
-            //pop=new Instructions();
-        }
-        else if(type==Enums.Popup.GameOver){
-            pop=new EndOfGame();
-        }
+        if(type==Enums.Popup.Signup)
+            pop =new PlayerSignUp();
+        else if(type==Enums.Popup.Instructions)
+            pop=new Instructions();
         try{
             assert pop != null;
             pop.pop();
         }catch (Exception e){
-            System.out.println("popup error check type " + type);
+            System.out.println("error with popup" + type);
         }
     }
 }

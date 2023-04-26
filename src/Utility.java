@@ -1,5 +1,8 @@
 package src;
 
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -10,6 +13,25 @@ import java.util.Random;
 
 //Use for general math/logic reuse code
 public interface Utility {
+
+    /*
+     * textRender: used to uncouple the text rendering
+     *
+     * @param Graphics2D, Color, String, int, int, int
+     * @return nothing
+     */
+    static void textRender(Graphics2D graphics, Color color, String text, int x, int y, int size){
+        //rendering text in graphics:
+        //http://www.java2s.com/Code/Java/2D-Graphics-GUI/Draw2DText.htm
+        try{
+            FontRenderContext frc = graphics.getFontRenderContext();
+            Font fontSelection = new Font("Courier", Font.BOLD, size);
+            TextLayout textGraphics = new TextLayout(text, fontSelection, frc);
+            graphics.setColor(color);
+            textGraphics.draw(graphics, x, y);
+        }catch (Exception ignored){}
+
+    }
 
     //from a lower and upper bound generate a random number in that range
     // returns a double truncated to 2 decimal places

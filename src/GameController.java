@@ -28,8 +28,9 @@ public class GameController extends Canvas implements Runnable{
     private final GamePieceHandler handler=GamePieceHandler.getHandler();
     private final Player player = Player.getPlayer();
 
-    //Update if player dies, controller will end game
+    //Booleans used for stopping game if player dies or if all levels completed
     public static boolean playerDied;
+    private static boolean level3Ended;
 
     //counters to track where player is in a level and to display opening game image
     public static int levelLength = 1000;//level timer
@@ -42,6 +43,7 @@ public class GameController extends Canvas implements Runnable{
         new GameWindow(width, height,  this);
         levelSwitch=levelDisplaySet;
         playerDied = false;
+        level3Ended=false;
     }
 
     /*
@@ -56,11 +58,14 @@ public class GameController extends Canvas implements Runnable{
         CallsToPopUps.popup(Enums.Popup.Signup);
         CallsToPopUps.popup(Enums.Popup.Instructions);
 
+
+        //calls to get all starting game pieces for 1st level
         level.activate();
 
         thread= new Thread(this);
         thread.start();
         running=true;
+
     }
 
     //stops thread
@@ -111,6 +116,7 @@ public class GameController extends Canvas implements Runnable{
                 System.out.println("FPS"+frames);
                 frames=0;
             }
+
         }
     }
 
@@ -122,28 +128,18 @@ public class GameController extends Canvas implements Runnable{
      *
      */
     private void switching(){
-            if(level.getLevel()== Enums.Level.L1){//go from level 1 to 2
-                Broker.getBroker().event(Enums.Event.LevelCompleted);
-                level=new Level2();
-                level.activate();//level setup
-                levelSwitch=levelDisplaySet;
-            }
-            else if (level.getLevel()== Enums.Level.L2){//go from level 2 to 3
-                Broker.getBroker().event(Enums.Event.LevelCompleted);
-                level = new Level3();
-                level.activate();//level setup
-                levelSwitch=levelDisplaySet;
-            }
-            else if(level.getLevel()== Enums.Level.L3 && !playerDied){ //go from level 3 to end game
-                Broker.getBroker().event(Enums.Event.LevelCompleted);
-                CallsToPopUps.popup(Enums.Popup.GameOver);
-                stop();
-            }
-            else if(playerDied){ //abrupt end game if player dies
-                Broker.getBroker().event(Enums.Event.PlayerDied);
-                CallsToPopUps.popup(Enums.Popup.GameOver);
-                stop();
-            }
+        //go from level 1 to 2
+        if(level.getLevel()== Enums.Level.L1){
+            level=new Level2();
+        }
+        //go from level 2 to 3
+        else if (level.getLevel()== Enums.Level.L2){
+            level = new Level3();
+        }
+        Broker.getBroker().event(Enums.Event.LevelCompleted);//notify when level is complete
+        level.activate();//level setup creates all game pieces
+        levelSwitch=levelDisplaySet;
+
     }
 
     /*
@@ -157,9 +153,22 @@ public class GameController extends Canvas implements Runnable{
     private void tick(){
         levelSwitch+=1;
 
-        // if(levelSwitch==levelLength){//level over
-        //     switching();
-        // }
+        //when the player dies or all levels are completed the call to render displays game over image
+        //**Note**: with the thread the render call was only working from tick and not from switching because of how tick is
+        //called in the game loop
+        if(playerDied || (levelSwitch==levelLength && level.getLevel()== Enums.Level.L3)){
+            if(playerDied)
+                Broker.getBroker().event(Enums.Event.PlayerDied);
+            else if (!level3Ended)
+                Broker.getBroker().event(Enums.Event.LevelCompleted);
+            if(level.getLevel()== Enums.Level.L3)
+                level3Ended=true;
+            render();
+        }
+        //level length completed switch levels
+        if(levelSwitch==levelLength){//level over
+            switching();
+        }
         //updates objects positions
         //levelSwitch>0 as opening level graphics will display for negative value
         if(levelSwitch>0)
@@ -185,8 +194,15 @@ public class GameController extends Canvas implements Runnable{
         }
         Graphics2D graphics = (Graphics2D) buffer.getDrawGraphics();
 
+        if(playerDied||level3Ended)
+        {
+            level = new EndLevel();
+            level.activate();
+            level.render(graphics);
+
+        }
         //calls for opening level graphics
-        if(levelSwitch<=0){
+        else if(levelSwitch<=0){
             level.startRender(graphics);
         }
         //updates game piece, level and player stats displays with changes from all internal class tick methods
@@ -195,6 +211,7 @@ public class GameController extends Canvas implements Runnable{
             handler.render(graphics);
             player.render(graphics, levelSwitch);
         }
+
         graphics.dispose();
         buffer.show();
     }
