@@ -53,6 +53,7 @@ class Bush extends GamePiece{
         super(xPos, yPos, Enums.GamePiece.Bush);
         this.xPos= xPos; 
         this.yPos=yPos;
+        
     }
     public void render(Graphics graphics){
         graphics.drawImage(bush, xPos,yPos,110, 70, null); 
@@ -87,11 +88,16 @@ class Snowball extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Fireball extends GamePiece{
-    public Fireball(){
-        super(GameController.width, GameController.height/2,Enums.GamePiece.Fireball);
+    public Image fireball = Toolkit.getDefaultToolkit().getImage("Images/fireball1.png");
+
+    public Fireball(int xPos, int yPos){
+        super(xPos, yPos, Enums.GamePiece.Fireball);
+        this.xPos= xPos; 
+        this.yPos=yPos;
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
-
+        graphics.drawImage(fireball, xPos,yPos,80, 80, null); //leaf is currently stagnant
     }
 
 }
@@ -99,10 +105,15 @@ class Fireball extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Leaf extends GamePiece{
-    public Leaf(){
-        super(GameController.width, GameController.height/2, Enums.GamePiece.Leaf);
+    public Image leaf = Toolkit.getDefaultToolkit().getImage("Images/leaf.png");
+    public Leaf(int xPos, int yPos){
+        super(xPos, yPos, Enums.GamePiece.Leaf);
+        this.xPos= xPos; 
+        this.yPos=yPos;
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
+        graphics.drawImage(leaf, xPos,yPos,80, 80, null); //leaf is currently stagnant
 
     }
 
@@ -198,8 +209,6 @@ class Dino extends GamePiece{
         if(isJumping){//hes jumping and needs to come back down
             yPos -= 20; //it takes this and subtracts from yPos every second
         }
-        System.out.println(yVel);
-        System.out.println(yPos);
 
         isJumping = false; //when he is back on the ground
     }

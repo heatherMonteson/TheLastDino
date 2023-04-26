@@ -29,7 +29,9 @@ class CreateGamePiece extends GamePieceFactory{
     //static int temp2; //this is so first bush is no closer than 400
     //reset temp at some point , could reset in makeGamePiece
     private static int tempBush = 0; // a static variable so that it is shared across all CreateGamePiece objects.
-    private static int tempCloud = 0; // a static variable so that it is shared across all CreateGamePiece objects.
+    private static int tempCloud = 0; 
+    private static int tempLeaf = 0; 
+    private static int tempFireBall = 0; 
     
     protected GamePiece createPiece(Enums.GamePiece type) {
         GamePiece piece= null;
@@ -46,12 +48,14 @@ class CreateGamePiece extends GamePieceFactory{
             piece= new Snowball();
         }
         else if(type==Enums.GamePiece.Cloud){
-            offset = rand.nextInt(500) + 300; //gives us range of values from [400,800]
+            offset = rand.nextInt(500) + 300; //gives us range of values from [300,500]
             tempCloud += offset; //increasing our temp to make sure bushes are always forward
             piece = new Cloud(tempCloud, 110);
         }
         else if(type==Enums.GamePiece.Fireball){
-            piece = new Fireball();
+            offset = rand.nextInt(900) + 400; //change this 
+            tempFireBall += offset;
+            piece = new Fireball(tempFireBall, 300);
         }
         else if(type==Enums.GamePiece.Bush){
             offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
@@ -59,7 +63,10 @@ class CreateGamePiece extends GamePieceFactory{
             piece = new Bush(tempBush,365);
         }
         else if(type==Enums.GamePiece.Leaf){
-            piece =  new Leaf();
+            //currently only one leaf is rendering
+            offset = rand.nextInt(900) + 400; //change this 
+            tempLeaf += offset;
+            piece = new Leaf(tempLeaf, 320);
         }
         return piece;
     }

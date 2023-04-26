@@ -31,7 +31,7 @@ public class GamePieceHandler {
      */
     public void tick(){
         for(GamePiece piece: gamePieces){
-             piece.tick();
+            piece.tick();
         }
     }
 
