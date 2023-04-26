@@ -26,25 +26,11 @@ https://www.youtube.com/watch?v=e8g9eNnFpHQ
    PRIMARY KEY (`player_id`) <br />
    ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci; <br />
 
-3) Change the password and username in the database connection class to your mySQL database password
+3) Change password and username variables found in the DatabaseConnection class to your local MySQL password and username 
 
-**Object Oriented Patterns Used**<br />
-- Singleton 
-- Factory 
+**Object Oriented Patterns**<br />
+- Singleton (Dino, Broker, Player, DatabaseConnection)
+- Factory (GamePieceFactory, Create GamePiece _factory accessed by levels and pieces stored in handler_)
 - Strategy 
-- Observer 
-
-**Frameworks used** 
-- KeyAdapter 
-- Canvas 
-- JFrame
-
-**Libraries Other Tools Used**
-- Swing
-- Awt
-- JavaFx
-- Thread
-- Serial (requires Java 14+ for serial in build base)
-- Util
-- SQL and using JDBC for database connection
+- Observer (Broker _subject_, Player _observer_, DatabaseConnection _observer_)
 

@@ -64,17 +64,4 @@ class PlayerSignUp extends PopUp {
 
 }
 
-    class EndOfGame extends PopUp {
-        @Serial
-        private static final long serialVersionUID = -4241358101917272246L;
-
-        public EndOfGame() {
-        }
-
-        @Override
-        public void pop() {
-
-        }
-    }
-
 

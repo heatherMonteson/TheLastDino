@@ -1,5 +1,7 @@
 package src;
 
+import com.sun.source.tree.BreakTree;
+
 import java.sql.*;
 
 /*
@@ -25,10 +27,13 @@ public class DatabaseConnection implements Observer{
 
     private static final DatabaseConnection dbSingleton = new DatabaseConnection();
     private static boolean isConnected;
-    private final String url="jdbc:mysql://localhost:3306/the_last_dino";
-    private final String password = "root";
+
+    //TODO: change password and user name to match your local MySQL database if you want to make a connection
+    private final String password = "Sillygoos123!";
     private final String username = "root";
+
     private Connection connection;
+    private String playerId;
 
     //creates connection in constructor
     private DatabaseConnection(){
@@ -37,6 +42,7 @@ public class DatabaseConnection implements Observer{
         //https://www.youtube.com/watch?v=e8g9eNnFpHQ
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/the_last_dino";
             connection = DriverManager.getConnection(url,username,password);
             isConnected=true;
             Broker.getBroker().register(this);//register with broker
@@ -60,19 +66,25 @@ public class DatabaseConnection implements Observer{
      * @return nothing
      */
     public void addPlayerToDB(String name){
+
         if(isConnected){
             try{
-                PreparedStatement insert = connection.prepareStatement("INSERT INTO `player_info`(name) VALUES (?)");
-                insert.setString(1, name);
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO `player_info`(name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+                insert.setString(1, name);//place the name in the ? for values
                 insert.executeUpdate();
+                ResultSet resultID = insert.getGeneratedKeys();//returns the player primary key/ID
+
+                if (resultID.next()) {
+                    playerId= String.valueOf(resultID.getInt(1));
+                    System.out.println("Name: " +name+ " ID:" +playerId);
+                }
             }
             catch (Exception e){
                 System.out.println("error with database connection in adding a new player");
                 System.out.println(e);
             }
         }
-        else
-            System.out.println("Not connected to a database, cannot add player");
+
     }
 
     /*
@@ -81,39 +93,58 @@ public class DatabaseConnection implements Observer{
      * @param nothing
      * @return ResultSet
      */
-    public ResultSet getTop3Players(){
+    public ResultSet getTop3Players() throws SQLException {
+
+        ResultSet top3=null;
+        if(isConnected){
             try{
                 Statement stmt = connection.createStatement();
-                ResultSet res = stmt.executeQuery("SELECT * FROM `player_info` ORDER BY `score` DESC LIMIT 3");
-                //just test code to check results from query
-//                while (res.next()){
-//                    System.out.println(res.getString(1) + " "+res.getString(2));
-//                }
-//                return res;
+                top3 = stmt.executeQuery("SELECT * FROM `player_info` ORDER BY `score` DESC LIMIT 3");
             }
             catch (Exception e){
                 System.out.println("error with database connection in retrieving top 3 players"+ e);
             }
-            return null;
+        }
+
+        return top3;
     }
 
-    //TODO: add the update SQL statements to update lives, score etc
     /*
-     * update: updates the current players stats in the database as events occur
+     * update: updates the current players stats in the database as events occur during game play
      *
      * @param Enums.Event
      * @return noting
      */
     public void update(Enums.Event event) {
-//        if(event==Enums.Event.AteLeaves){
-//
-//        }
-//        else if(event==Enums.Event.LostLife){
-//
-//        }
-//         else if(event==Enums.Event.LevelCompleted){
-//
-//        }
+        if(isConnected){
+            try{
+                PreparedStatement update = null;
+
+                //adding points to stored players score
+                if(event==Enums.Event.AteLeaves){
+                    String points=String.valueOf(GameController.level.getPoints()); //get the levels point value
+                    update=connection.prepareStatement("UPDATE `player_info` SET `score` = `score` + (?) WHERE `player_id`=(?)");
+                    update.setString(1, points); //insert the point value to the first ? index
+                    update.setString(2, playerId);//insert the player ID set at signup value to the second ? index
+                }
+                //reducing lives stored for player, do not go under 0 lives
+                else if(event==Enums.Event.LostLife){
+                    update=connection.prepareStatement("UPDATE `player_info` SET `lives` = `lives` - 1 WHERE `player_id`=(?) AND `lives`>0");
+                    update.setString(1, playerId);//insert the player ID
+                }
+                //increasing levels completed by player, do not go over 3
+                else if(event==Enums.Event.LevelCompleted){
+                    update=connection.prepareStatement("UPDATE `player_info` SET `level` = `level` + 1 WHERE `player_id`=(?) AND `level`<3");
+                    update.setString(1, playerId);//insert the player ID
+                }
+                if(update!=null)
+                    update.executeUpdate();
+            }
+            catch (Exception e){
+                System.out.println("error with database connection in updating player stats"+ e);
+            }
+        }
+
     }
 
 

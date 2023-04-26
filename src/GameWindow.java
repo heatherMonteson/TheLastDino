@@ -27,7 +27,10 @@ public class GameWindow extends Canvas {
         gameWindow.setResizable(false);
         //set sizes and position
         gameWindow.setSize(width, height);
-//        gameWindow.setLocation(120, 60);
+
+        Color brColor = new Color(137, 229, 247);
+        gameWindow.getContentPane().setBackground(brColor);
+
         //auto center
         gameWindow.setLocationRelativeTo(null);
         //run game controller to the window
