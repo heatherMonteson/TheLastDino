@@ -182,19 +182,14 @@ class SmokeCloud extends GamePiece{
 
 class Dino extends GamePiece {
 
+
     public boolean isJumping;
-    public boolean isDucking;
     private static final Dino singleDino = new Dino();
-    private final Image runningImg = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
-    private final Image jumpingImg = Toolkit.getDefaultToolkit().getImage("Images/jump.png");
-    private final Image duckingImg = Toolkit.getDefaultToolkit().getImage("Images/duck.png");
-    private Image dinoImage;
+    public Image gif = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
 
     private Dino() {
-        super(0, 285, Enums.GamePiece.Dino);
+        super(50, 285, Enums.GamePiece.Dino);
         isJumping = false;
-        isDucking = false;
-        dinoImage = runningImg;
     }
 
     public static Dino getDino() {
@@ -202,7 +197,7 @@ class Dino extends GamePiece {
     }
 
     public void render(Graphics graphics) {
-        graphics.drawImage(dinoImage, xPos, yPos, 150, 150, null); //correct dino coordinates to get him on the ground
+        graphics.drawImage(gif, xPos, yPos, 150, 150, null); //correct dino coordinates to get him on the ground
     }
     public void tick(){
 
