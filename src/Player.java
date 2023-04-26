@@ -1,8 +1,6 @@
 package src;
 
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
 /*
  * Player: Handles all the player stats and display: Level, timer, lives, score and activates the database to add a new player
  *
@@ -73,7 +71,6 @@ public class Player implements Observer{
         this.name=name;
         DatabaseConnection db = DatabaseConnection.getDbSingleton();
         db.addPlayerToDB(name);
-
     }
 
     /*

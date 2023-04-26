@@ -27,12 +27,11 @@ public class DatabaseConnection implements Observer{
 
     private static final DatabaseConnection dbSingleton = new DatabaseConnection();
     private static boolean isConnected;
-
-    //TODO: change password and user name to match your local MySQL database if you want to make a connection
+    private final String url="jdbc:mysql://localhost:3306/the_last_dino";
     private final String password = "Sillygoos123!";
     private final String username = "root";
-
     private Connection connection;
+    private String name;
     private String playerId;
 
     //creates connection in constructor
@@ -42,14 +41,13 @@ public class DatabaseConnection implements Observer{
         //https://www.youtube.com/watch?v=e8g9eNnFpHQ
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/the_last_dino";
             connection = DriverManager.getConnection(url,username,password);
             isConnected=true;
             Broker.getBroker().register(this);//register with broker
             System.out.println("Connected to database");
         }
         catch (Exception e){
-            System.out.println("error with database connection in adding a new player");
+            System.out.println("error making database connection");
             System.out.println(e);
             isConnected=false;
         }
@@ -67,6 +65,7 @@ public class DatabaseConnection implements Observer{
      */
     public void addPlayerToDB(String name){
 
+        this.name=name;
         if(isConnected){
             try{
                 PreparedStatement insert = connection.prepareStatement("INSERT INTO `player_info`(name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
@@ -93,24 +92,21 @@ public class DatabaseConnection implements Observer{
      * @param nothing
      * @return ResultSet
      */
-    public ResultSet getTop3Players() throws SQLException {
+    public ResultSet getTop3Players(){
 
         ResultSet top3=null;
-        if(isConnected){
-            try{
-                Statement stmt = connection.createStatement();
-                top3 = stmt.executeQuery("SELECT * FROM `player_info` ORDER BY `score` DESC LIMIT 3");
-            }
-            catch (Exception e){
-                System.out.println("error with database connection in retrieving top 3 players"+ e);
-            }
+        try{
+            Statement stmt = connection.createStatement();
+            top3 = stmt.executeQuery("SELECT * FROM `player_info` ORDER BY `score` DESC LIMIT 3");
         }
-
+        catch (Exception e){
+            System.out.println("error with database connection in retrieving top 3 players"+ e);
+        }
         return top3;
     }
 
     /*
-     * update: updates the current players stats in the database as events occur during game play
+     * update: updates the current players stats in the database as events occur
      *
      * @param Enums.Event
      * @return noting

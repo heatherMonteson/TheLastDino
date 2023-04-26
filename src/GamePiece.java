@@ -92,7 +92,7 @@ class Snowball extends GamePiece{
         this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
-        graphics.drawImage(snowball, xPos, yPos,120, 60, null);
+        graphics.drawImage(snowball, xPos, yPos,150, 75, null);
 
     }
 
@@ -110,7 +110,7 @@ class Fireball extends GamePiece{
         this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
-        graphics.drawImage(fireball, xPos,yPos,80, 80, null); //leaf is currently stagnant
+        graphics.drawImage(fireball, xPos,yPos,150, 100, null); //leaf is currently stagnant
     }
 
 }
@@ -119,6 +119,7 @@ class Fireball extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 class Leaf extends GamePiece{
     public Image leaf = Toolkit.getDefaultToolkit().getImage("Images/leaf.png");
+
     public Leaf(int xPos, int yPos){
         super(xPos, yPos, Enums.GamePiece.Leaf);
         this.xPos= xPos; 
@@ -126,7 +127,7 @@ class Leaf extends GamePiece{
         this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
-        graphics.drawImage(leaf, xPos,yPos,80, 80, null); //leaf is currently stagnant
+        graphics.drawImage(leaf, xPos,yPos,80, 50, null); //leaf is currently stagnant
 
     }
 
@@ -147,9 +148,9 @@ class Cloud extends GamePiece{
 
     public void render(Graphics graphics) {
         int xtemp = xPos + 120;
-        int ytemp = yPos - 70;
-        graphics.drawImage(cloud1, xPos,yPos,110, 70, null); 
-        graphics.drawImage(cloud2, xtemp ,ytemp ,110, 70, null); 
+        int ytemp = yPos - 75;
+        graphics.drawImage(cloud1, xPos,yPos,150, 70, null);
+        graphics.drawImage(cloud2, xtemp ,ytemp ,150, 70, null);
     }
 
 }
@@ -170,41 +171,47 @@ class SmokeCloud extends GamePiece{
     public void render(Graphics graphics) {
         int xtemp = xPos + 120;
         int ytemp = yPos - 70;
-        graphics.drawImage(SmokeCloud1, xPos,yPos,110, 70, null); 
-        graphics.drawImage(SmokeCloud2, xtemp ,ytemp ,110, 70, null); 
+        graphics.drawImage(SmokeCloud1, xPos,yPos,150, 70, null);
+        graphics.drawImage(SmokeCloud2, xtemp ,ytemp ,150, 70, null);
     }
 
 }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-class Dino extends GamePiece{
+
+class Dino extends GamePiece {
 
     public boolean isJumping;
+    public boolean isDucking;
     private static final Dino singleDino = new Dino();
-    public Image gif = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
+    private final Image runningImg = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
+    private final Image jumpingImg = Toolkit.getDefaultToolkit().getImage("Images/jump.png");
+    private final Image duckingImg = Toolkit.getDefaultToolkit().getImage("Images/duck.png");
+    private Image dinoImage;
 
-    private Dino(){
-        super(0, 335, Enums.GamePiece.Dino);
-        isJumping=false;
+    private Dino() {
+        super(0, 285, Enums.GamePiece.Dino);
+        isJumping = false;
+        isDucking = false;
+        dinoImage = runningImg;
     }
-    public static Dino getDino(){
+
+    public static Dino getDino() {
         return singleDino;
     }
 
-    public void render(Graphics graphics){
-
-        graphics.drawImage(gif, xPos, yPos,100, 100, null); //correct dino coordinates to get him on the ground
-        //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
+    public void render(Graphics graphics) {
+        graphics.drawImage(dinoImage, xPos, yPos, 150, 150, null); //correct dino coordinates to get him on the ground
     }
     public void tick(){
 
-        if(isJumping == true){ //if dino is jumping, we wait a moment and then readjust his position back down
+        if(isJumping){ //if dino is jumping, we wait a moment and then readjust his position back down
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    yPos =335;
+                    yPos =285;
                     isJumping = false;
                 }
             }, 350); // delay of 1 second
@@ -236,7 +243,7 @@ class Dino extends GamePiece{
     public void jump(){
         isJumping = true;
         yPos = 160;
-       
+
     }
 
 
