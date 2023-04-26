@@ -61,7 +61,7 @@ class Level1 extends Level{
     public void activate() {
         factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 20);
         factoryConnection.makeGamePiece(Enums.GamePiece.Bush, 15);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 15);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 5);
     }
 
 }
@@ -83,7 +83,7 @@ class Level2 extends Level{
 
         factoryConnection.makeGamePiece(Enums.GamePiece.SmokeCloud, 10);
         factoryConnection.makeGamePiece(Enums.GamePiece.Fireball, 10);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 10);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 10); 
     }
 
 }

@@ -53,6 +53,7 @@ class Bush extends GamePiece{
         super(xPos, yPos, Enums.GamePiece.Bush);
         this.xPos= xPos; 
         this.yPos=yPos;
+        
     }
     public void render(Graphics graphics){
         graphics.drawImage(bush, xPos,yPos,110, 70, null); 
@@ -64,11 +65,16 @@ class Bush extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Icicle extends GamePiece{
-    public Icicle(){
-        super(GameController.width, GameController.height/2,Enums.GamePiece.Icicle);
+    public Image icicle = Toolkit.getDefaultToolkit().getImage("Images/icicle2.png");
+
+    public Icicle(int xPos, int yPos){
+        super(xPos, yPos, Enums.GamePiece.Icicle);
+        this.xPos= xPos; 
+        this.yPos=yPos;
     }
 
     public void render(Graphics graphics){
+        graphics.drawImage(icicle, xPos,yPos,110, 70, null); 
        
     }
 
@@ -77,21 +83,34 @@ class Icicle extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Snowball extends GamePiece{
-    public Snowball(){
-        super(GameController.width, GameController.height/2,Enums.GamePiece.Snowball);
+    public Image snowball = Toolkit.getDefaultToolkit().getImage("Images/snowBall1.png");
+
+    public Snowball(int xPos, int yPos){
+        super(xPos, yPos, Enums.GamePiece.Snowball);
+        this.xPos= xPos; 
+        this.yPos=yPos;
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
-    public void render(Graphics graphics){}
+    public void render(Graphics graphics){
+        graphics.drawImage(snowball, xPos, yPos,120, 60, null);
+
+    }
 
 }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Fireball extends GamePiece{
-    public Fireball(){
-        super(GameController.width, GameController.height/2,Enums.GamePiece.Fireball);
+    public Image fireball = Toolkit.getDefaultToolkit().getImage("Images/fireball1.png");
+
+    public Fireball(int xPos, int yPos){
+        super(xPos, yPos, Enums.GamePiece.Fireball);
+        this.xPos= xPos; 
+        this.yPos=yPos;
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
-
+        graphics.drawImage(fireball, xPos,yPos,80, 80, null); //leaf is currently stagnant
     }
 
 }
@@ -99,10 +118,15 @@ class Fireball extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Leaf extends GamePiece{
-    public Leaf(){
-        super(GameController.width, GameController.height/2, Enums.GamePiece.Leaf);
+    public Image leaf = Toolkit.getDefaultToolkit().getImage("Images/leaf.png");
+    public Leaf(int xPos, int yPos){
+        super(xPos, yPos, Enums.GamePiece.Leaf);
+        this.xPos= xPos; 
+        this.yPos=yPos;
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
+        graphics.drawImage(leaf, xPos,yPos,80, 80, null); //leaf is currently stagnant
 
     }
 
@@ -133,14 +157,21 @@ class Cloud extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class SmokeCloud extends GamePiece{
+    public Image SmokeCloud1 = Toolkit.getDefaultToolkit().getImage("Images/SmokeCloud.png");
+    public Image SmokeCloud2 = Toolkit.getDefaultToolkit().getImage("Images/smokeCloud1.png");
 
     //TODO: randomize positions
-    public SmokeCloud() {
-        super(GameController.width-50, GameController.height/2, Enums.GamePiece.SmokeCloud);
+    public SmokeCloud(int xPos, int yPos) {
+        super(xPos, yPos, Enums.GamePiece.SmokeCloud);
+        this.xPos= xPos; 
+        this.yPos=yPos;
     }
 
     public void render(Graphics graphics) {
-
+        int xtemp = xPos + 120;
+        int ytemp = yPos - 70;
+        graphics.drawImage(SmokeCloud1, xPos,yPos,110, 70, null); 
+        graphics.drawImage(SmokeCloud2, xtemp ,ytemp ,110, 70, null); 
     }
 
 }
@@ -198,8 +229,6 @@ class Dino extends GamePiece{
         if(isJumping){//hes jumping and needs to come back down
             yPos -= 20; //it takes this and subtracts from yPos every second
         }
-        System.out.println(yVel);
-        System.out.println(yPos);
 
         isJumping = false; //when he is back on the ground
     }
