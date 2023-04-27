@@ -53,8 +53,8 @@ public class GameController extends Canvas implements Runnable{
 
         //starting pop up windows display before thread
         
-        CallsToPopUps.popup(Enums.Popup.Signup);
-        CallsToPopUps.popup(Enums.Popup.Instructions);
+        //CallsToPopUps.popup(Enums.Popup.Signup);
+        //CallsToPopUps.popup(Enums.Popup.Instructions);
 
         //calls to get all starting game pieces for 1st level
         level.activate();

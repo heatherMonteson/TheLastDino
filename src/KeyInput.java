@@ -45,7 +45,7 @@ public class KeyInput extends KeyAdapter {
                 else if (key == KeyEvent.VK_SPACE){
                     //when space bar is hit render dino.run
                     //when space bar is released render dino.stop
-                    dino.resumeRunning();
+                    dino.isRunning();
                 }
             }
 
@@ -54,12 +54,12 @@ public class KeyInput extends KeyAdapter {
             {
                 if(key==KeyEvent.VK_SPACE) //space==run, start moving
                 {
-                    
                     piece.setXvel(runningVelocity);
                 }
                 else if(key==KeyEvent.VK_DOWN) //down==duck, stop moving
                 {
                     //Todo: events for Dino duck
+                    //piece.setXvel(runningVelocity);
                     piece.setXvel(0);
 
                 }
@@ -78,7 +78,7 @@ public class KeyInput extends KeyAdapter {
         int key = e.getKeyCode();
         for(GamePiece piece : GamePieceHandler.gamePieces){
 
-            if(piece.type== Enums.GamePiece.Dino) //space==run
+            if(piece.type == Enums.GamePiece.Dino) //space==run
             {
                 Dino dino = (Dino) piece;
                 if(key==KeyEvent.VK_DOWN){
@@ -95,11 +95,22 @@ public class KeyInput extends KeyAdapter {
                 if(key==KeyEvent.VK_SPACE){
                     piece.setXvel(0);
                 }
+                if(key==KeyEvent.VK_DOWN){ //when down arrow is released,start moving again
+                    piece.setXvel(runningVelocity);
+
+                }
+                
+                
             }
-            if( piece.type==Enums.GamePiece.Cloud ||piece.type==Enums.GamePiece.SmokeCloud)
+            if( piece.type==Enums.GamePiece.Cloud || piece.type==Enums.GamePiece.SmokeCloud)
             {
-                if(key==KeyEvent.VK_SPACE)
+                if(key==KeyEvent.VK_SPACE){ //when stop running set velocity to 0
                     piece.setXvel(0);
+                }
+                if(key==KeyEvent.VK_DOWN){ //when down arrow is released,start moving again
+                    piece.setXvel(runningVelocity);
+
+                }
             }
         }
     }
