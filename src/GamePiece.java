@@ -92,7 +92,7 @@ class Snowball extends GamePiece{
         this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
-        graphics.drawImage(snowball, xPos, yPos,120, 60, null);
+        graphics.drawImage(snowball, xPos, yPos,150, 75, null);
 
     }
 
@@ -110,7 +110,7 @@ class Fireball extends GamePiece{
         this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
-        graphics.drawImage(fireball, xPos,yPos,80, 80, null); //leaf is currently stagnant
+        graphics.drawImage(fireball, xPos,yPos,150, 100, null); //leaf is currently stagnant
     }
 
 }
@@ -119,6 +119,7 @@ class Fireball extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 class Leaf extends GamePiece{
     public Image leaf = Toolkit.getDefaultToolkit().getImage("Images/leaf.png");
+
     public Leaf(int xPos, int yPos){
         super(xPos, yPos, Enums.GamePiece.Leaf);
         this.xPos= xPos; 
@@ -126,7 +127,7 @@ class Leaf extends GamePiece{
         this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
     }
     public void render(Graphics graphics){
-        graphics.drawImage(leaf, xPos,yPos,80, 80, null); //leaf is currently stagnant
+        graphics.drawImage(leaf, xPos,yPos,80, 50, null); //leaf is currently stagnant
 
     }
 
@@ -147,9 +148,9 @@ class Cloud extends GamePiece{
 
     public void render(Graphics graphics) {
         int xtemp = xPos + 120;
-        int ytemp = yPos - 70;
-        graphics.drawImage(cloud1, xPos,yPos,110, 70, null); 
-        graphics.drawImage(cloud2, xtemp ,ytemp ,110, 70, null); 
+        int ytemp = yPos - 75;
+        graphics.drawImage(cloud1, xPos,yPos,150, 70, null);
+        graphics.drawImage(cloud2, xtemp ,ytemp ,150, 70, null);
     }
 
 }
@@ -170,15 +171,16 @@ class SmokeCloud extends GamePiece{
     public void render(Graphics graphics) {
         int xtemp = xPos + 120;
         int ytemp = yPos - 70;
-        graphics.drawImage(SmokeCloud1, xPos,yPos,110, 70, null); 
-        graphics.drawImage(SmokeCloud2, xtemp ,ytemp ,110, 70, null); 
+        graphics.drawImage(SmokeCloud1, xPos,yPos,150, 70, null);
+        graphics.drawImage(SmokeCloud2, xtemp ,ytemp ,150, 70, null);
     }
 
 }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-class Dino extends GamePiece{
+
+class Dino extends GamePiece {
 
     public boolean isJumping;
     public boolean isStand;
@@ -189,11 +191,12 @@ class Dino extends GamePiece{
     public Image dinoDuck = Toolkit.getDefaultToolkit().getImage("Images/duck.png");
 
 
-    private Dino(){
-        super(0, 335, Enums.GamePiece.Dino);
-        isJumping=false;
+    private Dino() {
+        super(50, 285, Enums.GamePiece.Dino);
+        isJumping = false;
     }
-    public static Dino getDino(){
+
+    public static Dino getDino() {
         return singleDino;
     }
 
@@ -221,6 +224,7 @@ class Dino extends GamePiece{
         //     }, 200); //this num is the ms delay
         // }
     }
+
     public void tick(){
         //this if is responsible for bringing dino back to ground after jumping
         if(isJumping == true){ 
@@ -228,7 +232,7 @@ class Dino extends GamePiece{
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    yPos =335; //ground position
+                    yPos =285;
                     isJumping = false;
                 }
             }, 400); //this num is the ms delay

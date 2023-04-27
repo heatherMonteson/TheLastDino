@@ -28,7 +28,7 @@ public abstract class GamePieceFactory {
 class CreateGamePiece extends GamePieceFactory{
     private static int tempBush = 0; // a static variable so that it is shared across all CreateGamePiece objects.
     private static int tempCloud = 0; 
-    private static int tempLeaf = 0; 
+    public static int tempLeaf = 0;
     private static int tempFireBall = 0; 
     private static int tempSmokeCloud = 0;
     private static int tempIcicle = 0;
@@ -46,23 +46,23 @@ class CreateGamePiece extends GamePieceFactory{
         else if(type==Enums.GamePiece.SmokeCloud){
             offset = rand.nextInt(500) + 300; //change this 
             tempSmokeCloud += offset;
-            piece = new SmokeCloud(tempSmokeCloud, 110);
+            piece = new SmokeCloud(tempSmokeCloud, 90);
         }
         else if(type==Enums.GamePiece.Snowball){
             offset = rand.nextInt(900) + 400; //change this 
             tempSnowball += offset;
-            piece = new Snowball(tempSnowball, 300);
+            piece = new Snowball(tempSnowball, 250);
             
         }
         else if(type==Enums.GamePiece.Cloud){
             offset = rand.nextInt(500) + 300; //gives us range of values from [300,500]
             tempCloud += offset; //increasing our temp to make sure bushes are always forward
-            piece = new Cloud(tempCloud, 110);
+            piece = new Cloud(tempCloud, 90);
         }
         else if(type==Enums.GamePiece.Fireball){
             offset = rand.nextInt(900) + 400; //change this 
             tempFireBall += offset;
-            piece = new Fireball(tempFireBall, 300);
+            piece = new Fireball(tempFireBall, 250);
         }
         else if(type==Enums.GamePiece.Bush){
             offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
@@ -73,7 +73,7 @@ class CreateGamePiece extends GamePieceFactory{
             //currently only one leaf is rendering
             offset = rand.nextInt(900) + 400; //change this 
             tempLeaf += offset;
-            piece = new Leaf(tempLeaf, 320);
+            piece = new Leaf(tempLeaf, 200);
         }
         return piece;
     }
