@@ -29,7 +29,7 @@ public class GameController extends Canvas implements Runnable{
     public static Level level;
     //vars for tracking where player is in levels
     private int levelSwitch;//counter used to track time passed between levels
-    public static int levelLength = 600;//sets the length of the level (ms)
+    public static int levelLength = 1000;//sets the length of the level (ms)
     private final int levelDisplaySet = -100;//use for timer to display start of level graphics before beginning level
     public static boolean playerDied; //use to trigger ending game
     private static boolean level3Ended; //use to trigger ending game

@@ -183,9 +183,9 @@ class SmokeCloud extends GamePiece{
 class Dino extends GamePiece {
 
     public boolean isJumping;
-    public boolean isStand;
+    public static boolean isStand;
     public boolean isDucking;
-    public boolean isRunning;
+    public static boolean isRunning;
     public int xTemp;
     private static final Dino singleDino = new Dino();
 

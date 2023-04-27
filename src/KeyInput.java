@@ -76,6 +76,7 @@ public class KeyInput extends KeyAdapter {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
+        //boolean space = false;
         for(GamePiece piece : GamePieceHandler.gamePieces){
 
             if(piece.type == Enums.GamePiece.Dino) //space==run
@@ -92,13 +93,22 @@ public class KeyInput extends KeyAdapter {
 
             if(piece.type==Enums.GamePiece.Bush || piece.type==Enums.GamePiece.Icicle)
             {
-                if(key==KeyEvent.VK_SPACE){
+
+                if(key==KeyEvent.VK_SPACE){ //when space is released, bushes stop
                     piece.setXvel(0);
+                    
                 }
-                if(key==KeyEvent.VK_DOWN){ //when down arrow is released,start moving again
-                    piece.setXvel(runningVelocity);
+                if(key==KeyEvent.VK_DOWN){ 
+                    
+                    //when down arrow is released,dino stands 
+                    //problem, this starts moving bushes again after duck even if no space bar is pressed
+                    //piece.setXvel(runningVelocity);
+
+                    //need to set dino to run if dino is hitting space bar and duck
+                    Dino.isStand = true;
 
                 }
+            
                 
                 
             }
@@ -107,10 +117,10 @@ public class KeyInput extends KeyAdapter {
                 if(key==KeyEvent.VK_SPACE){ //when stop running set velocity to 0
                     piece.setXvel(0);
                 }
-                if(key==KeyEvent.VK_DOWN){ //when down arrow is released,start moving again
-                    piece.setXvel(runningVelocity);
+                // if(key==KeyEvent.VK_DOWN){ //when down arrow is released,start moving again
+                //     piece.setXvel(runningVelocity);
 
-                }
+                // }
             }
         }
     }
