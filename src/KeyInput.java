@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
  */
 public class KeyInput extends KeyAdapter {
     private int runningVelocity = -5;
+    public static boolean space = false;
 
     public KeyInput(){
     }
@@ -30,7 +31,7 @@ public class KeyInput extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         for(GamePiece piece : GamePieceHandler.gamePieces){
-
+            //boolean space = false;
             if(piece.type== Enums.GamePiece.Dino) //space==run
             {
                 Dino dino = (Dino) piece;
@@ -43,9 +44,11 @@ public class KeyInput extends KeyAdapter {
 
                 }
                 else if (key == KeyEvent.VK_SPACE){
+                    //issue: when space bar and duck, the clouds and bush dont move when duck is released 
                     //when space bar is hit render dino.run
                     //when space bar is released render dino.stop
                     dino.isRunning();
+                    space = true;
                 }
             }
 
@@ -76,7 +79,6 @@ public class KeyInput extends KeyAdapter {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        //boolean space = false;
         for(GamePiece piece : GamePieceHandler.gamePieces){
 
             if(piece.type == Enums.GamePiece.Dino) //space==run
@@ -88,6 +90,7 @@ public class KeyInput extends KeyAdapter {
                 }
                 if(key == KeyEvent.VK_SPACE){// when space bar is released we want dino to stop running
                     dino.stand();
+                    space = false;
                 }
             }
 
@@ -98,7 +101,11 @@ public class KeyInput extends KeyAdapter {
                     piece.setXvel(0);
                     
                 }
-                if(key==KeyEvent.VK_DOWN){ 
+
+                if(key==KeyEvent.VK_DOWN && space == true){ 
+                    piece.setXvel(runningVelocity);
+
+                }else if(key==KeyEvent.VK_DOWN){ 
                     
                     //when down arrow is released,dino stands 
                     //problem, this starts moving bushes again after duck even if no space bar is pressed
@@ -108,6 +115,7 @@ public class KeyInput extends KeyAdapter {
                     Dino.isStand = true;
 
                 }
+                
             
                 
                 
