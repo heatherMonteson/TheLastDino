@@ -35,12 +35,18 @@ public class KeyInput extends KeyAdapter {
             {
                 Dino dino = (Dino) piece;
                 if(key==KeyEvent.VK_UP){
-                    //dino.jumpAndReset();
                     dino.jump();
-                    //dino.resetDinoPosition();
+                    
                 }
-                else if(key==KeyEvent.VK_DOWN)
+                else if(key==KeyEvent.VK_DOWN){
                     dino.duck();
+
+                }
+                else if (key == KeyEvent.VK_SPACE){
+                    //when space bar is hit render dino.run
+                    //when space bar is released render dino.stop
+                    dino.resumeRunning();
+                }
             }
 
             //pieces move to the left to make it look like the dino is running forward
@@ -48,6 +54,7 @@ public class KeyInput extends KeyAdapter {
             {
                 if(key==KeyEvent.VK_SPACE) //space==run, start moving
                 {
+                    
                     piece.setXvel(runningVelocity);
                 }
                 else if(key==KeyEvent.VK_DOWN) //down==duck, stop moving
@@ -74,8 +81,13 @@ public class KeyInput extends KeyAdapter {
             if(piece.type== Enums.GamePiece.Dino) //space==run
             {
                 Dino dino = (Dino) piece;
-                if(key==KeyEvent.VK_DOWN)
+                if(key==KeyEvent.VK_DOWN){
+                    dino.stopDucking();
+
+                }
+                if(key == KeyEvent.VK_SPACE){// when space bar is released we want dino to stop running
                     dino.stand();
+                }
             }
 
             if(piece.type==Enums.GamePiece.Bush || piece.type==Enums.GamePiece.Icicle)

@@ -181,8 +181,13 @@ class SmokeCloud extends GamePiece{
 class Dino extends GamePiece{
 
     public boolean isJumping;
+    public boolean isStand;
+    public boolean isDucking;
     private static final Dino singleDino = new Dino();
     public Image gif = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
+    public Image dinoStop = Toolkit.getDefaultToolkit().getImage("Images/dinoT1.png");
+    public Image dinoDuck = Toolkit.getDefaultToolkit().getImage("Images/duck.png");
+
 
     private Dino(){
         super(0, 335, Enums.GamePiece.Dino);
@@ -194,20 +199,39 @@ class Dino extends GamePiece{
 
     public void render(Graphics graphics){
 
-        graphics.drawImage(gif, xPos, yPos,100, 100, null); //correct dino coordinates to get him on the ground
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
+        if (isDucking == true){
+            graphics.drawImage(dinoDuck, xPos, yPos,100, 100, null); //correct dino coordinates to get him on the ground
+        }
+        else if (isStand == true){
+            //x is the width, y is height
+            graphics.drawImage(dinoStop, xPos - 15, yPos - 60 ,260, 190, null); //correct dino coordinates to get him on the ground
+        }else{
+            graphics.drawImage(gif, xPos, yPos,100, 100, null); //correct dino coordinates to get him on the ground
+        }
+
+        // else if(isStand == true){
+        //     graphics.drawImage(dinoStop, xPos, yPos,200, 220, null); //correct dino coordinates to get him on the ground
+        //     Timer timer = new Timer();
+        //     timer.schedule(new TimerTask() {
+        //         @Override
+        //         public void run() {
+        //             isStand = false;
+        //         }
+        //     }, 200); //this num is the ms delay
+        // }
     }
     public void tick(){
-
-        if(isJumping == true){ //if dino is jumping, we wait a moment and then readjust his position back down
+        //this if is responsible for bringing dino back to ground after jumping
+        if(isJumping == true){ 
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    yPos =335;
+                    yPos =335; //ground position
                     isJumping = false;
                 }
-            }, 350); // delay of 1 second
+            }, 400); //this num is the ms delay
         }
         xPos+=xVel;
         yPos+=yVel;
@@ -223,27 +247,29 @@ class Dino extends GamePiece{
 //        }
     }
 
-    //to bring dino back down from jump
-    public void resetDinoPosition(){
 
-        if(isJumping){//hes jumping and needs to come back down
-            yPos -= 20; //it takes this and subtracts from yPos every second
-        }
-
-        isJumping = false; //when he is back on the ground
-    }
 
     public void jump(){
-        isJumping = true;
-        yPos = 160;
+        isJumping = true; //set our bool to true 
+        yPos = 160; //change the yPos so he jumps on the screen
        
     }
 
 
 
     public void duck() {
+        isDucking = true;
+        //need to change render
+    }
+    public void stopDucking() { // new method to resume running
+        isDucking = false;
     }
 
     public void stand() {
+        isStand = true;
     }
+    public void resumeRunning() { // new method to resume running
+        isStand = false;
+    }
+   
 }

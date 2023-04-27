@@ -13,7 +13,7 @@ public abstract class GamePieceFactory {
             piece = createPiece(type);
             //debugging code
             if(type == Enums.GamePiece.Bush){
-                System.out.println(piece.xPos);
+                //System.out.println(piece.xPos);
             }
             if(piece!=null){
                 handler.addObject(piece);
