@@ -200,7 +200,7 @@ class Dino extends GamePiece {
         isStand = true;
         isDucking = false;
         isRunning = false;
-        xTemp = xPos - 58;
+        xTemp = xPos - 58; //this is for second dino image to be in same position as gif
     }
 
     public static Dino getDino() {
