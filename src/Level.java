@@ -1,9 +1,6 @@
 package src;
 
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-
 /*
  * Level and Level1, Level2, Level3, EndLevel: handles calling for the correct game pieces for the level to be made and sets/renders
  * the level background graphics. Also holds point value at a set level

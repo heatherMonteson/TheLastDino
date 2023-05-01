@@ -27,9 +27,9 @@ public abstract class GamePieceFactory {
 
 class CreateGamePiece extends GamePieceFactory{
     private static int tempBush = 0; // a static variable so that it is shared across all CreateGamePiece objects.
-    private static int tempCloud = 0; 
+    private static int tempCloud = 0;
     public static int tempLeaf = 0;
-    private static int tempFireBall = 0; 
+    private static int tempFireBall = 0;
     private static int tempSmokeCloud = 0;
     private static int tempIcicle = 0;
     private static int tempSnowball = 0;
@@ -44,15 +44,15 @@ class CreateGamePiece extends GamePieceFactory{
             piece = new Icicle(tempIcicle,365);
         }
         else if(type==Enums.GamePiece.SmokeCloud){
-            offset = rand.nextInt(500) + 300; //change this 
+            offset = rand.nextInt(500) + 300; //change this
             tempSmokeCloud += offset;
             piece = new SmokeCloud(tempSmokeCloud, 90);
         }
         else if(type==Enums.GamePiece.Snowball){
-            offset = rand.nextInt(900) + 400; //change this 
+            offset = rand.nextInt(900) + 400; //change this
             tempSnowball += offset;
             piece = new Snowball(tempSnowball, 250);
-            
+
         }
         else if(type==Enums.GamePiece.Cloud){
             offset = rand.nextInt(500) + 300; //gives us range of values from [300,500]
@@ -60,22 +60,22 @@ class CreateGamePiece extends GamePieceFactory{
             piece = new Cloud(tempCloud, 90);
         }
         else if(type==Enums.GamePiece.Fireball){
-            offset = rand.nextInt(900) + 400; //change this 
+            offset = rand.nextInt(900) + 400; //change this
             tempFireBall += offset;
             piece = new Fireball(tempFireBall, 250);
         }
         else if(type==Enums.GamePiece.Bush){
             offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
             tempBush += offset; //increasing our temp to make sure bushes are always forward
-            piece = new Bush(tempBush,365);
+            piece = new Bush(tempBush,375);
         }
         else if(type==Enums.GamePiece.Leaf){
             //currently only one leaf is rendering
-            offset = rand.nextInt(900) + 400; //change this 
+            offset = rand.nextInt(900) + 400; //change this
             tempLeaf += offset;
             piece = new Leaf(tempLeaf, 200);
         }
         return piece;
     }
-    
+
 }
