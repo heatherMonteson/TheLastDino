@@ -101,7 +101,6 @@ public class KeyInput extends KeyAdapter {
                     piece.setXvel(0);
                     
                 }
-
                 if(key==KeyEvent.VK_DOWN && space == true){ 
                     //dino is running and ducking (press space and down button)
                     piece.setXvel(runningVelocity);
@@ -111,8 +110,6 @@ public class KeyInput extends KeyAdapter {
                     Dino.isStand = true;
 
                 }
-                
-            
                 
                 
             }

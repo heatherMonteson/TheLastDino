@@ -67,7 +67,7 @@ class CreateGamePiece extends GamePieceFactory{
         else if(type==Enums.GamePiece.Bush){
             offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
             tempBush += offset; //increasing our temp to make sure bushes are always forward
-            piece = new Bush(tempBush,365);
+            piece = new Bush(tempBush,375);
         }
         else if(type==Enums.GamePiece.Leaf){
             //currently only one leaf is rendering
