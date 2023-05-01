@@ -28,7 +28,6 @@ public abstract class GamePiece {
         this.type = type;
         xVel=0;
         yVel=0;
-
     }
     //show game piece
     public abstract void render(Graphics graphics);
@@ -37,8 +36,6 @@ public abstract class GamePiece {
         //tick changes xPos
         xPos+=xVel;
         yPos+=yVel;
-
-
     }
 
     public Enums.GamePiece getType(){
@@ -93,12 +90,10 @@ class Bush extends GamePiece{
         //             this.collision1 = true;
         //         }
         //     }
-        // }
+
     }
-
-
-
 }
+
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -118,6 +113,7 @@ class Icicle extends GamePiece{
     public Rectangle getBounds(){
         return new Rectangle(xPos, yPos, 110, 70);
     }
+
 
 }
 
@@ -260,83 +256,70 @@ class Dino extends GamePiece {
         return singleDino;
     }
 
-    public void render(Graphics graphics){
+    public void render(Graphics graphics) {
 
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
-        if (isDucking == true){ //down arrow
-            graphics.drawImage(dinoDuck, xPos, yPos ,100, 100, null); //correct dino coordinates to get him on the ground
-            //THESE ARE THE VISUAL COLLISION BOUNDS
+        if (isDucking == true) { //down arrow
+            graphics.drawImage(dinoDuck, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
+
             // graphics.setColor(Color.red);
             // graphics.fillRect(xPos, yPos, 100, 100);
-        }
-        else if(isRunning == true){ //space bar
+        } else if (isRunning == true) { //space bar
             //x is the width, y is height
-            graphics.drawImage(gif, xPos, yPos,100, 100, null); //correct dino coordinates to get him on the ground
+            graphics.drawImage(gif, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
             // graphics.setColor(Color.red);
             // graphics.fillRect(xPos, yPos, 100, 90);
-        }else{ //base case (standing)
-            graphics.drawImage(dinoStop, xPos - 58, yPos - 50 ,280, 180, null); //correct dino coordinates to get him on the ground
+        } else { //base case (standing)
+            graphics.drawImage(dinoStop, xPos - 58, yPos - 50, 280, 180, null); //correct dino coordinates to get him on the ground
             // graphics.setColor(Color.red);
             // graphics.fillRect(xPos, yPos, 100, 90);
         }
-
 
     }
 
-    public Rectangle getBounds(){
-        if(isDucking == true){
+    public Rectangle getBounds() {
+        if (isDucking == true) {
             return new Rectangle(xPos, yPos, 100, 90);
-        }else if (isRunning == true){
+        } else if (isRunning == true) {
             return new Rectangle(xPos, yPos, 100, 90);
-        }else{ //if he is standing the bounds are different
+
+        } else { //if he is standing the bounds are different
             return new Rectangle(xPos - 58, yPos - 50, 100, 90);
         }
 
     }
 
-    public void tick(){
+    public void tick() {
         //this if is responsible for bringing dino back to ground after jumping
         //we use timer for jumping bc we dont want jump method to be controlled and consistent
-        if(isJumping == true){
+        if (isJumping == true) {
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    yPos =335;
+                    yPos = 335;
                     isJumping = false;
                 }
             }, 700); //this num is the ms delay
         }
-        xPos+=xVel;
-        yPos+=yVel;
+        xPos += xVel;
+        yPos += yVel;
 
         collision();
 
-
     }
 
-    public void collision (){
-        for(GamePiece piece: GamePieceHandler.gamePieces){
-            if(piece.getType() == Enums.GamePiece.Bush){
+    public void collision() {
+        for (GamePiece piece : GamePieceHandler.gamePieces) {
+            if (piece.getType() == Enums.GamePiece.Bush) {
                 //getBounds in this case is Dino.getBounds
-                if(getBounds().intersects(piece.getBounds()) && !collision1){
+                if (getBounds().intersects(piece.getBounds()) && !collision1) {
                     //collision code
                     System.out.println("COLLISION DETECTED");
                     Broker.getBroker().event(Enums.Event.LostLife);
                     this.collision1 = true;
                 }
             }
-            // if(piece.getType() == Enums.GamePiece.Fireball || piece.getType() == Enums.GamePiece.Snowball){
-            //     //getBounds in this case is Dino.getBounds
-            //     if(getBounds().intersects(piece.getBounds())&& !collision){
-            //         //collision code
-            //         System.out.println("COLLISION DETECTED");
-            //         // player.update(Enums.Event.LostLife);
-            //         Broker.getBroker().event(Enums.Event.LostLife);
-            //         collision = true;
-
-            //     }
-
             // }
             // if(piece.getType() == Enums.GamePiece.Leaf){
             //     //getBounds in this case is Dino.getBounds
@@ -346,19 +329,20 @@ class Dino extends GamePiece {
             //         //player.update(Enums.Event.AteLeaves);
             //         Broker.getBroker().event(Enums.Event.AteLeaves);
             //     }
-
             // }
         }
     }
 
-    public void jump(){
+    public void jump() {
         isJumping = true; //set our bool to true
         yPos = 160; //change the yPos so he jumps on the screen
 
     }
+
     public void duck() {
         isDucking = true;
     }
+
     public void stopDucking() {
         isDucking = false;
     }
