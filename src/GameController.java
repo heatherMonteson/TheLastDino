@@ -125,6 +125,7 @@ public class GameController extends Canvas implements Runnable{
      */
     private void switching(){
         //go from level 1 to 2
+
         if(level.getLevel()== Enums.Level.L1){
             level=new Level2();
         }
@@ -132,6 +133,7 @@ public class GameController extends Canvas implements Runnable{
         else if (level.getLevel()== Enums.Level.L2){
             level = new Level3();
         }
+    
         Broker.getBroker().event(Enums.Event.LevelCompleted);//notify when level is complete
         level.activate();//level setup creates all game pieces
         levelSwitch=levelDisplaySet;

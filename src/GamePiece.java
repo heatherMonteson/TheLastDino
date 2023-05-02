@@ -98,13 +98,23 @@ class Icicle extends GamePiece{
     }
 
     public void render(Graphics graphics){
-        graphics.drawImage(icicle, xPos,yPos,110, 70, null);
+        graphics.drawImage(icicle, xPos,yPos,90, 60, null);
+        // graphics.setColor(Color.blue);
+        // graphics.fillRect(xPos , yPos ,80, 50);
 
     }
     public Rectangle getBounds(){
-        return new Rectangle(xPos, yPos, 110, 70);
+        return new Rectangle(xPos, yPos, 80, 50);
     }
-
+    public void tick(){
+        //tick changes xPos
+        xPos+=xVel;
+        yPos+=yVel;
+        if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
+            collision1=true;
+            Broker.getBroker().event(Enums.Event.LostLife);
+        }
+    }
 
 }
 
@@ -121,10 +131,21 @@ class Snowball extends GamePiece{
     }
     public void render(Graphics graphics){
         graphics.drawImage(snowball, xPos, yPos,150, 75, null);
+        // graphics.setColor(Color.blue);
+        // graphics.fillRect(xPos + 10 , yPos ,100, 70);
 
     }
     public Rectangle getBounds(){
-        return new Rectangle(xPos, yPos, 150, 75);
+        return new Rectangle(xPos + 10, yPos, 100, 70);
+    }
+    public void tick(){
+        //tick changes xPos
+        xPos+=xVel;
+        yPos+=yVel;
+        if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
+            collision1=true;
+            Broker.getBroker().event(Enums.Event.LostLife);
+        }
     }
 }
 
@@ -140,10 +161,22 @@ class Fireball extends GamePiece{
         this.xVel = -4; //if this is set to -5, it moves at same rate as bushes
     }
     public void render(Graphics graphics){
-        graphics.drawImage(fireball, xPos,yPos,150, 100, null); //leaf is currently stagnant
+        graphics.drawImage(fireball, xPos,yPos,130, 80, null); //leaf is currently stagnant
+        // graphics.setColor(Color.orange);
+        // graphics.fillRect(xPos , yPos ,100, 70);
     }
     public Rectangle getBounds(){
-        return new Rectangle(xPos, yPos, 150, 100);
+        return new Rectangle(xPos, yPos, 100, 70);
+        
+    }
+    public void tick(){
+        //tick changes xPos
+        xPos+=xVel;
+        yPos+=yVel;
+        if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
+            collision1=true;
+            Broker.getBroker().event(Enums.Event.LostLife);
+        }
     }
 
 }
@@ -161,10 +194,21 @@ class Leaf extends GamePiece{
     }
     public void render(Graphics graphics){
         graphics.drawImage(leaf, xPos,yPos,80, 50, null); //leaf is currently stagnant
+        // graphics.setColor(Color.green);
+        // graphics.fillRect(xPos , yPos ,70, 40);
 
     }
     public Rectangle getBounds(){
-        return new Rectangle(xPos, yPos, 80, 50);
+        return new Rectangle(xPos, yPos, 70, 40);
+    }
+       public void tick(){
+        //tick changes xPos
+        xPos+=xVel;
+        yPos+=yVel;
+        if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
+            collision1=true;
+            Broker.getBroker().event(Enums.Event.AteLeaves);
+        }
     }
 
 }
@@ -252,30 +296,28 @@ class Dino extends GamePiece {
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
         if (isDucking == true) { //down arrow
             graphics.drawImage(dinoDuck, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
-
             // graphics.setColor(Color.red);
-            // graphics.fillRect(xPos, yPos, 100, 100);
+            // graphics.fillRect(xPos, yPos + 50, 100, 50);
         } else if (isRunning == true) { //space bar
             //x is the width, y is height
             graphics.drawImage(gif, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
             // graphics.setColor(Color.red);
-            // graphics.fillRect(xPos, yPos, 100, 90);
+            // graphics.fillRect(xPos, yPos+ 5, 95, 90);
         } else { //base case (standing)
             graphics.drawImage(dinoStop, xPos - 58, yPos - 50, 280, 180, null); //correct dino coordinates to get him on the ground
             // graphics.setColor(Color.red);
-            // graphics.fillRect(xPos, yPos, 100, 90);
+            // graphics.fillRect(xPos , yPos + 5 , 95, 90);
         }
 
     }
 
     public Rectangle getBounds() {
         if (isDucking == true) {
-            return new Rectangle(xPos, yPos, 100, 90);
+            return new Rectangle(xPos, yPos + 50, 100, 50);
         } else if (isRunning == true) {
-            return new Rectangle(xPos, yPos, 100, 90);
-
+            return new Rectangle(xPos, yPos + 5, 95, 90);
         } else { //if he is standing the bounds are different
-            return new Rectangle(xPos - 58, yPos - 50, 100, 90);
+            return new Rectangle(xPos , yPos + 5, 95, 90);
         }
 
     }

@@ -41,7 +41,7 @@ class CreateGamePiece extends GamePieceFactory{
         if(type==Enums.GamePiece.Icicle){
             offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
             tempIcicle += offset; //increasing our temp to make sure bushes are always forward
-            piece = new Icicle(tempIcicle,365);
+            piece = new Icicle(tempIcicle,375);
         }
         else if(type==Enums.GamePiece.SmokeCloud){
             offset = rand.nextInt(500) + 300; //change this
@@ -51,7 +51,7 @@ class CreateGamePiece extends GamePieceFactory{
         else if(type==Enums.GamePiece.Snowball){
             offset = rand.nextInt(900) + 400; //change this
             tempSnowball += offset;
-            piece = new Snowball(tempSnowball, 250);
+            piece = new Snowball(tempSnowball, 280);
 
         }
         else if(type==Enums.GamePiece.Cloud){
@@ -62,7 +62,7 @@ class CreateGamePiece extends GamePieceFactory{
         else if(type==Enums.GamePiece.Fireball){
             offset = rand.nextInt(900) + 400; //change this
             tempFireBall += offset;
-            piece = new Fireball(tempFireBall, 250);
+            piece = new Fireball(tempFireBall, 280);
         }
         else if(type==Enums.GamePiece.Bush){
             offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
