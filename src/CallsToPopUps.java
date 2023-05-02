@@ -2,14 +2,12 @@ package src;
 
 /*
  * CallsToPopUps: Handles the creation and popping up of the popup windows
- * sudo factory =]
-
  */
 public class CallsToPopUps {
 
     /*
      * popup: creates and pops all popup windows for the game based on the selected popup type
-     * Types of popups: {Signup, Instructions, GameOver}
+     * Types of popups: {Signup, Instructions}
      *
      * @param Enums.Popup
      * @return nothing

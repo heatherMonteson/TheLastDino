@@ -21,7 +21,7 @@ import java.sql.*;
  * OO pattern: Observer
  *
  * Citation: https://www.youtube.com/watch?v=e8g9eNnFpHQ
- * used to create MySQL connection
+ * used to create MySQL connection found in the constructor try catch block
  */
 public class DatabaseConnection implements Observer{
 

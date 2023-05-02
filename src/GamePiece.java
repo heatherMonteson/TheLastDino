@@ -28,7 +28,6 @@ public abstract class GamePiece {
         this.type = type;
         xVel=0;
         yVel=0;
-        
     }
     //show game piece
     public abstract void render(Graphics graphics);
@@ -37,8 +36,6 @@ public abstract class GamePiece {
         //tick changes xPos
         xPos+=xVel;
         yPos+=yVel;
-        
-
     }
 
     public Enums.GamePiece getType(){
@@ -46,7 +43,7 @@ public abstract class GamePiece {
     }
 
     public Rectangle getBounds(){
-       return bounds;
+        return bounds;
     }
 
     //piece location/velocity getters (just setting now to play with input)
@@ -59,19 +56,19 @@ public abstract class GamePiece {
 class Bush extends GamePiece{
     public Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush1.png");
 
-    public Bush(int xPos, int yPos){ 
+    public Bush(int xPos, int yPos){
         super(xPos, yPos, Enums.GamePiece.Bush);
-        this.xPos= xPos; 
+        this.xPos= xPos;
         this.yPos=yPos;
         this.collision1 = false;
 
     }
     public void render(Graphics graphics){
-        graphics.drawImage(bush, xPos,yPos,100, 60, null); 
+        graphics.drawImage(bush, xPos,yPos,100, 60, null);
         //THIS CODE IS TO GET A VISUAL OF BOUND SIZE
         // graphics.setColor(Color.green);
         // graphics.fillRect(xPos + 10, yPos ,80, 60);
-       
+
     }
     public Rectangle getBounds(){
         return new Rectangle(xPos+10, yPos, 80, 50);
@@ -81,24 +78,13 @@ class Bush extends GamePiece{
         //tick changes xPos
         xPos+=xVel;
         yPos+=yVel;
-
-        //EXPERIMENTAL TICK COLLISION CHECK
-        // for(GamePiece piece: GamePieceHandler.gamePieces){
-        //     if(piece.getType() == Enums.GamePiece.Bush){
-        //         //getBounds in this case is Dino.getBounds
-        //         if(getBounds().intersects(piece.getBounds()) && !collision1){
-        //             //collision code
-        //             System.out.println("COLLISION DETECTED");
-        //             Broker.getBroker().event(Enums.Event.LostLife);
-        //             this.collision1 = true;
-        //         }
-        //     }
-        // }   
+        if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
+            collision1=true;
+            Broker.getBroker().event(Enums.Event.LostLife);
+        }
     }
-
-        
-
 }
+
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -107,17 +93,18 @@ class Icicle extends GamePiece{
 
     public Icicle(int xPos, int yPos){
         super(xPos, yPos, Enums.GamePiece.Icicle);
-        this.xPos= xPos; 
+        this.xPos= xPos;
         this.yPos=yPos;
     }
 
     public void render(Graphics graphics){
-        graphics.drawImage(icicle, xPos,yPos,110, 70, null); 
-       
+        graphics.drawImage(icicle, xPos,yPos,110, 70, null);
+
     }
     public Rectangle getBounds(){
         return new Rectangle(xPos, yPos, 110, 70);
     }
+
 
 }
 
@@ -128,9 +115,9 @@ class Snowball extends GamePiece{
 
     public Snowball(int xPos, int yPos){
         super(xPos, yPos, Enums.GamePiece.Snowball);
-        this.xPos= xPos; 
+        this.xPos= xPos;
         this.yPos=yPos;
-        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes
     }
     public void render(Graphics graphics){
         graphics.drawImage(snowball, xPos, yPos,150, 75, null);
@@ -148,9 +135,9 @@ class Fireball extends GamePiece{
 
     public Fireball(int xPos, int yPos){
         super(xPos, yPos, Enums.GamePiece.Fireball);
-        this.xPos= xPos; 
+        this.xPos= xPos;
         this.yPos=yPos;
-        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes
     }
     public void render(Graphics graphics){
         graphics.drawImage(fireball, xPos,yPos,150, 100, null); //leaf is currently stagnant
@@ -168,9 +155,9 @@ class Leaf extends GamePiece{
 
     public Leaf(int xPos, int yPos){
         super(xPos, yPos, Enums.GamePiece.Leaf);
-        this.xPos= xPos; 
+        this.xPos= xPos;
         this.yPos=yPos;
-        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes 
+        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes
     }
     public void render(Graphics graphics){
         graphics.drawImage(leaf, xPos,yPos,80, 50, null); //leaf is currently stagnant
@@ -190,7 +177,7 @@ class Cloud extends GamePiece{
     //TODO: randomize positions
     public Cloud(int xPos, int yPos) {
         super(xPos, yPos, Enums.GamePiece.Cloud);
-        this.xPos= xPos; 
+        this.xPos= xPos;
         this.yPos=yPos;
         // super(GameController.width-50, GameController.height/2, Enums.GamePiece.Cloud);
     }
@@ -214,7 +201,7 @@ class SmokeCloud extends GamePiece{
     //TODO: randomize positions
     public SmokeCloud(int xPos, int yPos) {
         super(xPos, yPos, Enums.GamePiece.SmokeCloud);
-        this.xPos= xPos; 
+        this.xPos= xPos;
         this.yPos=yPos;
     }
 
@@ -253,113 +240,101 @@ class Dino extends GamePiece {
         isDucking = false;
         isRunning = false;
         //xTemp = xPos - 58; //this is for second dino image to be in same position as gif
-        
+
     }
 
     public static Dino getDino() {
         return singleDino;
     }
 
-    public void render(Graphics graphics){
+    public void render(Graphics graphics) {
 
         //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
-        if (isDucking == true){ //down arrow
-            graphics.drawImage(dinoDuck, xPos, yPos ,100, 100, null); //correct dino coordinates to get him on the ground
-            //THESE ARE THE VISUAL COLLISION BOUNDS 
+        if (isDucking == true) { //down arrow
+            graphics.drawImage(dinoDuck, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
+
             // graphics.setColor(Color.red);
             // graphics.fillRect(xPos, yPos, 100, 100);
-        }
-        else if(isRunning == true){ //space bar
+        } else if (isRunning == true) { //space bar
             //x is the width, y is height
-            graphics.drawImage(gif, xPos, yPos,100, 100, null); //correct dino coordinates to get him on the ground
+            graphics.drawImage(gif, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
             // graphics.setColor(Color.red);
             // graphics.fillRect(xPos, yPos, 100, 90);
-        }else{ //base case (standing)
-            graphics.drawImage(dinoStop, xPos - 58, yPos - 50 ,280, 180, null); //correct dino coordinates to get him on the ground
+        } else { //base case (standing)
+            graphics.drawImage(dinoStop, xPos - 58, yPos - 50, 280, 180, null); //correct dino coordinates to get him on the ground
             // graphics.setColor(Color.red);
             // graphics.fillRect(xPos, yPos, 100, 90);
         }
 
-    
     }
 
-    public Rectangle getBounds(){
-        if(isDucking == true){
+    public Rectangle getBounds() {
+        if (isDucking == true) {
             return new Rectangle(xPos, yPos, 100, 90);
-        }else if (isRunning == true){
+        } else if (isRunning == true) {
             return new Rectangle(xPos, yPos, 100, 90);
-        }else{ //if he is standing the bounds are different 
+
+        } else { //if he is standing the bounds are different
             return new Rectangle(xPos - 58, yPos - 50, 100, 90);
         }
 
     }
 
-    public void tick(){
+    public void tick() {
         //this if is responsible for bringing dino back to ground after jumping
         //we use timer for jumping bc we dont want jump method to be controlled and consistent
-        if(isJumping == true){ 
+        if (isJumping == true) {
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    yPos =335;
+                    yPos = 335;
                     isJumping = false;
                 }
             }, 700); //this num is the ms delay
         }
-        xPos+=xVel;
-        yPos+=yVel;
+        xPos += xVel;
+        yPos += yVel;
 
-        collision();
+//        collision();
 
-        
     }
 
-    public void collision (){
-        for(GamePiece piece: GamePieceHandler.gamePieces){
-            if(piece.getType() == Enums.GamePiece.Bush){
-                //getBounds in this case is Dino.getBounds
-                if(getBounds().intersects(piece.getBounds()) && !collision1){
-                    //collision code
-                    System.out.println("COLLISION DETECTED");
-                    Broker.getBroker().event(Enums.Event.LostLife);
-                    this.collision1 = true;
-                }
-            }
-            // if(piece.getType() == Enums.GamePiece.Fireball || piece.getType() == Enums.GamePiece.Snowball){
-            //     //getBounds in this case is Dino.getBounds
-            //     if(getBounds().intersects(piece.getBounds())&& !collision){
-            //         //collision code
-            //         System.out.println("COLLISION DETECTED");
-            //         // player.update(Enums.Event.LostLife);
-            //         Broker.getBroker().event(Enums.Event.LostLife);
-            //         collision = true;
+//    public void collision() {
+//        for (GamePiece piece : GamePieceHandler.gamePieces) {
+//            if (piece.getType() == Enums.GamePiece.Bush) {
+//                //getBounds in this case is Dino.getBounds
+//                if (getBounds().intersects(piece.getBounds()) && !collision1) {
+//                    //collision code
+//                    System.out.println("COLLISION DETECTED");
+//                    Broker.getBroker().event(Enums.Event.LostLife);
+//                    this.collision1 = true;
+//                }
+//            }
+//            // }
+//            // if(piece.getType() == Enums.GamePiece.Leaf){
+//            //     //getBounds in this case is Dino.getBounds
+//            //     if(getBounds().intersects(piece.getBounds())){
+//            //         //collision code
+//            //         System.out.println("COLLISION DETECTED");
+//            //         //player.update(Enums.Event.AteLeaves);
+//            //         Broker.getBroker().event(Enums.Event.AteLeaves);
+//            //     }
+//            // }
+//        }
+//    }
 
-            //     }
-            
-            // }
-            // if(piece.getType() == Enums.GamePiece.Leaf){
-            //     //getBounds in this case is Dino.getBounds
-            //     if(getBounds().intersects(piece.getBounds())){
-            //         //collision code
-            //         System.out.println("COLLISION DETECTED");
-            //         //player.update(Enums.Event.AteLeaves);
-            //         Broker.getBroker().event(Enums.Event.AteLeaves);
-            //     }
-            
-            // }
-        }
-    }
-
-    public void jump(){
-        isJumping = true; //set our bool to true 
+    public void jump() {
+        isJumping = true; //set our bool to true
         yPos = 160; //change the yPos so he jumps on the screen
-       
+
     }
+
     public void duck() {
         isDucking = true;
     }
-    public void stopDucking() { 
+
+    public void stopDucking() {
         isDucking = false;
     }
 
@@ -367,11 +342,10 @@ class Dino extends GamePiece {
         isRunning = false; //stop running
         isStand = true; //start standing
     }
-  
+
     public void isRunning() { // new method to resume running
         isStand = false; //stop standing
         isRunning = true; //start running
     }
-   
-}
 
+}
