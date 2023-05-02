@@ -14,10 +14,10 @@ public class CallsToPopUps {
      */
     public static void popup(Enums.Popup type) {
         PopUp pop=null;
-        // if(type==Enums.Popup.Signup)
-        //     pop =new PlayerSignUp();
-        // else if(type==Enums.Popup.Instructions)
-        //     pop=new Instructions();
+         if(type==Enums.Popup.Signup)
+             pop =new PlayerSignUp();
+         else if(type==Enums.Popup.Instructions)
+             pop=new Instructions();
         try{
             assert pop != null;
             pop.pop();

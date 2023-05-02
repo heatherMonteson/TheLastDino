@@ -208,6 +208,7 @@ class Leaf extends GamePiece{
         if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
             collision1=true;
             Broker.getBroker().event(Enums.Event.AteLeaves);
+            leaf = Toolkit.getDefaultToolkit().getImage("");
         }
     }
 

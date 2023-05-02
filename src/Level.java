@@ -56,9 +56,9 @@ class Level1 extends Level{
     }
     @Override
     public void activate() {
-        factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 20);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Bush, 15);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 5);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Cloud, 30);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Bush, 30);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 40);
     }
 
 }
@@ -78,9 +78,9 @@ class Level2 extends Level{
         GamePieceHandler handler = GamePieceHandler.getHandler();
         handler.removeAllButDino();
         CreateGamePiece.tempLeaf=0;
-        factoryConnection.makeGamePiece(Enums.GamePiece.SmokeCloud, 10);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Fireball, 10);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 10); 
+        factoryConnection.makeGamePiece(Enums.GamePiece.SmokeCloud, 30);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Fireball, 30);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 40);
     }
 
 }
@@ -100,9 +100,9 @@ class Level3 extends Level{
         GamePieceHandler handler = GamePieceHandler.getHandler();
         handler.removeAllButDino();
         CreateGamePiece.tempLeaf=0;
-        factoryConnection.makeGamePiece(Enums.GamePiece.Icicle, 10);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Snowball, 10);
-        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 10);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Icicle, 30);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Snowball, 30);
+        factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 40);
     }
 
 }
