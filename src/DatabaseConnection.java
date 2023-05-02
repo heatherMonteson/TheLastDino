@@ -33,6 +33,7 @@ public class DatabaseConnection implements Observer{
     private Connection connection;
     private String name;
     private String playerId;
+    private boolean gameOver;
 
     //creates connection in constructor
     private DatabaseConnection(){
@@ -45,6 +46,7 @@ public class DatabaseConnection implements Observer{
             isConnected=true;
             Broker.getBroker().register(this);//register with broker
             System.out.println("Connected to database");
+            gameOver=false;
         }
         catch (Exception e){
             System.out.println("error making database connection");
@@ -112,7 +114,7 @@ public class DatabaseConnection implements Observer{
      * @return noting
      */
     public void update(Enums.Event event) {
-        if(isConnected){
+        if(isConnected && !gameOver){
             try{
                 PreparedStatement update = null;
 
@@ -133,6 +135,8 @@ public class DatabaseConnection implements Observer{
                     update=connection.prepareStatement("UPDATE `player_info` SET `level` = `level` + 1 WHERE `player_id`=(?) AND `level`<3");
                     update.setString(1, playerId);//insert the player ID
                 }
+                else if(event==Enums.Event.EndGame||event==Enums.Event.PlayerDied)
+                   gameOver=true;
                 if(update!=null)
                     update.executeUpdate();
             }
