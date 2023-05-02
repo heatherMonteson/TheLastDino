@@ -78,19 +78,10 @@ class Bush extends GamePiece{
         //tick changes xPos
         xPos+=xVel;
         yPos+=yVel;
-
-        //EXPERIMENTAL TICK COLLISION CHECK
-        // for(GamePiece piece: GamePieceHandler.gamePieces){
-        //     if(piece.getType() == Enums.GamePiece.Bush){
-        //         //getBounds in this case is Dino.getBounds
-        //         if(getBounds().intersects(piece.getBounds()) && !collision1){
-        //             //collision code
-        //             System.out.println("COLLISION DETECTED");
-        //             Broker.getBroker().event(Enums.Event.LostLife);
-        //             this.collision1 = true;
-        //         }
-        //     }
-
+        if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
+            collision1=true;
+            Broker.getBroker().event(Enums.Event.LostLife);
+        }
     }
 }
 
@@ -305,33 +296,33 @@ class Dino extends GamePiece {
         xPos += xVel;
         yPos += yVel;
 
-        collision();
+//        collision();
 
     }
 
-    public void collision() {
-        for (GamePiece piece : GamePieceHandler.gamePieces) {
-            if (piece.getType() == Enums.GamePiece.Bush) {
-                //getBounds in this case is Dino.getBounds
-                if (getBounds().intersects(piece.getBounds()) && !collision1) {
-                    //collision code
-                    System.out.println("COLLISION DETECTED");
-                    Broker.getBroker().event(Enums.Event.LostLife);
-                    this.collision1 = true;
-                }
-            }
-            // }
-            // if(piece.getType() == Enums.GamePiece.Leaf){
-            //     //getBounds in this case is Dino.getBounds
-            //     if(getBounds().intersects(piece.getBounds())){
-            //         //collision code
-            //         System.out.println("COLLISION DETECTED");
-            //         //player.update(Enums.Event.AteLeaves);
-            //         Broker.getBroker().event(Enums.Event.AteLeaves);
-            //     }
-            // }
-        }
-    }
+//    public void collision() {
+//        for (GamePiece piece : GamePieceHandler.gamePieces) {
+//            if (piece.getType() == Enums.GamePiece.Bush) {
+//                //getBounds in this case is Dino.getBounds
+//                if (getBounds().intersects(piece.getBounds()) && !collision1) {
+//                    //collision code
+//                    System.out.println("COLLISION DETECTED");
+//                    Broker.getBroker().event(Enums.Event.LostLife);
+//                    this.collision1 = true;
+//                }
+//            }
+//            // }
+//            // if(piece.getType() == Enums.GamePiece.Leaf){
+//            //     //getBounds in this case is Dino.getBounds
+//            //     if(getBounds().intersects(piece.getBounds())){
+//            //         //collision code
+//            //         System.out.println("COLLISION DETECTED");
+//            //         //player.update(Enums.Event.AteLeaves);
+//            //         Broker.getBroker().event(Enums.Event.AteLeaves);
+//            //     }
+//            // }
+//        }
+//    }
 
     public void jump() {
         isJumping = true; //set our bool to true
