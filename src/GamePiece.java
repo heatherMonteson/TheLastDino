@@ -17,7 +17,7 @@ public abstract class GamePiece {
     protected Enums.GamePiece type;
     protected Rectangle bounds;
     public boolean collision1;
-    public boolean collision2;
+    
 
     //public static Rectangle bushRect;
 
