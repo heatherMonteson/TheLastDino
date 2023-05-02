@@ -19,7 +19,7 @@ public class Player implements Observer{
     private Image heart2;
     private Image heart3;
     private final Image deadHeart = Toolkit.getDefaultToolkit().getImage("Images/deadHeart.png");
-
+    private boolean gameover;
     private Player(){
         lives=3;
         score =0;
@@ -29,6 +29,7 @@ public class Player implements Observer{
         heart1= heart2= heart3= heart;
         //register for events
         Broker.getBroker().register(this);
+        gameover=false;
     }
 
     public static Player getPlayer(){
@@ -81,22 +82,28 @@ public class Player implements Observer{
      */
     @Override
     public void update(Enums.Event event) {
-        if(event==Enums.Event.AteLeaves)//increase score
-            score+= GameController.level.getPoints();
-        else if(event==Enums.Event.LostLife){ //when life lost switch out a heart for a dead heart
-            if(lives>0)
-                lives-=1;
-            if(lives==2)
-                heart1=deadHeart;
-            else if(lives==1)
-                heart2=deadHeart;
-            else if(lives==0)
-                heart3=deadHeart;
-            if(lives==0) //game ends if all lives were lost
-                GameController.playerDied();
+        if(!gameover){
+            if (event == Enums.Event.AteLeaves)//increase score
+                score += GameController.level.getPoints();
+            else if (event == Enums.Event.LostLife) { //when life lost switch out a heart for a dead heart
+                if (lives > 0)
+                    lives -= 1;
+                if (lives == 2)
+                    heart1 = deadHeart;
+                else if (lives == 1)
+                    heart2 = deadHeart;
+                else if (lives == 0)
+                    heart3 = deadHeart;
+                //game ends if all lives were lost
+                if (lives == 0) {
+                    GameController.playerDied();
+                }
+            } else if (event == Enums.Event.LevelCompleted && level < 3)
+                level += 1;
+            else if (event == Enums.Event.EndGame || event == Enums.Event.PlayerDied)
+                gameover = true;
         }
-        else if(event==Enums.Event.LevelCompleted && level<3)
-            level+=1;
+
     }
 
     public String getName() {

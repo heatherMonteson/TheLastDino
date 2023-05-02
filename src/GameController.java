@@ -52,8 +52,8 @@ public class GameController extends Canvas implements Runnable{
     public synchronized void start() {
 
         //starting pop up windows display before thread
-        CallsToPopUps.popup(Enums.Popup.Signup);
-        CallsToPopUps.popup(Enums.Popup.Instructions);
+//        CallsToPopUps.popup(Enums.Popup.Signup);
+//        CallsToPopUps.popup(Enums.Popup.Instructions);
 
         //calls to get all starting game pieces for 1st level
         level.activate();
@@ -157,7 +157,7 @@ public class GameController extends Canvas implements Runnable{
             if(playerDied)
                 Broker.getBroker().event(Enums.Event.PlayerDied);
             else if (!level3Ended)
-                Broker.getBroker().event(Enums.Event.LevelCompleted);
+                Broker.getBroker().event(Enums.Event.EndGame);
             if(level.getLevel()== Enums.Level.L3)
                 level3Ended=true;
             level = new EndLevel();
