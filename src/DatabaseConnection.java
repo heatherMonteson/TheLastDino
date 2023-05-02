@@ -28,7 +28,7 @@ public class DatabaseConnection implements Observer{
     private static final DatabaseConnection dbSingleton = new DatabaseConnection();
     private static boolean isConnected;
     private final String url="jdbc:mysql://localhost:3306/the_last_dino";
-    private final String password = "Sillygoos123!";
+    private final String password = "root";
     private final String username = "root";
     private Connection connection;
     private String name;
