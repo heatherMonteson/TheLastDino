@@ -6,15 +6,23 @@ import java.util.Random;
  * OO pattern: Factory
  */
 public abstract class GamePieceFactory {
+
+    protected static int position;
+
+    /*
+     *makeGamePiece: creates n game pieces based on the requested numberPieces and their type
+     * and adds them to the game piece handler as they are made
+     *
+     * @param Enums.GamePiece, int
+     * @return nothing
+     */
     public void makeGamePiece(Enums.GamePiece type, int numberPieces){
         GamePieceHandler handler = GamePieceHandler.getHandler();
         GamePiece piece;
+        position=0;
+
         for(int i=1; i<=numberPieces; i++){
             piece = createPiece(type);
-            //debugging code
-            if(type == Enums.GamePiece.Bush){
-                //System.out.println(piece.xPos);
-            }
             if(piece!=null){
                 handler.addObject(piece);
             }
@@ -26,54 +34,51 @@ public abstract class GamePieceFactory {
 }
 
 class CreateGamePiece extends GamePieceFactory{
-    private static int tempBush = 0; // a static variable so that it is shared across all CreateGamePiece objects.
-    private static int tempCloud = 0;
-    public static int tempLeaf = 0;
-    private static int tempFireBall = 0;
-    private static int tempSmokeCloud = 0;
-    private static int tempIcicle = 0;
-    private static int tempSnowball = 0;
+
+    private Random rand = new Random();
+
+    /*
+     * buffer: adds a buffer between game pieces so that they do not overlap piece of the same type and there is
+     * sudo random spacing between them
+     *
+     * @param int, int
+     * @return int
+     */
+    private int buffer (int bound, int add){
+        int offset = rand.nextInt(bound) + add; //change this
+        position += offset;
+        return position;
+    }
+
+    /*
+     * createPiece: creates game pieces based on type calling the buffer method to add space between items
+     *
+     * @param Enums.GamePiece
+     * @return GamePiece
+     */
     protected GamePiece createPiece(Enums.GamePiece type) {
         GamePiece piece= null;
-        int offset = 0;
-        //int temp2 = 400; //resets to 400 every time, we don't really need to reset this
-        Random rand = new Random();
+
         if(type==Enums.GamePiece.Icicle){
-            offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
-            tempIcicle += offset; //increasing our temp to make sure bushes are always forward
-            piece = new Icicle(tempIcicle,375);
+            piece = new Icicle(buffer(800, 400), 375);
         }
         else if(type==Enums.GamePiece.SmokeCloud){
-            offset = rand.nextInt(500) + 300; //change this
-            tempSmokeCloud += offset;
-            piece = new SmokeCloud(tempSmokeCloud, 90);
+            piece = new SmokeCloud(buffer(500, 300), 90);
         }
         else if(type==Enums.GamePiece.Snowball){
-            offset = rand.nextInt(900) + 400; //change this
-            tempSnowball += offset;
-            piece = new Snowball(tempSnowball, 280);
-
+            piece = new Snowball(buffer(900, 400), 280);
         }
         else if(type==Enums.GamePiece.Cloud){
-            offset = rand.nextInt(500) + 300; //gives us range of values from [300,500]
-            tempCloud += offset; //increasing our temp to make sure bushes are always forward
-            piece = new Cloud(tempCloud, 90);
+            piece = new Cloud(buffer(500, 300), 90);
         }
         else if(type==Enums.GamePiece.Fireball){
-            offset = rand.nextInt(900) + 400; //change this
-            tempFireBall += offset;
-            piece = new Fireball(tempFireBall, 280);
+            piece = new Fireball(buffer(900, 400), 280);
         }
         else if(type==Enums.GamePiece.Bush){
-            offset = rand.nextInt(800) + 400; //gives us range of values from [400,800]
-            tempBush += offset; //increasing our temp to make sure bushes are always forward
-            piece = new Bush(tempBush,375);
+            piece = new Bush(buffer(800, 400), 375);
         }
         else if(type==Enums.GamePiece.Leaf){
-            //currently only one leaf is rendering
-            offset = rand.nextInt(900) + 400; //change this
-            tempLeaf += offset;
-            piece = new Leaf(tempLeaf, 200);
+            piece = new Leaf(buffer(900, 400), 200);
         }
         return piece;
     }

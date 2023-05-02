@@ -77,7 +77,6 @@ class Level2 extends Level{
         //clear old pieces
         GamePieceHandler handler = GamePieceHandler.getHandler();
         handler.removeAllButDino();
-        CreateGamePiece.tempLeaf=0;
         factoryConnection.makeGamePiece(Enums.GamePiece.SmokeCloud, 30);
         factoryConnection.makeGamePiece(Enums.GamePiece.Fireball, 30);
         factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 40);
@@ -99,7 +98,6 @@ class Level3 extends Level{
         //clear old pieces
         GamePieceHandler handler = GamePieceHandler.getHandler();
         handler.removeAllButDino();
-        CreateGamePiece.tempLeaf=0;
         factoryConnection.makeGamePiece(Enums.GamePiece.Icicle, 30);
         factoryConnection.makeGamePiece(Enums.GamePiece.Snowball, 30);
         factoryConnection.makeGamePiece(Enums.GamePiece.Leaf, 40);
