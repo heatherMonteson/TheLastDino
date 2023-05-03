@@ -11,6 +11,7 @@ can collect points as you play by eating leaves that increase in value as you mo
 
 **Video Demo**<br />
 https://vimeo.com/823530963?share=copy
+_note: class names for TickSorter, TickStratagy, TickCloud, TickDino, TickGamePiece and TickLeaves names were changed to MovementSorter, Movement, NoCollision, DinoMove, CollisionPoints, CollisionLoseLife to represent the behaviors_
 
 **Version**<br />
 Java 20 and 11
