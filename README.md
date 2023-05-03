@@ -39,3 +39,6 @@ https://www.youtube.com/watch?v=e8g9eNnFpHQ
 2) Java -cp . src.Main     
 
 Game was also able to be run from the main class using Intellej with Java version 11
+
+**Video Submission Link**<br />
+https://vimeo.com/823530963?share=copy
