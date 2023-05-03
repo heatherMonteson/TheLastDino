@@ -34,3 +34,6 @@ https://www.youtube.com/watch?v=e8g9eNnFpHQ
 - Strategy (TickStrategy, TickClouds, TickDino, TickGamePieces, TickLeaves, TickSorter)
 - Observer (Broker _subject_, Player _observer_, DatabaseConnection _observer_)
 
+**Running Program From Terminal**<br />
+1) javac src/*.java     
+2) Java -cp . src.Main     
