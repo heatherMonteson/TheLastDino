@@ -43,10 +43,10 @@ public class DatabaseConnection implements Observer{
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url,username,password);
-            isConnected=true;
             Broker.getBroker().register(this);//register with broker
             System.out.println("Connected to database");
             gameOver=false;
+            isConnected=true;
         }
         catch (Exception e){
             System.out.println("error making database connection");
@@ -102,7 +102,8 @@ public class DatabaseConnection implements Observer{
             top3 = stmt.executeQuery("SELECT * FROM `player_info` ORDER BY `score` DESC LIMIT 3");
         }
         catch (Exception e){
-            System.out.println("error with database connection in retrieving top 3 players"+ e);
+            //output supressed, uncoment during dev.
+//            System.out.println("error with database connection in retrieving top 3 players"+ e);
         }
         return top3;
     }

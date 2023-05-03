@@ -29,7 +29,7 @@ public class GameController extends Canvas implements Runnable{
     public static Level level;
     private int levelSwitch;//counter used to track time passed between levels
     //TODO: set Level timer (levelLength) to ~6000 for ~2min game play, can switch to shorter time when in dev.
-    public static int levelLength = 6000;//sets the length of the level
+    public static int levelLength = 1000;//sets the length of the level
     private final int levelDisplaySet = -100;//use for timer to display start of level graphics before beginning level
     public static boolean playerDied; //use to trigger ending game
     private static boolean level3Ended; //use to trigger ending game
@@ -61,7 +61,6 @@ public class GameController extends Canvas implements Runnable{
         thread= new Thread(this);
         thread.start();
         running=true;
-
     }
 
     //stops thread
