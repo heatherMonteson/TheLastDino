@@ -34,6 +34,8 @@ https://www.youtube.com/watch?v=e8g9eNnFpHQ
 - Strategy (Movement, CollisionLifeLost, CollisionPoints, NoCollision, DinoMove)
 - Observer (Broker _subject_, Player _observer_, DatabaseConnection _observer_)
 
-**Running Program From Terminal**<br />
+**Running Program From Terminal in VS code for Java version 20**<br />
 1) javac src/*.java     
 2) Java -cp . src.Main     
+
+Game can also simply be run frm the main class if using intelle j 
