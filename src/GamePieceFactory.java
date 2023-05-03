@@ -58,27 +58,39 @@ class CreateGamePiece extends GamePieceFactory{
      */
     protected GamePiece createPiece(Enums.GamePiece type) {
         GamePiece piece= null;
+        TickSorter tickSorter= new TickSorter();
 
         if(type==Enums.GamePiece.Icicle){
-            piece = new Icicle(buffer(800, 400), 375);
+            //TickStrategy tickIcicle = new TickStrategyLives();
+            tickSorter.setStrategy(new TickGamePieces());
+            piece = new Icicle(buffer(800, 400), 375, tickSorter);
         }
         else if(type==Enums.GamePiece.SmokeCloud){
-            piece = new SmokeCloud(buffer(500, 300), 90);
+            tickSorter.setStrategy(new TickClouds());
+            piece = new SmokeCloud(buffer(500, 300), 90, tickSorter);
         }
         else if(type==Enums.GamePiece.Snowball){
-            piece = new Snowball(buffer(900, 400), 280);
+            //TickStrategy tickSnowball = new TickStrategyLives();
+            tickSorter.setStrategy(new TickGamePieces());
+            piece = new Snowball(buffer(900, 400), 280, tickSorter);
         }
         else if(type==Enums.GamePiece.Cloud){
-            piece = new Cloud(buffer(500, 300), 90);
+            tickSorter.setStrategy(new TickClouds());
+            piece = new Cloud(buffer(500, 300), 90, tickSorter);
         }
         else if(type==Enums.GamePiece.Fireball){
-            piece = new Fireball(buffer(900, 400), 280);
+            //TickStrategy tickFire = new TickStrategyLives();
+            tickSorter.setStrategy(new TickGamePieces());
+            piece = new Fireball(buffer(900, 400), 280, tickSorter);
         }
         else if(type==Enums.GamePiece.Bush){
-            piece = new Bush(buffer(800, 400), 375);
+            //TickStrategy tickBush = new TickStrategyLives();
+            tickSorter.setStrategy(new TickGamePieces());
+            piece = new Bush(buffer(800, 400), 375, tickSorter);
         }
         else if(type==Enums.GamePiece.Leaf){
-            piece = new Leaf(buffer(900, 400), 200);
+            tickSorter.setStrategy(new TickLeaves());
+            piece = new Leaf(buffer(900, 400), 200, tickSorter) ;
         }
         return piece;
     }

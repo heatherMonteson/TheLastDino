@@ -31,6 +31,9 @@ https://www.youtube.com/watch?v=e8g9eNnFpHQ
 **Object Oriented Patterns**<br />
 - Singleton (Dino, Broker, Player, DatabaseConnection)
 - Factory (GamePieceFactory, Create GamePiece _factory accessed by levels and pieces stored in handler_)
-- Strategy 
+- Strategy (TickStrategy, TickClouds, TickDino, TickGamePieces, TickLeaves, TickSorter)
 - Observer (Broker _subject_, Player _observer_, DatabaseConnection _observer_)
 
+**Running Program From Terminal**<br />
+1) javac src/*.java     
+2) Java -cp . src.Main     
