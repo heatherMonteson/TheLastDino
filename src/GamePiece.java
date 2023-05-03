@@ -157,7 +157,7 @@ class Fireball extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 class Leaf extends GamePiece{
     //private TickStrategy tickLeaf;
-    private final Image leaf = Toolkit.getDefaultToolkit().getImage("Images/leaf.png");
+    public Image leaf = Toolkit.getDefaultToolkit().getImage("Images/leaf.png");
 
     public Leaf(int xPos, int yPos, MovementSorter movement){
         super(xPos, yPos, Enums.GamePiece.Leaf, movement);
