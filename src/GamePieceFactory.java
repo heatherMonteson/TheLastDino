@@ -2,6 +2,7 @@ package src;
 import java.util.Random;
 /*
  *GamePieceFactory and CreateGamePiece: handles the creation of all moving game pieces (except the dino which is a singleton)
+ * also adds their movement behavior for tick methods
  *
  * OO pattern: Factory
  */
@@ -58,38 +59,38 @@ class CreateGamePiece extends GamePieceFactory{
      */
     protected GamePiece createPiece(Enums.GamePiece type) {
         GamePiece piece= null;
-        TickSorter tickSorter= new TickSorter();
+        MovementSorter tickSorter= new MovementSorter();
 
         if(type==Enums.GamePiece.Icicle){
             //TickStrategy tickIcicle = new TickStrategyLives();
-            tickSorter.setStrategy(new TickGamePieces());
+            tickSorter.setStrategy(new CollisionLifeLost());
             piece = new Icicle(buffer(800, 400), 375, tickSorter);
         }
         else if(type==Enums.GamePiece.SmokeCloud){
-            tickSorter.setStrategy(new TickClouds());
+            tickSorter.setStrategy(new NoCollision());
             piece = new SmokeCloud(buffer(500, 300), 90, tickSorter);
         }
         else if(type==Enums.GamePiece.Snowball){
             //TickStrategy tickSnowball = new TickStrategyLives();
-            tickSorter.setStrategy(new TickGamePieces());
+            tickSorter.setStrategy(new CollisionLifeLost());
             piece = new Snowball(buffer(900, 400), 280, tickSorter);
         }
         else if(type==Enums.GamePiece.Cloud){
-            tickSorter.setStrategy(new TickClouds());
+            tickSorter.setStrategy(new NoCollision());
             piece = new Cloud(buffer(500, 300), 90, tickSorter);
         }
         else if(type==Enums.GamePiece.Fireball){
             //TickStrategy tickFire = new TickStrategyLives();
-            tickSorter.setStrategy(new TickGamePieces());
+            tickSorter.setStrategy(new CollisionLifeLost());
             piece = new Fireball(buffer(900, 400), 280, tickSorter);
         }
         else if(type==Enums.GamePiece.Bush){
             //TickStrategy tickBush = new TickStrategyLives();
-            tickSorter.setStrategy(new TickGamePieces());
+            tickSorter.setStrategy(new CollisionLifeLost());
             piece = new Bush(buffer(800, 400), 375, tickSorter);
         }
         else if(type==Enums.GamePiece.Leaf){
-            tickSorter.setStrategy(new TickLeaves());
+            tickSorter.setStrategy(new CollisionPoints());
             piece = new Leaf(buffer(900, 400), 200, tickSorter) ;
         }
         return piece;

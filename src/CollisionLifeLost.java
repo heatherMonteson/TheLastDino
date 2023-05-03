@@ -1,6 +1,10 @@
 package src;
 
-public class TickGamePieces implements TickStrategy {
+/*
+ * CollisionsLifeLost: basic tick behavior for pieces with collisions where player looses life
+ *
+ */
+public class CollisionLifeLost implements Movement {
     public void tick(GamePiece piece) {
         // update x and y based on velocity
         piece.xPos += piece.xVel;

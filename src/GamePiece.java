@@ -8,7 +8,6 @@ import java.util.Random;
 /*
  *GamePiece: all moving game pieces
  *
- *
  */
 
 public abstract class GamePiece {
@@ -17,20 +16,20 @@ public abstract class GamePiece {
     protected Enums.GamePiece type;
     protected Rectangle bounds;
     public boolean collision1;
-    protected TickSorter tickSort;
+    protected MovementSorter movement;
     
 
     //public static Rectangle bushRect;
-
-    public GamePiece(int xPos, int yPos, Enums.GamePiece type, TickSorter tickSort)
+    public GamePiece(int xPos, int yPos, Enums.GamePiece type, MovementSorter movement)
     {
         this.xPos= xPos;
         this.yPos=yPos;
         this.type = type;
-        this.tickSort = tickSort;
+        this.movement = movement;
         xVel=0;
         yVel=0;
     }
+
     //show game piece
     public abstract void render(Graphics graphics);
 
@@ -44,6 +43,7 @@ public abstract class GamePiece {
         return type;
     }
 
+    //bounds used for collision
     public Rectangle getBounds(){
         return bounds;
     }
@@ -56,38 +56,26 @@ public abstract class GamePiece {
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Bush extends GamePiece{
-    public Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush1.png");
-    //private TickStrategy tickBush;
-    private TickSorter tickSort;
 
-    public Bush(int xPos, int yPos, TickSorter tickSort){
-        super(xPos, yPos, Enums.GamePiece.Bush, tickSort);
-        this.tickSort = tickSort;
+    private final Image bush = Toolkit.getDefaultToolkit().getImage("Images/bush1.png");
+
+    public Bush(int xPos, int yPos, MovementSorter movement){
+        super(xPos, yPos, Enums.GamePiece.Bush, movement);
+        this.movement = movement;
         this.xPos= xPos;
         this.yPos=yPos;
-        this.collision1 = false;
+        collision1 = false;
+        bounds=new Rectangle(xPos+10, yPos, 80, 50);
 
     }
+
     public void render(Graphics graphics){
         graphics.drawImage(bush, xPos,yPos,100, 60, null);
-        //THIS CODE IS TO GET A VISUAL OF BOUND SIZE
-        // graphics.setColor(Color.green);
-        // graphics.fillRect(xPos + 10, yPos ,80, 60);
-
-    }
-    public Rectangle getBounds(){
-        return new Rectangle(xPos+10, yPos, 80, 50);
     }
 
     public void tick(){
-        //tick changes xPos
-        // xPos+=xVel;
-        // yPos+=yVel;
-        // if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
-        //     collision1=true;
-        //     Broker.getBroker().event(Enums.Event.LostLife);
-        // }
-        tickSort.tick(this);
+        movement.tick(this);
+        bounds.setBounds(xPos+10, yPos, 80, 50);
     }
 }
 
@@ -95,34 +83,24 @@ class Bush extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Icicle extends GamePiece{
-    private TickSorter tickSort;
-    public Image icicle = Toolkit.getDefaultToolkit().getImage("Images/icicle2.png");
 
-    public Icicle(int xPos, int yPos, TickSorter tickSort){
-        super(xPos, yPos, Enums.GamePiece.Icicle, tickSort);
-        this.tickSort = tickSort;
+    private final Image icicle = Toolkit.getDefaultToolkit().getImage("Images/icicle2.png");
+
+    public Icicle(int xPos, int yPos, MovementSorter movement){
+        super(xPos, yPos, Enums.GamePiece.Icicle, movement);
+        this.movement = movement;
         this.xPos= xPos;
         this.yPos=yPos;
+        this.bounds=new Rectangle(xPos, yPos, 80, 50);
     }
 
     public void render(Graphics graphics){
         graphics.drawImage(icicle, xPos,yPos,90, 60, null);
-        // graphics.setColor(Color.blue);
-        // graphics.fillRect(xPos , yPos ,80, 50);
+    }
 
-    }
-    public Rectangle getBounds(){
-        return new Rectangle(xPos, yPos, 80, 50);
-    }
     public void tick(){
-        //tick changes xPos
-        // xPos+=xVel;
-        // yPos+=yVel;
-        // if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
-        //     collision1=true;
-        //     Broker.getBroker().event(Enums.Event.LostLife);
-        // }
-        tickSort.tick(this);
+        movement.tick(this);
+        bounds.setBounds(xPos, yPos, 80, 50);
     }
 
 }
@@ -130,67 +108,47 @@ class Icicle extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Snowball extends GamePiece{
-    public Image snowball = Toolkit.getDefaultToolkit().getImage("Images/snowBall1.png");
+    private final Image snowball = Toolkit.getDefaultToolkit().getImage("Images/snowBall1.png");
 
-    public Snowball(int xPos, int yPos,TickSorter tickSort){
-        super(xPos, yPos, Enums.GamePiece.Snowball, tickSort);
-        this.tickSort = tickSort;
+    public Snowball(int xPos, int yPos,MovementSorter movement){
+        super(xPos, yPos, Enums.GamePiece.Snowball, movement);
+        this.movement = movement;
         this.xPos= xPos;
         this.yPos=yPos;
-        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes
+        this.xVel = -4;
+        bounds=new Rectangle(xPos + 10, yPos, 100, 70);
     }
     public void render(Graphics graphics){
         graphics.drawImage(snowball, xPos, yPos,150, 75, null);
-        // graphics.setColor(Color.blue);
-        // graphics.fillRect(xPos + 10 , yPos ,100, 70);
+    }
 
-    }
-    public Rectangle getBounds(){
-        return new Rectangle(xPos + 10, yPos, 100, 70);
-    }
     public void tick(){
-        //tick changes xPos
-        // xPos+=xVel;
-        // yPos+=yVel;
-        // if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
-        //     collision1=true;
-        //     Broker.getBroker().event(Enums.Event.LostLife);
-        // }
-        tickSort.tick(this);
+        movement.tick(this);
+        bounds.setBounds(xPos + 10, yPos, 100, 70);
     }
 }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Fireball extends GamePiece{
-    // private TickStrategy tickFire;
-    public Image fireball = Toolkit.getDefaultToolkit().getImage("Images/fireball1.png");
 
-    public Fireball(int xPos, int yPos, TickSorter tickSort){
-        super(xPos, yPos, Enums.GamePiece.Fireball, tickSort);
-        this.tickSort = tickSort;
+    private final Image fireball = Toolkit.getDefaultToolkit().getImage("Images/fireball1.png");
+
+    public Fireball(int xPos, int yPos, MovementSorter movement){
+        super(xPos, yPos, Enums.GamePiece.Fireball, movement);
+        this.movement = movement;
         this.xPos= xPos;
         this.yPos=yPos;
-        this.xVel = -4; //if this is set to -5, it moves at same rate as bushes
+        this.xVel = -4;
+        bounds=new Rectangle(xPos, yPos, 100, 70);
     }
     public void render(Graphics graphics){
         graphics.drawImage(fireball, xPos,yPos,130, 80, null); //leaf is currently stagnant
-        // graphics.setColor(Color.orange);
-        // graphics.fillRect(xPos , yPos ,100, 70);
     }
-    public Rectangle getBounds(){
-        return new Rectangle(xPos, yPos, 100, 70);
-        
-    }
+
     public void tick(){
-        //tick changes xPos
-        // xPos+=xVel;
-        // yPos+=yVel;
-        // if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
-        //     collision1=true;
-        //     Broker.getBroker().event(Enums.Event.LostLife);
-        // }
-        tickSort.tick(this);
+        movement.tick(this);
+        bounds.setBounds(xPos, yPos, 100, 70);
     }
 
 }
@@ -199,52 +157,40 @@ class Fireball extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 class Leaf extends GamePiece{
     //private TickStrategy tickLeaf;
-    public Image leaf = Toolkit.getDefaultToolkit().getImage("Images/leaf.png");
+    private final Image leaf = Toolkit.getDefaultToolkit().getImage("Images/leaf.png");
 
-    public Leaf(int xPos, int yPos, TickSorter tickSort){
-        super(xPos, yPos, Enums.GamePiece.Leaf, tickSort);
-        this.tickSort = tickSort;
+    public Leaf(int xPos, int yPos, MovementSorter movement){
+        super(xPos, yPos, Enums.GamePiece.Leaf, movement);
+        this.movement = movement;
         this.xPos= xPos;
         this.yPos=yPos;
         this.xVel = -4; //if this is set to -5, it moves at same rate as bushes
+        this.bounds= new Rectangle(xPos, yPos, 70, 40);
+
     }
     public void render(Graphics graphics){
         graphics.drawImage(leaf, xPos,yPos,80, 50, null); //leaf is currently stagnant
-        // graphics.setColor(Color.green);
-        // graphics.fillRect(xPos , yPos ,70, 40);
+    }
 
-    }
-    public Rectangle getBounds(){
-        return new Rectangle(xPos, yPos, 70, 40);
-    }
     public void tick(){
-        //tick changes xPos
-        // xPos+=xVel;
-        // yPos+=yVel;
-        // if(!collision1 && (getBounds().intersects(Dino.getDino().getBounds()))){
-        //     collision1=true;
-        //     Broker.getBroker().event(Enums.Event.AteLeaves);
-        //     leaf = Toolkit.getDefaultToolkit().getImage("");
-        // }
-        tickSort.tick(this);
+        movement.tick(this);
+        bounds.setBounds(xPos, yPos, 70, 40);
     }
-    
 
 }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class Cloud extends GamePiece{
-    //private TickStrategy tickCloud;
-    public Image cloud1 = Toolkit.getDefaultToolkit().getImage("Images/cloud1.png");
-    public Image cloud2 = Toolkit.getDefaultToolkit().getImage("Images/cloud2.png");
-    //TODO: randomize positions
-    public Cloud(int xPos, int yPos, TickSorter tickSort) {
-        super(xPos, yPos, Enums.GamePiece.Cloud, tickSort);
-        this.tickSort = tickSort;
+
+    private final Image cloud1 = Toolkit.getDefaultToolkit().getImage("Images/cloud1.png");
+    private final Image cloud2 = Toolkit.getDefaultToolkit().getImage("Images/cloud2.png");
+
+    public Cloud(int xPos, int yPos, MovementSorter movement) {
+        super(xPos, yPos, Enums.GamePiece.Cloud, movement);
+        this.movement = movement;
         this.xPos= xPos;
         this.yPos=yPos;
-        // super(GameController.width-50, GameController.height/2, Enums.GamePiece.Cloud);
     }
 
     public void render(Graphics graphics) {
@@ -255,7 +201,7 @@ class Cloud extends GamePiece{
     }
 
     public void tick(){
-        tickSort.tick(this);
+        movement.tick(this);
     }
 
 }
@@ -263,14 +209,13 @@ class Cloud extends GamePiece{
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 class SmokeCloud extends GamePiece{
-    //private TickStrategy tickSmoke;
-    public Image SmokeCloud1 = Toolkit.getDefaultToolkit().getImage("Images/SmokeCloud.png");
-    public Image SmokeCloud2 = Toolkit.getDefaultToolkit().getImage("Images/smokeCloud1.png");
 
-    //TODO: randomize positions
-    public SmokeCloud(int xPos, int yPos, TickSorter tickSort) {
-        super(xPos, yPos, Enums.GamePiece.SmokeCloud, tickSort);
-        this.tickSort = tickSort;
+    private final Image SmokeCloud1 = Toolkit.getDefaultToolkit().getImage("Images/SmokeCloud.png");
+    private final Image SmokeCloud2 = Toolkit.getDefaultToolkit().getImage("Images/smokeCloud1.png");
+
+    public SmokeCloud(int xPos, int yPos, MovementSorter movement) {
+        super(xPos, yPos, Enums.GamePiece.SmokeCloud, movement);
+        this.movement = movement;
         this.xPos= xPos;
         this.yPos=yPos;
     }
@@ -281,8 +226,9 @@ class SmokeCloud extends GamePiece{
         graphics.drawImage(SmokeCloud1, xPos,yPos,150, 70, null);
         graphics.drawImage(SmokeCloud2, xtemp ,ytemp ,150, 70, null);
     }
+
     public void tick(){
-        tickSort.tick(this);
+        movement.tick(this);
     }
 
 }
@@ -296,31 +242,27 @@ class Dino extends GamePiece {
     public static boolean isStand;
     public boolean isDucking;
     public static boolean isRunning;
-    public int xTemp;
-    static TickSorter tickSort;
+
+    static MovementSorter movement;
     static {
-        // Create a new TickSorter object and set its strategy to TickStratDino
-        tickSort = new TickSorter();
-        tickSort.setStrategy(new TickDino());
+        // Create a new MovementSorter object and set its strategy to TickStratDino
+        movement = new MovementSorter();
+        movement.setStrategy(new DinoMove());
     }
     
-    private static final Dino singleDino = new Dino(tickSort);
+    private static final Dino singleDino = new Dino(movement);
 
     //images
     public Image gif = Toolkit.getDefaultToolkit().getImage("Images/runner.gif");
     public Image dinoStop = Toolkit.getDefaultToolkit().getImage("Images/dinoT1.png");
     public Image dinoDuck = Toolkit.getDefaultToolkit().getImage("Images/duck.png");
 
-    public Rectangle bounds;
-
-    private Dino(TickSorter tickSort) {
-        super(40, 335, Enums.GamePiece.Dino, tickSort);
+    private Dino(MovementSorter movement) {
+        super(40, 335, Enums.GamePiece.Dino, movement);
         isJumping = false;
         isStand = true;
         isDucking = false;
         isRunning = false;
-        //xTemp = xPos - 58; //this is for second dino image to be in same position as gif
-
     }
 
     public static Dino getDino() {
@@ -329,29 +271,20 @@ class Dino extends GamePiece {
 
     public void render(Graphics graphics) {
 
-        //graphics.drawImage(dinoImage, xPos,yPos,imagewidth, imageheight,null);
-        if (isDucking == true) { //down arrow
+        if (isDucking) { //down arrow==duck
             graphics.drawImage(dinoDuck, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
-            // graphics.setColor(Color.red);
-            // graphics.fillRect(xPos, yPos + 50, 100, 50);
-        } else if (isRunning == true) { //space bar
+        } else if (isRunning) { //space bar ==run
             //x is the width, y is height
             graphics.drawImage(gif, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
-            // graphics.setColor(Color.red);
-            // graphics.fillRect(xPos + 15, yPos+ 5, 80, 90);
         } else { //base case (standing)
             graphics.drawImage(dinoStop, xPos - 58, yPos - 50, 280, 180, null); //correct dino coordinates to get him on the ground
-            // graphics.setColor(Color.red);
-            // graphics.fillRect(xPos+ 15 , yPos + 5 , 80, 90);
         }
-
-
     }
 
     public Rectangle getBounds() {
-        if (isDucking == true) {
+        if (isDucking) {
             return new Rectangle(xPos, yPos + 50, 100, 50);
-        } else if (isRunning == true) {
+        } else if (isRunning) {
             return new Rectangle(xPos+ 15 , yPos + 5 , 80, 90);
         } else { //if he is standing the bounds are different
             return new Rectangle(xPos+ 15 , yPos + 5 , 80, 90);
@@ -360,29 +293,12 @@ class Dino extends GamePiece {
     }
 
     public void tick() {
-        //this if is responsible for bringing dino back to ground after jumping
-        //we use timer for jumping bc we dont want jump method to be controlled and consistent
-        // if (isJumping == true) {
-        //     Timer timer = new Timer();
-        //     timer.schedule(new TimerTask() {
-        //         @Override
-        //         public void run() {
-        //             yPos = 335;
-        //             isJumping = false;
-        //         }
-        //     }, 700); //this num is the ms delay
-        // }
-        // xPos += xVel;
-        // yPos += yVel;
-        //tickDino.tick(this);
-        tickSort.tick(this);
-
+        movement.tick(this);
     }
 
     public void jump() {
         isJumping = true; //set our bool to true
         yPos = 160; //change the yPos so he jumps on the screen
-
     }
 
     public void duck() {
