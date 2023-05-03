@@ -10,7 +10,7 @@ starts of his life while avoiding dangerous obstacles like bushes, fireballs, ic
 can collect points as you play by eating leaves that increase in value as you move through every level. 
 
 **Version**<br />
-Java 20 and 19
+Java 20 and 11
 
 **Database**<br />
 Game can run with no connection however to run with connection to MySQL 8+ database set up: <br />
@@ -38,4 +38,4 @@ https://www.youtube.com/watch?v=e8g9eNnFpHQ
 1) javac src/*.java     
 2) Java -cp . src.Main     
 
-Game can also simply be run frm the main class if using intelle j 
+Game was also able to be run from the main class using Intellej with Java version 11
