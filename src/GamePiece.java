@@ -303,11 +303,11 @@ class Dino extends GamePiece {
             //x is the width, y is height
             graphics.drawImage(gif, xPos, yPos, 100, 100, null); //correct dino coordinates to get him on the ground
             // graphics.setColor(Color.red);
-            // graphics.fillRect(xPos, yPos+ 5, 95, 90);
+            // graphics.fillRect(xPos + 15, yPos+ 5, 80, 90);
         } else { //base case (standing)
             graphics.drawImage(dinoStop, xPos - 58, yPos - 50, 280, 180, null); //correct dino coordinates to get him on the ground
             // graphics.setColor(Color.red);
-            // graphics.fillRect(xPos , yPos + 5 , 95, 90);
+            // graphics.fillRect(xPos+ 15 , yPos + 5 , 80, 90);
         }
 
     }
@@ -316,9 +316,9 @@ class Dino extends GamePiece {
         if (isDucking == true) {
             return new Rectangle(xPos, yPos + 50, 100, 50);
         } else if (isRunning == true) {
-            return new Rectangle(xPos, yPos + 5, 95, 90);
+            return new Rectangle(xPos+ 15 , yPos + 5 , 80, 90);
         } else { //if he is standing the bounds are different
-            return new Rectangle(xPos , yPos + 5, 95, 90);
+            return new Rectangle(xPos+ 15 , yPos + 5 , 80, 90);
         }
 
     }
