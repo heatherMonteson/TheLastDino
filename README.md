@@ -9,6 +9,9 @@ where they finally, at the end, find another surviving dinosaur. Once you start 
 starts of his life while avoiding dangerous obstacles like bushes, fireballs, icicles, and snowballs. You also 
 can collect points as you play by eating leaves that increase in value as you move through every level. 
 
+**Video Demo**<br />
+https://vimeo.com/823530963?share=copy
+
 **Version**<br />
 Java 20 and 11
 
@@ -39,6 +42,3 @@ https://www.youtube.com/watch?v=e8g9eNnFpHQ
 2) Java -cp . src.Main     
 
 Game was also able to be run from the main class using Intellej with Java version 11
-
-**Video Submission Link**<br />
-https://vimeo.com/823530963?share=copy
