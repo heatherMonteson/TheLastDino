@@ -2,6 +2,7 @@ package src;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.security.Key;
 
 
 /*
@@ -16,9 +17,10 @@ import java.awt.event.KeyEvent;
  */
 public class KeyInput extends KeyAdapter {
     private int runningVelocity = -5;
-    public static boolean space = false;
+    private boolean spacePressed;
 
     public KeyInput(){
+        spacePressed=false;
     }
 
     /*
@@ -30,26 +32,24 @@ public class KeyInput extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
+
+        if(key==KeyEvent.VK_SPACE)
+            spacePressed=true;
+
         for(GamePiece piece : GamePieceHandler.gamePieces){
-            //boolean space = false;
+
             if(piece.type== Enums.GamePiece.Dino) //space==run
             {
                 Dino dino = (Dino) piece;
                 if(key==KeyEvent.VK_UP){
+                    //dino.jumpAndReset();
                     dino.jump();
-                    
+                    //dino.resetDinoPosition();
                 }
-                else if(key==KeyEvent.VK_DOWN){
+                else if(key==KeyEvent.VK_DOWN)
                     dino.duck();
-
-                }
-                else if (key == KeyEvent.VK_SPACE){
-                    //issue: when space bar and duck, the clouds and bush dont move when duck is released 
-                    //when space bar is hit render dino.run
-                    //when space bar is released render dino.stop
-                    dino.isRunning();
-                    space = true;
-                }
+                else if(key==KeyEvent.VK_SPACE)
+                    dino.running();
             }
 
             //pieces move to the left to make it look like the dino is running forward
@@ -61,10 +61,14 @@ public class KeyInput extends KeyAdapter {
                 }
                 else if(key==KeyEvent.VK_DOWN) //down==duck, stop moving
                 {
-                    //Todo: events for Dino duck
-                    //piece.setXvel(runningVelocity);
                     piece.setXvel(0);
+                }
+            }
+            if(piece.type==Enums.GamePiece.Leaf ||piece.type==Enums.GamePiece.Snowball ||piece.type==Enums.GamePiece.Fireball){
 
+                if(key==KeyEvent.VK_SPACE) //space==run, start moving
+                {
+                    piece.setXvel(-8);
                 }
             }
         }
@@ -79,49 +83,38 @@ public class KeyInput extends KeyAdapter {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
+
+        if(key==KeyEvent.VK_SPACE)
+            spacePressed=false;
+
         for(GamePiece piece : GamePieceHandler.gamePieces){
 
-            if(piece.type == Enums.GamePiece.Dino) //space==run
+            if(piece.type== Enums.GamePiece.Dino) //space==run
             {
                 Dino dino = (Dino) piece;
-                if(key==KeyEvent.VK_DOWN){
-                    dino.stopDucking();
-
-                }
-                if(key == KeyEvent.VK_SPACE){// when space bar is released we want dino to stop running
+                if(key==KeyEvent.VK_DOWN)
                     dino.stand();
-                    space = false;
-                }
+                else if(key== KeyEvent.VK_SPACE)
+                    dino.stopping();
             }
 
-            if(piece.type==Enums.GamePiece.Bush || piece.type==Enums.GamePiece.Icicle)
+            if(piece.type==Enums.GamePiece.Bush || piece.type==Enums.GamePiece.Icicle || piece.type==Enums.GamePiece.Cloud ||piece.type==Enums.GamePiece.SmokeCloud)
             {
-
-                if(key==KeyEvent.VK_SPACE){ //when space is released, bushes stop
+                if(key==KeyEvent.VK_SPACE){
                     piece.setXvel(0);
-                    
                 }
-                if(key==KeyEvent.VK_DOWN && space == true){ 
-                    //dino is running and ducking (press space and down button)
+                if(key==KeyEvent.VK_DOWN && spacePressed){
                     piece.setXvel(runningVelocity);
-
-                }else if(key==KeyEvent.VK_DOWN){ 
-                    //need to set dino to run if dino is hitting space bar and duck
-                    Dino.isStand = true;
-
                 }
-                
-                
+                else if(key==KeyEvent.VK_DOWN){
+                    piece.setXvel(0);
+                }
             }
-            if( piece.type==Enums.GamePiece.Cloud || piece.type==Enums.GamePiece.SmokeCloud)
-            {
-                if(key==KeyEvent.VK_SPACE){ //when stop running set velocity to 0
-                    piece.setXvel(0);
-                }
-                if(key==KeyEvent.VK_DOWN && space == true){ 
-                    //dino is running and ducking (press space and down button)
-                    piece.setXvel(runningVelocity);
+            if(piece.type==Enums.GamePiece.Leaf ||piece.type==Enums.GamePiece.Snowball ||piece.type==Enums.GamePiece.Fireball){
 
+                if(key==KeyEvent.VK_SPACE) //space==run, start moving
+                {
+                    piece.setXvel(-5);
                 }
             }
         }

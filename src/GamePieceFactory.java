@@ -1,4 +1,5 @@
 package src;
+
 import java.util.Random;
 /*
  *GamePieceFactory and CreateGamePiece: handles the creation of all moving game pieces (except the dino which is a singleton)
@@ -66,19 +67,19 @@ class CreateGamePiece extends GamePieceFactory{
             piece = new SmokeCloud(buffer(500, 300), 90);
         }
         else if(type==Enums.GamePiece.Snowball){
-            piece = new Snowball(buffer(900, 400), 280);
+            piece = new Snowball(buffer(900, 400), Utility.findValue(280,300) );
         }
         else if(type==Enums.GamePiece.Cloud){
             piece = new Cloud(buffer(500, 300), 90);
         }
         else if(type==Enums.GamePiece.Fireball){
-            piece = new Fireball(buffer(900, 400), 280);
+            piece = new Fireball(buffer(900, 400), Utility.findValue(280,300));
         }
         else if(type==Enums.GamePiece.Bush){
-            piece = new Bush(buffer(800, 400), 375);
+            piece = new Bush(buffer(700, 400), 375);
         }
         else if(type==Enums.GamePiece.Leaf){
-            piece = new Leaf(buffer(900, 400), 200);
+            piece = new Leaf(buffer(800, 400), Utility.findValue(200, 300));
         }
         return piece;
     }
